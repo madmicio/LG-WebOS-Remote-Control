@@ -18,21 +18,12 @@ class LgRemoteControl extends LitElement {
   }
   
   render() {
-    var coverWidth = this.config.coverWidth ? this.config.coverWidth : "80px";
-    var coverHeight = this.config.coverHeight ? this.config.coverHeight : "670px";
-    var sliderdistance = this.config.sliderdistance ? this.config.sliderdistance : "150px";
-    
     var entityCounter = 0;
-    
-
-    var background = this.config.background ? this.config.background : "transparent";
-    
-    
     return html`
+    <div class="card">
     <div class="page">
       ${this.config.entities.map(ent => {
           entityCounter++;
-          var switchValue = 0;
           const stateObj = this.hass.states[ent.entity];
           return stateObj ? html`
                 <div class="grid-container">
@@ -215,6 +206,7 @@ class LgRemoteControl extends LitElement {
                   </div> -->
           `: html``;
       })}
+      </div>
       </div>
     `;
   }
@@ -763,6 +755,14 @@ class LgRemoteControl extends LitElement {
       50% { opacity: 0; }
       }
 
+    .card {
+      padding: 15px 0px 15px 0px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
     .page {
       width:300px;
       height: 750px;
@@ -886,7 +886,6 @@ class LgRemoteControl extends LitElement {
       border-width: 0px;
       border-radius: 50%;
       margin: auto;
-      display :grid;
       place-items: center;
       display: inline-block;
       cursor: pointer;
@@ -902,7 +901,6 @@ class LgRemoteControl extends LitElement {
       border-width: 0px;
       border-radius: 15px;
       margin: auto;
-      display :grid;
       place-items: center;
       display: inline-block;
       cursor: pointer;
