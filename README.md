@@ -68,7 +68,7 @@ resources:
   in this version the only way to edit thi pannel is edit "lg-remote-control.js"
   
   you can easily find a list of channels structured like this:
-    ```yaml
+```yaml
   {
     "entity": "media_player.tv_lg_55c8",
     "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
@@ -79,4 +79,4 @@ resources:
     "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
     "number": "502"
   },
-  ```
+```
