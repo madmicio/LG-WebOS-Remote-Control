@@ -82,7 +82,7 @@ resources:
 ```
 
 **popup button**
-![all](example/popup.jpg)
+![all](example/popup.png)
 
 **NOTE**
 - **SMART** button not enable
