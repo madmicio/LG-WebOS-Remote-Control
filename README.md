@@ -45,7 +45,6 @@ resources:
     url: /hacsfiles/LG-WebOS-Remote-Control/lg-remote-control.js
 ```
 
-## Card Install
 
 ### Manual install
 
