@@ -80,3 +80,10 @@ resources:
     "number": "502"
   },
 ```
+
+**popup button**
+![all](example/popup.jpg)
+
+**NOTE**
+- **SMART** button not enable
+- **INPUT** button not enable
