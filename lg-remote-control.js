@@ -242,182 +242,182 @@ class LgRemoteControl extends LitElement {
         "entities": [
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai 1 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
             "number": "501"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai 2 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
             "number": "502"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai 3 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai 3 HD.png')",
             "number": "503"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai 4.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai 4.png')",
             "number": "521"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai Sport 1.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai Sport 1.png')",
             "number": "557"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai Sport 2.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai Sport 2.png')",
             "number": "58"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/rainews24.png')",
+            "image": "url('/local/lg_remote/tv_logo/rainews24.png')",
             "number": "48"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai YoYo.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai YoYo.png')",
             "number": "43"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai Movie.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai Movie.png')",
             "number": "24"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rete4 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rete4 HD.png')",
             "number": "504"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Canale5 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Canale5 HD.png')",
             "number": "505"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Italia1 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Italia1 HD.png')",
             "number": "506"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/italia 2.png')",
+            "image": "url('/local/lg_remote/tv_logo/italia 2.png')",
             "number": "35"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/La 5.png')",
+            "image": "url('/local/lg_remote/tv_logo/La 5.png')",
             "number": "30"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/LA7 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/LA7 HD.png')",
             "number": "507"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/TV8.png')",
+            "image": "url('/local/lg_remote/tv_logo/TV8.png')",
             "number": "508"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/NOVE.png')",
+            "image": "url('/local/lg_remote/tv_logo/NOVE.png')",
             "number": "509"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/DMAX.png')",
+            "image": "url('/local/lg_remote/tv_logo/DMAX.png')",
             "number": "52"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Boing.png')",
+            "image": "url('/local/lg_remote/tv_logo/Boing.png')",
             "number": "40"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Cartoonito.png')",
+            "image": "url('/local/lg_remote/tv_logo/Cartoonito.png')",
             "number": "46"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/frisbee.png')",
+            "image": "url('/local/lg_remote/tv_logo/frisbee.png')",
             "number": "44"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Rai Gulp.png')",
+            "image": "url('/local/lg_remote/tv_logo/Rai Gulp.png')",
             "number": "42"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/K2.png')",
+            "image": "url('/local/lg_remote/tv_logo/K2.png')",
             "number": "41"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Super!.png')",
+            "image": "url('/local/lg_remote/tv_logo/Super!.png')",
             "number": "47"
           },          
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/TGCOM24.png')",
+            "image": "url('/local/lg_remote/tv_logo/TGCOM24.png')",
             "number": "551"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/deejay.png')",
+            "image": "url('/local/lg_remote/tv_logo/deejay.png')",
             "number": "569"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/sportitalia.png')",
+            "image": "url('/local/lg_remote/tv_logo/sportitalia.png')",
             "number": "60"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/supertennis.png')",
+            "image": "url('/local/lg_remote/tv_logo/supertennis.png')",
             "number": "64"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/EuroSport HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/EuroSport HD.png')",
             "number": "372"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Eurosport 2 HD.png')",
+            "image": "url('/local/lg_remote/tv_logo/Eurosport 2 HD.png')",
             "number": "373"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/Focus.png')",
+            "image": "url('/local/lg_remote/tv_logo/Focus.png')",
             "number": "35"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/cielo.png')",
+            "image": "url('/local/lg_remote/tv_logo/cielo.png')",
             "number": "26"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/realtime.png')",
+            "image": "url('/local/lg_remote/tv_logo/realtime.png')",
             "number": "31"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/IRIS.png')",
+            "image": "url('/local/lg_remote/tv_logo/IRIS.png')",
             "number": "22"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/paramount.png')",
+            "image": "url('/local/lg_remote/tv_logo/paramount.png')",
             "number": "31"
           },
           {
             "entity": "media_player.tv_lg_55c8",
-            "image": "url('/local/lg_remote/tv_logos/teleradiostereo.png')",
+            "image": "url('/local/lg_remote/tv_logo/teleradiostereo.png')",
             "number": "27"
           }
         ]
