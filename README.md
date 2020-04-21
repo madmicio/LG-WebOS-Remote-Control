@@ -17,7 +17,7 @@ custom card: "card-numeric-pad" is required.(you can find it on my github)
 **NOTE: need in "your-theme.yaml**
 ```yaml
 #button
-  active-background-button-color: "#f2f0fa"
+  deactive-background-button-color: "#f2f0fa"
 ```
 
 
