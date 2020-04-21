@@ -238,7 +238,6 @@ _channellist(state) {
   {
     "card": {
       "type": "custom:card-channel-pad",
-      "title": "prova",
       "entities": [
         {
           "entity": this.config.entities[0].entity,
@@ -425,7 +424,7 @@ _channellist(state) {
     "deviceID": [
       "this"
     ],
-    "title": "Soggiorno",
+    "title": " ",
     "large": true,
     "style": {
       "border-radius": "15px"
@@ -624,75 +623,7 @@ _fastforward(state) {
     command: "media.controls/fastForward"
 });
 }
-_1b(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "1" 
-  });
-}
 
-_2(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "2" 
-  });
-}
-
-_3(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "3" 
-  });
-}
-
-_4(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "4" 
-  });
-}
-
-_5(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "5" 
-  });
-}
-
-_6(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "6" 
-  });
-}
-
-_7(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "7" 
-  });
-}
-
-_8(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "8" 
-  });
-}
-
-_9(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "9" 
-  });
-}
-
-_0(state, value) {
-  this.hass.callService("webostv", "button", {
-      entity_id: state.entity_id,
-      button: "0" 
-  });
-}
 
 
 
