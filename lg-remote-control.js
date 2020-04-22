@@ -1,29 +1,29 @@
 import {
-  LitElement,
-  html,
-  css
+    LitElement,
+    html,
+    css
 } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+
 class TestLgRemoteControl extends LitElement {
 
-static get properties() {
-  return {
-    hass: {},
-    config: {},
-    active: {}
-  };
-}
+    static get properties() {
+        return {
+            hass: {},
+            config: {},
+            active: {}
+        };
+    }
 
-constructor() {
-  super();
-}
+    constructor() {
+        super();
+    }
 
-render() {
-   
-  var defaultsource = this.config.defaultsource == "enable" ? true : false;     <= this variable does not work! :(
-  var config = this.config
+    render() {
+        const defaultSource = this.config.defaultsource === "enable";    // <= this variable does not work! :(
+        const config = this.config;
 
         const stateObj = this.hass.states[this.config.entity];
-        return  html`
+        return html`
         <div class="card">
         <div class="page">
               <div class="grid-container">
@@ -69,7 +69,7 @@ render() {
 
               </div>
 
-              ${defaultsource == "enable" ? html`
+              ${defaultSource ? html`
 
 
               <div class="grid-container-source">
@@ -143,10 +143,10 @@ render() {
                 </div>
               </div>
 
-              `: html``
-                }
+              ` : html``
+        }
 
-                ${defaultsource == "enable" ? html`
+                ${defaultSource ? html`
 
 
                 <div class="grid-container-source">
@@ -165,8 +165,8 @@ render() {
                   
                 </div>
   
-                `: html``
-                  }
+                ` : html``
+        }
 
 
               <div class="grid-container-bottom">
@@ -184,7 +184,7 @@ render() {
                   <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' :''};" @click=${e => this._mute(stateObj)}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink': ''}">MUTO</span></button>
+                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${e => this._mute(stateObj)}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
                 </div>
                 <div class="grid-item">
                   <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
@@ -234,443 +234,438 @@ render() {
         `;
 
 
-
-}
-
-updated() {}
-
-
-_123(state) {
-this.hass.callService("browser_mod", "popup",
-      {
-        "card": {
-            "type": "custom:card-numeric-pad",
-            "entities": [
-              {
-                "entity": this.config.entities[0].entity
-              }
-            ]
-        },
-        "deviceID": ["this"],
-        "title": " ",
-        "style": {
-          "border-radius": "15px"
-        }
-        }
-    )}
-
-_channellist(state) {
-  this.hass.callService("browser_mod", "popup",
-  {
-    "card": {
-      "type": "custom:card-channel-pad",
-      "entities": [
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
-          "number": "501"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
-          "number": "502"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 3 HD.png')",
-          "number": "503"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 4.png')",
-          "number": "521"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Sport 1.png')",
-          "number": "557"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Sport 2.png')",
-          "number": "58"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/rainews24.png')",
-          "number": "48"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai YoYo.png')",
-          "number": "43"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Movie.png')",
-          "number": "24"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rete4 HD.png')",
-          "number": "504"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Canale5 HD.png')",
-          "number": "505"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Italia1 HD.png')",
-          "number": "506"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/italia 2.png')",
-          "number": "35"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/La 5.png')",
-          "number": "30"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/LA7 HD.png')",
-          "number": "507"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/TV8.png')",
-          "number": "508"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/NOVE.png')",
-          "number": "509"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/DMAX.png')",
-          "number": "52"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Boing.png')",
-          "number": "40"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Cartoonito.png')",
-          "number": "46"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/frisbee.png')",
-          "number": "44"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Gulp.png')",
-          "number": "42"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/K2.png')",
-          "number": "41"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Super!.png')",
-          "number": "47"
-        },          
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/TGCOM24.png')",
-          "number": "551"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/deejay.png')",
-          "number": "569"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/sportitalia.png')",
-          "number": "60"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/supertennis.png')",
-          "number": "64"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/EuroSport HD.png')",
-          "number": "372"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Eurosport 2 HD.png')",
-          "number": "373"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Focus.png')",
-          "number": "35"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/cielo.png')",
-          "number": "26"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/realtime.png')",
-          "number": "31"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/IRIS.png')",
-          "number": "22"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/paramount.png')",
-          "number": "31"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/teleradiostereo.png')",
-          "number": "27"
-        }
-      ]
-    },
-    "deviceID": [
-      "this"
-    ],
-    "title": " ",
-    "large": true,
-    "style": {
-      "border-radius": "15px"
     }
-  }
-      )}
 
-_smart(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "tv/getChannelList"
-  });
-}
-
-_smart2(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "TV_CHANNEL_DOWN"
-  });
-}
-
-_input(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "GET_SYSTEM_SETTINGS"
-  });
-}
-
-_power(state) {
-  this.hass.callService("media_player", "toggle", {
-    entity_id: state.entity_id,
-  });
-}
-
-_up(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "UP" 
-  });
-}
-
-_down(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "DOWN"  
-  });
-}
-
-_left(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "LEFT"   
-  });
-}
-
-_enter(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "ENTER"  
-  });
-}
-
-_right(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "RIGHT"  
-  });
-}
-
-_back(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "BACK" 
-  });
-}
-
-_exit(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "EXIT"  
-  });
-}
-
-_netflix(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "Netflix"  
-  });
-}
+    updated() {
+    }
 
 
-_amazon(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "Amazon Prime Video"  
-  });
-}
+    _123(state) {
+        this.hass.callService("browser_mod", "popup",
+            {
+                "card": {
+                    "type": "custom:card-numeric-pad",
+                    "entities": [
+                        {
+                            "entity": this.config.entities[0].entity
+                        }
+                    ]
+                },
+                "deviceID": ["this"],
+                "title": " ",
+                "style": {
+                    "border-radius": "15px"
+                }
+            }
+        )
+    }
 
-_disney(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "Disney+"  
-  });
-}
+    _channellist(state) {
+        this.hass.callService("browser_mod", "popup",
+            {
+                "card": {
+                    "type": "custom:card-channel-pad",
+                    "entities": [
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
+                            "number": "501"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
+                            "number": "502"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai 3 HD.png')",
+                            "number": "503"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai 4.png')",
+                            "number": "521"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai Sport 1.png')",
+                            "number": "557"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai Sport 2.png')",
+                            "number": "58"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/rainews24.png')",
+                            "number": "48"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai YoYo.png')",
+                            "number": "43"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai Movie.png')",
+                            "number": "24"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rete4 HD.png')",
+                            "number": "504"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Canale5 HD.png')",
+                            "number": "505"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Italia1 HD.png')",
+                            "number": "506"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/italia 2.png')",
+                            "number": "35"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/La 5.png')",
+                            "number": "30"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/LA7 HD.png')",
+                            "number": "507"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/TV8.png')",
+                            "number": "508"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/NOVE.png')",
+                            "number": "509"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/DMAX.png')",
+                            "number": "52"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Boing.png')",
+                            "number": "40"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Cartoonito.png')",
+                            "number": "46"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/frisbee.png')",
+                            "number": "44"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Rai Gulp.png')",
+                            "number": "42"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/K2.png')",
+                            "number": "41"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Super!.png')",
+                            "number": "47"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/TGCOM24.png')",
+                            "number": "551"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/deejay.png')",
+                            "number": "569"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/sportitalia.png')",
+                            "number": "60"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/supertennis.png')",
+                            "number": "64"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/EuroSport HD.png')",
+                            "number": "372"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Eurosport 2 HD.png')",
+                            "number": "373"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/Focus.png')",
+                            "number": "35"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/cielo.png')",
+                            "number": "26"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/realtime.png')",
+                            "number": "31"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/IRIS.png')",
+                            "number": "22"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/paramount.png')",
+                            "number": "31"
+                        },
+                        {
+                            "entity": this.config.entities[0].entity,
+                            "image": "url('/local/lg_remote/tv_logo/teleradiostereo.png')",
+                            "number": "27"
+                        }
+                    ]
+                },
+                "deviceID": [
+                    "this"
+                ],
+                "title": " ",
+                "large": true,
+                "style": {
+                    "border-radius": "15px"
+                }
+            }
+        )
+    }
 
-_dazn(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "DAZN" 
-  });
-}
+    _smart(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "tv/getChannelList"
+        });
+    }
 
-_volumeup(state) {
-  this.hass.callService("media_player", "volume_up", {entity_id: state.entity_id});
-}
+    _smart2(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "TV_CHANNEL_DOWN"
+        });
+    }
 
-_home(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "HOME" 
-  });
-}
+    _input(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "GET_SYSTEM_SETTINGS"
+        });
+    }
 
-_channelup(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "CHANNELUP"
-  });
-}
+    _power(state) {
+        this.hass.callService("media_player", "toggle", {
+            entity_id: state.entity_id,
+        });
+    }
 
-_mute(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "MUTE"
-  });
-}
+    _up(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "UP"
+        });
+    }
 
-_volumedown(state) {
-  this.hass.callService("media_player", "volume_down", {
-    entity_id: state.entity_id    
-  });
-}
+    _down(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "DOWN"
+        });
+    }
 
-_info(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "INFO"
-  });
-}
+    _left(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "LEFT"
+        });
+    }
 
-_channeldown(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "CHANNELDOWN"
-  });
-}
+    _enter(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "ENTER"
+        });
+    }
 
-_play(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/play"
-  });
-}
+    _right(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "RIGHT"
+        });
+    }
 
-_pause(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/pause"
-  });
-}
+    _back(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "BACK"
+        });
+    }
 
-_stop(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/stop"
-  });
-}
+    _exit(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "EXIT"
+        });
+    }
 
-_rewind(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/rewind"
-  });
-}
-
-_record(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/Record"
-  });
-}
-
-_fastforward(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/fastForward"
-});
-}
+    _netflix(state) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: state.entity_id,
+            source: "Netflix"
+        });
+    }
 
 
+    _amazon(state) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: state.entity_id,
+            source: "Amazon Prime Video"
+        });
+    }
+
+    _disney(state) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: state.entity_id,
+            source: "Disney+"
+        });
+    }
+
+    _dazn(state) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: state.entity_id,
+            source: "DAZN"
+        });
+    }
+
+    _volumeup(state) {
+        this.hass.callService("media_player", "volume_up", {entity_id: state.entity_id});
+    }
+
+    _home(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "HOME"
+        });
+    }
+
+    _channelup(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "CHANNELUP"
+        });
+    }
+
+    _mute(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "MUTE"
+        });
+    }
+
+    _volumedown(state) {
+        this.hass.callService("media_player", "volume_down", {
+            entity_id: state.entity_id
+        });
+    }
+
+    _info(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "INFO"
+        });
+    }
+
+    _channeldown(state) {
+        this.hass.callService("webostv", "button", {
+            entity_id: state.entity_id,
+            button: "CHANNELDOWN"
+        });
+    }
+
+    _play(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "media.controls/play"
+        });
+    }
+
+    _pause(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "media.controls/pause"
+        });
+    }
+
+    _stop(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "media.controls/stop"
+        });
+    }
+
+    _rewind(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "media.controls/rewind"
+        });
+    }
+
+    _record(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "media.controls/Record"
+        });
+    }
+
+    _fastforward(state) {
+        this.hass.callService("webostv", "command", {
+            entity_id: state.entity_id,
+            command: "media.controls/fastForward"
+        });
+    }
 
 
+    setConfig(config) {
+        if (!config.entity) {
+            console.log("Invalid configuration");
+        }
+        this.config = config;
+    }
 
+    getCardSize() {
+        return this.config.entities.length + 1;
+    }
 
-
-
-
-setConfig(config) {
-  if (!config.entity) {
-    console.log("Invalid configuration");
-  }
-  this.config = config;
-}
-
-getCardSize() {
-  return this.config.entities.length + 1;
-}
-
-static get styles() {
-  return css`
+    static get styles() {
+        return css`
   button:focus {outline:0;}
 
   /*Create ripple effec*/
@@ -889,7 +884,7 @@ static get styles() {
 
   }
   `;
-}  
+    }
 
 }
 
