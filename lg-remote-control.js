@@ -21,7 +21,7 @@ class TestLgRemoteControl extends LitElement {
     render() {
         const defaultSource = this.config.defaultsource === "enable";    // <= this variable does not work! :(
         const config = this.config;
-
+        const entityId = this.config.entity;
         const stateObj = this.hass.states[this.config.entity];
         return html`
         <div class="card">
@@ -245,11 +245,7 @@ class TestLgRemoteControl extends LitElement {
             {
                 "card": {
                     "type": "custom:card-numeric-pad",
-                    "entities": [
-                        {
-                            "entity": this.config.entities[0].entity
-                        }
-                    ]
+                    "entity": this.config.entity
                 },
                 "deviceID": ["this"],
                 "title": " ",
@@ -265,185 +261,150 @@ class TestLgRemoteControl extends LitElement {
             {
                 "card": {
                     "type": "custom:card-channel-pad",
-                    "entities": [
+                    "entity": this.config.entity,
+                    "channels": [
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai 1 HD.png",
                             "number": "501"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai 2 HD.png",
                             "number": "502"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai 3 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai 3 HD.png",
                             "number": "503"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai 4.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai 4.png",
                             "number": "521"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai Sport 1.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai Sport 1.png",
                             "number": "557"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai Sport 2.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai Sport 2.png",
                             "number": "58"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/rainews24.png')",
+                            "image": "/local/lg_remote/tv_logo/rainews24.png",
                             "number": "48"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai YoYo.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai YoYo.png",
                             "number": "43"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai Movie.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai Movie.png",
                             "number": "24"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rete4 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Rete4 HD.png",
                             "number": "504"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Canale5 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Canale5 HD.png",
                             "number": "505"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Italia1 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Italia1 HD.png",
                             "number": "506"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/italia 2.png')",
+                            "image": "/local/lg_remote/tv_logo/italia 2.png",
                             "number": "35"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/La 5.png')",
+                            "image": "/local/lg_remote/tv_logo/La 5.png",
                             "number": "30"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/LA7 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/LA7 HD.png",
                             "number": "507"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/TV8.png')",
+                            "image": "/local/lg_remote/tv_logo/TV8.png",
                             "number": "508"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/NOVE.png')",
+                            "image": "/local/lg_remote/tv_logo/NOVE.png",
                             "number": "509"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/DMAX.png')",
+                            "image": "/local/lg_remote/tv_logo/DMAX.png",
                             "number": "52"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Boing.png')",
+                            "image": "/local/lg_remote/tv_logo/Boing.png",
                             "number": "40"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Cartoonito.png')",
+                            "image": "/local/lg_remote/tv_logo/Cartoonito.png",
                             "number": "46"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/frisbee.png')",
+                            "image": "/local/lg_remote/tv_logo/frisbee.png",
                             "number": "44"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Rai Gulp.png')",
+                            "image": "/local/lg_remote/tv_logo/Rai Gulp.png",
                             "number": "42"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/K2.png')",
+                            "image": "/local/lg_remote/tv_logo/K2.png",
                             "number": "41"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Super!.png')",
+                            "image": "/local/lg_remote/tv_logo/Super!.png",
                             "number": "47"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/TGCOM24.png')",
+                            "image": "/local/lg_remote/tv_logo/TGCOM24.png",
                             "number": "551"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/deejay.png')",
+                            "image": "/local/lg_remote/tv_logo/deejay.png",
                             "number": "569"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/sportitalia.png')",
+                            "image": "/local/lg_remote/tv_logo/sportitalia.png",
                             "number": "60"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/supertennis.png')",
+                            "image": "/local/lg_remote/tv_logo/supertennis.png",
                             "number": "64"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/EuroSport HD.png')",
+                            "image": "/local/lg_remote/tv_logo/EuroSport HD.png",
                             "number": "372"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Eurosport 2 HD.png')",
+                            "image": "/local/lg_remote/tv_logo/Eurosport 2 HD.png",
                             "number": "373"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/Focus.png')",
+                            "image": "/local/lg_remote/tv_logo/Focus.png",
                             "number": "35"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/cielo.png')",
+                            "image": "/local/lg_remote/tv_logo/cielo.png",
                             "number": "26"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/realtime.png')",
+                            "image": "/local/lg_remote/tv_logo/realtime.png",
                             "number": "31"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/IRIS.png')",
+                            "image": "/local/lg_remote/tv_logo/IRIS.png",
                             "number": "22"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/paramount.png')",
+                            "image": "/local/lg_remote/tv_logo/paramount.png",
                             "number": "31"
                         },
                         {
-                            "entity": this.config.entities[0].entity,
-                            "image": "url('/local/lg_remote/tv_logo/teleradiostereo.png')",
+                            "image": "/local/lg_remote/tv_logo/teleradiostereo.png",
                             "number": "27"
                         }
                     ]
@@ -661,7 +622,7 @@ class TestLgRemoteControl extends LitElement {
     }
 
     getCardSize() {
-        return this.config.entities.length + 1;
+        return 2;
     }
 
     static get styles() {
