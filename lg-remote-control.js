@@ -40,7 +40,7 @@ render() {
                   <button class="btn-flat ripple" @click=${e => this._123(stateObj)}>123</button>
                 </div> 
                 <div class="grid-item smart" >
-                  <button class="btn ripple" @click=${e => this._smart(stateObj)}>CAZZO</button>
+                  <button class="btn ripple" @click=${e => this._smart(stateObj)}>SMART</button>
                 </div>
                 <div class="grid-item up" style="margin-bottom: 9px;">
                   <button class="btn ripple" @click=${e => this._up(stateObj)}><ha-icon icon="mdi:menu-up"/></button>
