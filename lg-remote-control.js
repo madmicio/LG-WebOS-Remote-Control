@@ -3,7 +3,7 @@ import {
   html,
   css
 } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
-class LgRemoteControl extends LitElement {
+class TestLgRemoteControl extends LitElement {
 
 static get properties() {
   return {
@@ -18,14 +18,14 @@ constructor() {
 }
 
 render() {
-  var entityCounter = 0;
-  return html`
-  <div class="card">
-  <div class="page">
-    ${this.config.entities.map(ent => {
-        entityCounter++;
-        const stateObj = this.hass.states[ent.entity];
-        return stateObj ? html`
+   
+  var defaultsource = this.config.defaultsource == "enable" ? true : false;     <= this variable does not work! :(
+  var config = this.config
+
+        const stateObj = this.hass.states[this.config.entity];
+        return  html`
+        <div class="card">
+        <div class="page">
               <div class="grid-container">
                 <div class="shape">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
@@ -40,7 +40,7 @@ render() {
                   <button class="btn-flat ripple" @click=${e => this._123(stateObj)}>123</button>
                 </div> 
                 <div class="grid-item smart" >
-                  <button class="btn ripple" @click=${e => this._smart(stateObj)}>SMART</button>
+                  <button class="btn ripple" @click=${e => this._smart(stateObj)}>CAZZO</button>
                 </div>
                 <div class="grid-item up" style="margin-bottom: 9px;">
                   <button class="btn ripple" @click=${e => this._up(stateObj)}><ha-icon icon="mdi:menu-up"/></button>
@@ -68,6 +68,10 @@ render() {
                 </div> 
 
               </div>
+
+              ${defaultsource == "enable" ? html`
+
+
               <div class="grid-container-source">
                 <div class="grid-item netflix">
                   <button class="btn_source ripple" @click=${e => this._netflix(stateObj)}><ha-icon icon="mdi:netflix"/></button>
@@ -138,6 +142,33 @@ render() {
                   </svg></button>
                 </div>
               </div>
+
+              `: html``
+                }
+
+                ${defaultsource == "enable" ? html`
+
+
+                <div class="grid-container-source">
+                  <div class="grid-item netflix">
+                    <button class="btn_source ripple" @click=${e => this._netfli(stateObj)}><ha-icon icon="${config.source[0].icon}"/></button>
+                  </div>
+                  <div class="grid-item amazon">
+                    <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
+                  </div>
+                  <div class="grid-item netflix">
+                    <button class="btn_source ripple" @click=${e => this._netfli(stateObj)}><ha-icon icon="mdi:netflix"/></button>
+                  </div>
+                  <div class="grid-item amazon">
+                    <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
+                  </div>
+                  
+                </div>
+  
+                `: html``
+                  }
+
+
               <div class="grid-container-bottom">
                 <div class="grid-item">
                   <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${e => this._volumeup(stateObj)}><ha-icon icon="mdi:plus"/></button>
@@ -197,18 +228,13 @@ render() {
 
               </div>
 
-<!--             <div class="curved"
 
-                <p> Una stesura provvisoria della prima parte dell'Etica fu completata da Spinoza nel 1662. Dopo la pubblicazione, nel 1663, dei Principi della filosofia di Cartesio, caratterizzati 
-                dall'esposizione more geometrico che sarebbe stata tipica anche del capolavoro di Spinoza </p> 
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="m 40 20 a 10 10 0 0 1 20 0 a 10 10 0 0 0 10 10 a 10 10 0 0 1 0 20 a 10 10 0 0 0 -10 10 a 10 10 0 0 1 -20 0 a 10 10 0 0 0 -10 -10 a 10 10 0 0 1 0 -20 a 10 10 0 0 0 10 -10" fill="#ffff00" stroke="#000000" stroke-width="1" /></svg>
-                </div> -->
-        `: html``;
-    })}
-    </div>
-    </div>
-  `;
+          </div>
+          </div>
+        `;
+
+
+
 }
 
 updated() {}
@@ -633,8 +659,8 @@ _fastforward(state) {
 
 
 setConfig(config) {
-  if (!config.entities) {
-    throw new Error("You need to define entities");
+  if (!config.entity) {
+    console.log("Invalid configuration");
   }
   this.config = config;
 }
@@ -867,4 +893,4 @@ static get styles() {
 
 }
 
-customElements.define('lg-remote-control', LgRemoteControl);
+customElements.define('test-lg-remote-control', TestLgRemoteControl);
