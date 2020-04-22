@@ -21,7 +21,6 @@ class TestLgRemoteControl extends LitElement {
     render() {
         const defaultSource = this.config.defaultsource === "enable";    // <= this variable does not work! :(
         const config = this.config;
-        const entityId = this.config.entity;
         const stateObj = this.hass.states[this.config.entity];
         return html`
         <div class="card">
@@ -31,56 +30,54 @@ class TestLgRemoteControl extends LitElement {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
                 </div>
                 <div class="grid-item">
-                  <button class="btn-flat ripple" @click=${e => this._channellist(stateObj)}><ha-icon icon="mdi:format-list-numbered"/></button> 
+                  <button class="btn-flat ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button> 
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" @click=${e => this._power(stateObj)}><ha-icon icon="mdi:power" style="color: red;"/></button>
+                  <button class="btn ripple" @click=${() => this._power()}><ha-icon icon="mdi:power" style="color: red;"/></button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn-flat ripple" @click=${e => this._123(stateObj)}>123</button>
+                  <button class="btn-flat ripple" @click=${() => this._123()}>123</button>
                 </div> 
                 <div class="grid-item smart" >
-                  <button class="btn ripple" @click=${e => this._smart(stateObj)}>SMART</button>
+                  <button class="btn ripple" @click=${() => this._smart()}>SMART</button>
                 </div>
                 <div class="grid-item up" style="margin-bottom: 9px;">
-                  <button class="btn ripple" @click=${e => this._up(stateObj)}><ha-icon icon="mdi:menu-up"/></button>
+                  <button class="btn ripple" @click=${() => this._up()}><ha-icon icon="mdi:menu-up"/></button>
                 </div>
                 <div class="grid-item input">
-                  <button class="btn ripple" @click=${e => this._input(stateObj)}>INPUT</button>
+                  <button class="btn ripple" @click=${() => this._input()}>INPUT</button>
                 </div> 
                 <div class="grid-item left" style="margin-right: 4px;">
-                  <button class="btn ripple" @click=${e => this._left(stateObj)}><ha-icon icon="mdi:menu-left"/></button>
+                  <button class="btn ripple" @click=${() => this._left()}><ha-icon icon="mdi:menu-left"/></button>
                 </div>
                 <div class="grid-item ok" style="padding: 0px;">
-                  <button class="btn bnt_ok ripple"  @click=${e => this._enter(stateObj)}>OK</button>
+                  <button class="btn bnt_ok ripple"  @click=${() => this._enter()}>OK</button>
                 </div>
                 <div class="grid-item right" style="margin-left: 4px;">
-                  <button class="btn ripple" @click=${e => this._right(stateObj)}><ha-icon icon="mdi:menu-right"/></button>
+                  <button class="btn ripple" @click=${() => this._right()}><ha-icon icon="mdi:menu-right"/></button>
                 </div>
                 <div class="grid-item back">
-                  <button class="btn ripple" @click=${e => this._back(stateObj)}>BACK</button>
+                  <button class="btn ripple" @click=${() => this._back()}>BACK</button>
                 </div>
                 <div class="grid-item down" style="margin-top: 9px;">
-                  <button class="btn ripple" @click=${e => this._down(stateObj)}><ha-icon icon="mdi:menu-down"/></button>
+                  <button class="btn ripple" @click=${() => this._down()}><ha-icon icon="mdi:menu-down"/></button>
                 </div>
                 <div class="grid-item exit">
-                  <button class="btn ripple" @click=${e => this._exit(stateObj)}>EXIT</button>
+                  <button class="btn ripple" @click=${() => this._exit()}>EXIT</button>
                 </div> 
 
               </div>
 
               ${defaultSource ? html`
-
-
               <div class="grid-container-source">
                 <div class="grid-item netflix">
-                  <button class="btn_source ripple" @click=${e => this._netflix(stateObj)}><ha-icon icon="mdi:netflix"/></button>
+                  <button class="btn_source ripple" @click=${() => this._netflix()}><ha-icon icon="mdi:netflix"/></button>
                 </div>
                 <div class="grid-item amazon">
-                  <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
+                  <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
                 </div>
                 <div class="grid-item disney">
-                  <button class="btn_source ripple" @click=${e => this._disney(stateObj)}><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                  <button class="btn_source ripple" @click=${() => this._disney()}><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="21.000000pt" height="21.000000pt" viewBox="0 0 122.000000 125.000000"
                   preserveAspectRatio="xMidYMid meet">
                  <metadata>
@@ -108,7 +105,7 @@ class TestLgRemoteControl extends LitElement {
                  </svg></button>
                 </div>
                 <div class="grid-item dazn">
-                  <button class="btn_source ripple" @click=${e => this._dazn(stateObj)}><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                  <button class="btn_source ripple" @click=${() => this._dazn()}><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                     width="22.000000pt" height="20.000000pt" viewBox="0 0 324.000000 323.000000"
                     preserveAspectRatio="xMidYMid meet">
                   <metadata>
@@ -143,61 +140,57 @@ class TestLgRemoteControl extends LitElement {
                 </div>
               </div>
 
-              ` : html``
-        }
+              ` : html``}
 
                 ${defaultSource ? html`
-
-
                 <div class="grid-container-source">
                   <div class="grid-item netflix">
-                    <button class="btn_source ripple" @click=${e => this._netfli(stateObj)}><ha-icon icon="${config.source[0].icon}"/></button>
+                    <button class="btn_source ripple" @click=${() => this._netflix()}><ha-icon icon="${config.source[0].icon}"/></button>
                   </div>
                   <div class="grid-item amazon">
-                    <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
+                    <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
                   </div>
                   <div class="grid-item netflix">
-                    <button class="btn_source ripple" @click=${e => this._netfli(stateObj)}><ha-icon icon="mdi:netflix"/></button>
+                    <button class="btn_source ripple" @click=${() => this._netflix()}><ha-icon icon="mdi:netflix"/></button>
                   </div>
                   <div class="grid-item amazon">
-                    <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
+                    <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
                   </div>
                   
                 </div>
   
-                ` : html``
-        }
+                ` : html``}
 
 
               <div class="grid-container-bottom">
                 <div class="grid-item">
-                  <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${e => this._volumeup(stateObj)}><ha-icon icon="mdi:plus"/></button>
+                  <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${() => this._volumeup()}><ha-icon icon="mdi:plus"/></button>
                 </div>
                 <div class="grid-item" style="margin-top: 0px;">
-                  <button class="btn-flat ripple" @click=${e => this._home(stateObj)}>MENU</button>
+                  <button class="btn-flat ripple" @click=${() => this._home()}>MENU</button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 50% 50% 0px 0px;" @click=${e => this._channelup(stateObj)}><ha-icon icon="mdi:menu-up"/></button>
+                  <button class="btn ripple" style="border-radius: 50% 50% 0px 0px;" @click=${() => this._channelup()}><ha-icon icon="mdi:menu-up"/></button>
                 </div>
 
                 <div class="grid-item">
                   <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${e => this._mute(stateObj)}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
+                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._mute()}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
                 </div>
                 <div class="grid-item">
                   <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
                 </div>
 
                 <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;" @click=${e => this._volumedown(stateObj)}><ha-icon icon="mdi:minus"/></button>
+                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;" @click=${() => this._volumedown()}><ha-icon icon="mdi:minus"/></button>
                 </div>
                 <div class="grid-item" style="margin-bottom: 0px;">
-                  <button class="btn-flat ripple" @click=${e => this._info(stateObj)}>INFO</button>
+                  <button class="btn-flat ripple" @click=${() => this._info()}>INFO</button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;"  @click=${e => this._channeldown(stateObj)}><ha-icon icon="mdi:menu-down"/></button>
+                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;"  @click=${() => this._channeldown()}><ha-icon icon="mdi:menu-down"/></button>
                 </div>
 
                 <div class="grid-item">
@@ -208,22 +201,22 @@ class TestLgRemoteControl extends LitElement {
                 </div>
 
                 <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${e => this._play(stateObj)}><ha-icon icon="mdi:play"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._play()}><ha-icon icon="mdi:play"/></button>
                 </div>
                   <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${e => this._pause(stateObj)}><ha-icon icon="mdi:pause"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._pause()}><ha-icon icon="mdi:pause"/></button>
                 </div>
                 <div class="grid-item ">
-                  <button class="btn-flat ripple"  @click=${e => this._stop(stateObj)}><ha-icon icon="mdi:stop"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._stop()}><ha-icon icon="mdi:stop"/></button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${e => this._rewind(stateObj)}><ha-icon icon="mdi:skip-backward"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._rewind()}><ha-icon icon="mdi:skip-backward"/></button>
                 </div>
                   <div class="grid-item">
-                  <button class="btn-flat ripple" style="color: red;" @click=${e => this._record(stateObj)}><ha-icon icon="mdi:record"/></button>
+                  <button class="btn-flat ripple" style="color: red;" @click=${() => this._record()}><ha-icon icon="mdi:record"/></button>
                 </div>
                 <div class="grid-item ">
-                  <button class="btn-flat ripple"  @click=${e => this._fastforward(stateObj)}><ha-icon icon="mdi:skip-forward"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._fastforward()}><ha-icon icon="mdi:skip-forward"/></button>
                 </div>
 
               </div>
@@ -240,7 +233,7 @@ class TestLgRemoteControl extends LitElement {
     }
 
 
-    _123(state) {
+    _123() {
         this.hass.callService("browser_mod", "popup",
             {
                 "card": {
@@ -256,7 +249,7 @@ class TestLgRemoteControl extends LitElement {
         )
     }
 
-    _channellist(state) {
+    _channelList() {
         this.hass.callService("browser_mod", "popup",
             {
                 "card": {
@@ -421,194 +414,196 @@ class TestLgRemoteControl extends LitElement {
         )
     }
 
-    _smart(state) {
+    _smart() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "tv/getChannelList"
         });
     }
 
-    _smart2(state) {
+    _smart2() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "TV_CHANNEL_DOWN"
         });
     }
 
-    _input(state) {
+    _input() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "GET_SYSTEM_SETTINGS"
         });
     }
 
-    _power(state) {
+    _power() {
         this.hass.callService("media_player", "toggle", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
         });
     }
 
-    _up(state) {
+    _up() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "UP"
         });
     }
 
-    _down(state) {
+    _down() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "DOWN"
         });
     }
 
-    _left(state) {
+    _left() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "LEFT"
         });
     }
 
-    _enter(state) {
+    _enter() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "ENTER"
         });
     }
 
-    _right(state) {
+    _right() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "RIGHT"
         });
     }
 
-    _back(state) {
+    _back() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "BACK"
         });
     }
 
-    _exit(state) {
+    _exit() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "EXIT"
         });
     }
 
-    _netflix(state) {
+    _netflix() {
         this.hass.callService("media_player", "select_source", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             source: "Netflix"
         });
     }
 
 
-    _amazon(state) {
+    _amazon() {
         this.hass.callService("media_player", "select_source", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             source: "Amazon Prime Video"
         });
     }
 
-    _disney(state) {
+    _disney() {
         this.hass.callService("media_player", "select_source", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             source: "Disney+"
         });
     }
 
-    _dazn(state) {
+    _dazn() {
         this.hass.callService("media_player", "select_source", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             source: "DAZN"
         });
     }
 
-    _volumeup(state) {
-        this.hass.callService("media_player", "volume_up", {entity_id: state.entity_id});
+    _volumeup() {
+        this.hass.callService("media_player", "volume_up", {
+            entity_id: this.config.entity
+        });
     }
 
-    _home(state) {
+    _home() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "HOME"
         });
     }
 
-    _channelup(state) {
+    _channelup() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "CHANNELUP"
         });
     }
 
-    _mute(state) {
+    _mute() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "MUTE"
         });
     }
 
-    _volumedown(state) {
+    _volumedown() {
         this.hass.callService("media_player", "volume_down", {
-            entity_id: state.entity_id
+            entity_id: this.config.entity
         });
     }
 
-    _info(state) {
+    _info() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "INFO"
         });
     }
 
-    _channeldown(state) {
+    _channeldown() {
         this.hass.callService("webostv", "button", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             button: "CHANNELDOWN"
         });
     }
 
-    _play(state) {
+    _play() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "media.controls/play"
         });
     }
 
-    _pause(state) {
+    _pause() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "media.controls/pause"
         });
     }
 
-    _stop(state) {
+    _stop() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "media.controls/stop"
         });
     }
 
-    _rewind(state) {
+    _rewind() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "media.controls/rewind"
         });
     }
 
-    _record(state) {
+    _record() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "media.controls/Record"
         });
     }
 
-    _fastforward(state) {
+    _fastforward() {
         this.hass.callService("webostv", "command", {
-            entity_id: state.entity_id,
+            entity_id: this.config.entity,
             command: "media.controls/fastForward"
         });
     }
