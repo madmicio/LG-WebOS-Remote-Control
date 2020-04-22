@@ -19,7 +19,7 @@ constructor() {
 
 render() {
    
-  var defaultsource = this.config.defaultsource == "enable" ? true : false;     <= this variable does not work! :(
+  var defaultsource = this.config.defaultsource ? this.config.defaultsource : "show";   
   var config = this.config
 
         const stateObj = this.hass.states[this.config.entity];
