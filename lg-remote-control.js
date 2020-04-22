@@ -70,7 +70,7 @@ render() {
               </div>
               <div class="grid-container-source">
                 <div class="grid-item netflix">
-                  <button class="btn_source ripple" @click=${e => this._netfli(stateObj)}><ha-icon icon="mdi:netflix"/></button>
+                  <button class="btn_source ripple" @click=${e => this._netflix(stateObj)}><ha-icon icon="mdi:netflix"/></button>
                 </div>
                 <div class="grid-item amazon">
                   <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
