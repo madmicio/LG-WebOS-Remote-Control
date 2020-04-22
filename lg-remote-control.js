@@ -141,6 +141,15 @@ class TestLgRemoteControl extends LitElement {
               </div>
 
               ` : html``}
+                ${this.config.sources ? html`
+                <div class="grid-container-source">
+                ${this.config.sources.map(source => {return html`
+                  <div class="grid-item">
+                    <button class="btn_source ripple" @click=${() => this._select_source(source.name)}><ha-icon icon="${source.icon}"/></button>
+                  </div>
+                `;})}
+                </div>
+                ` : html``}
 
                 ${defaultSource ? html`
                 <div class="grid-container-source">
@@ -487,6 +496,13 @@ class TestLgRemoteControl extends LitElement {
         this.hass.callService("webostv", "button", {
             entity_id: this.config.entity,
             button: "EXIT"
+        });
+    }
+
+    _select_source(source) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: source
         });
     }
 
