@@ -81,7 +81,7 @@ class TestLgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const cardHeight = 750 + (this.config.sources ? Math.floor(this.config.sources.length/4) * 42 : 0);
+        const cardHeight = 750 + (this.config.sources ? Math.floor((this.config.sources.length - 1) / 4) * 42 : 0);
         return html`
         <div class="card">
         <div class="page" style="height: ${cardHeight}px">
