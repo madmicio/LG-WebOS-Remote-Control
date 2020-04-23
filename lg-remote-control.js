@@ -82,8 +82,9 @@ class TestLgRemoteControl extends LitElement {
     render() {
         const stateObj = this.hass.states[this.config.entity];
         const cardHeight = 750 + (this.config.sources ? Math.floor((this.config.sources.length - 1) / 4) * 42 : 0);
+        const scale = this.config.scale ? this.config.scale : 1;
         return html`
-        <div class="card">
+        <div class="card" style="transform: scale(${scale})">
         <div class="page" style="height: ${cardHeight}px">
               <div class="grid-container">
                 <div class="shape">
