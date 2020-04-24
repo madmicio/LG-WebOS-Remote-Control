@@ -72,9 +72,9 @@ in this new version we have implemented some new features:
     - name: HDMI 2
       icon: 'mdi:video-input-hdmi'
   channels:
-    - image: /local/images/channel_1.png
+    - image: /local/images/tv_logo/channel_1.png
       number: '1'
-    - image: /local/images/channel_2.png
+    - image: /local/images/tv_logo/channel_2.png
       number: '1'
   scale: 0,5
    
@@ -109,8 +109,12 @@ resources:
   
   ## Install Tv Logo
   
-  1. download tv_logo direcoty into www/lg_remote/tv_logo
-  
+  1. download tv_logo
+  2. direcoty put the images file where you prefer
+  3. calls the image in the configuration as in the example
+```yaml
+image: /local/your_directory/your_file.png
+```
   ## chanel pad setup
   
   in this version the only way to edit thi pannel is edit "lg-remote-control.js"
