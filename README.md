@@ -65,7 +65,7 @@ in this new version we have implemented some new features:
   entity: media_player.tv_lg_55c8
   sources:
     - name: Netflilx
-      icon: 'mdi:netflilx'
+      icon: 'mdi:netflix'
     - name: Disney
       icon: disney
     - name: Dazn
