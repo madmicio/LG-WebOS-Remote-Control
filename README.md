@@ -47,12 +47,12 @@ pressing the button on the remote control you will receive this message.
 
 **new features congif**
 in this new version we have implemented some new features:
-  - customizable and incremental app button
-  option: **source:** ( if you do not configure this option, the remote control will display the default apps)
-  - customizable channel list
-  option: **channels:** ( if you do not configure this option, the remote control will display the default channels list)
-  - customizable scale:
-  option: **scale:** ( this option reduces or enlarges the size of the remote control. we are testing this option )
+1. customizable and incremental app button
+⋅⋅* option: **source:** ( if you do not configure this option, the remote control will display the default apps)
+2. customizable channel list
+⋅⋅* option: **channels:** ( if you do not configure this option, the remote control will display the default channels list)
+3. customizable scale:
+⋅⋅* option: **scale:** ( this option reduces or enlarges the size of the remote control. we are testing this option )
 
 **lovelace config: custom view**
 ```yaml
