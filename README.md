@@ -41,7 +41,7 @@ obviously you can customize the color to harmonize the remote control with your 
 in this version of the card there is no longer a "channel pad popup" with preset channels.
 this is to give each user the ability to create his own list.
 
-"source:" configuration is not mandatory. if "source:" is not configured the remote control will work normally but you will not be able to use the channel pad.
+"channels" configuration is not mandatory. if "channels" is not configured the remote control will work normally but you will not be able to use the channel pad.
 pressing the button on the remote control you will receive this message.
 ![all](example/source_error.png)
 
@@ -49,11 +49,11 @@ pressing the button on the remote control you will receive this message.
 in this new version we have implemented some new features:
 1. customizable and incremental app button
 
-    option: **source:** ( if you do not configure this option, the remote control will display the default apps)
+    option: **sources:** ( if you do not configure this option, the remote control will display the default apps)
 
-2. customizable channel list
+2. customizable channel pad
 
-    option: **channels:** ( if you do not configure this option, the remote control will display the default channels list)
+    option: **channels:** ( if you do not configure this option, on button click you recive an error message)
 
 3. customizable scale:
 
@@ -81,7 +81,7 @@ in this new version we have implemented some new features:
       number: '1'
     - image: /local/images/tv_logo/channel_2.png
       number: '1'
-  scale: 0,5
+  scale: 1
    
 ```
 **note: disney and danz are special icon. so you you must enter it as in the example**
