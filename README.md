@@ -127,7 +127,7 @@ image must have 10px margin like this example:
 ![all](example/logo_example.png)![all](example/logo_area3.png)
 
 
-## popup button
+## Popup Buttons
 
 ![all](example/popup.png)
 
