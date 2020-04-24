@@ -51,7 +51,7 @@ in this new version we have implemented some new features:
     option: **source:** ( if you do not configure this option, the remote control will display the default apps)
   - customizable channel list
     option: **channels:** ( if you do not configure this option, the remote control will display the default channels list)
-  - customizable channel list
+  - customizable scale:
     option: **scale:** ( this option reduces or enlarges the size of the remote control. we are testing this option )
 
 **lovelace config: custom view**
