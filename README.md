@@ -32,12 +32,12 @@ custom card: "card-numeric-pad" is required.(you can find it on my github)
 "#333336" referred to the dark remote control
 obviously you can customize the color to harmonize the remote control with your theme
 
-**lovelace config: default view**
+# lovelace config: default view
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
 ```
-**Channel pad**
+# Channel pad
 in this version of the card there is no longer a "channel pad popup" with preset channels.
 this is to give each user the ability to create his own list.
 
@@ -45,7 +45,7 @@ this is to give each user the ability to create his own list.
 pressing the button on the remote control you will receive this message.
 ![all](example/source_error.png)
 
-**new features congif**
+# new features congif
 in this new version we have implemented some new features:
 1. customizable and incremental app button
 
@@ -59,7 +59,7 @@ in this new version we have implemented some new features:
 
     option: **scale:** ( this option reduces or enlarges the size of the remote control. we are testing this option )
 
-**lovelace config: custom view**
+# lovelace config: custom view
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
