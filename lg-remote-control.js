@@ -1,82 +1,10 @@
-import {
-  LitElement,
-  html,
-  css
-} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+var LitElement = LitElement || Object.getPrototypeOf(customElements.get("home-assistant-main"));
+var html = html || LitElement.prototype.html;
+var css = css || LitElement.prototype.css;
+
 class LgRemoteControl extends LitElement {
 
-static get properties() {
-  return {
-    hass: {},
-    config: {},
-    active: {}
-  };
-}
-
-constructor() {
-  super();
-}
-
-render() {
-  var entityCounter = 0;
-  return html`
-  <div class="card">
-  <div class="page">
-    ${this.config.entities.map(ent => {
-        entityCounter++;
-        const stateObj = this.hass.states[ent.entity];
-        return stateObj ? html`
-              <div class="grid-container">
-                <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
-                </div>
-                <div class="grid-item">
-                  <button class="btn-flat ripple" @click=${e => this._channellist(stateObj)}><ha-icon icon="mdi:format-list-numbered"/></button> 
-                </div>
-                <div class="grid-item">
-                  <button class="btn ripple" @click=${e => this._power(stateObj)}><ha-icon icon="mdi:power" style="color: red;"/></button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn-flat ripple" @click=${e => this._123(stateObj)}>123</button>
-                </div> 
-                <div class="grid-item smart" >
-                  <button class="btn ripple" @click=${e => this._smart(stateObj)}>SMART</button>
-                </div>
-                <div class="grid-item up" style="margin-bottom: 9px;">
-                  <button class="btn ripple" @click=${e => this._up(stateObj)}><ha-icon icon="mdi:menu-up"/></button>
-                </div>
-                <div class="grid-item input">
-                  <button class="btn ripple" @click=${e => this._input(stateObj)}>INPUT</button>
-                </div> 
-                <div class="grid-item left" style="margin-right: 4px;">
-                  <button class="btn ripple" @click=${e => this._left(stateObj)}><ha-icon icon="mdi:menu-left"/></button>
-                </div>
-                <div class="grid-item ok" style="padding: 0px;">
-                  <button class="btn bnt_ok ripple"  @click=${e => this._enter(stateObj)}>OK</button>
-                </div>
-                <div class="grid-item right" style="margin-left: 4px;">
-                  <button class="btn ripple" @click=${e => this._right(stateObj)}><ha-icon icon="mdi:menu-right"/></button>
-                </div>
-                <div class="grid-item back">
-                  <button class="btn ripple" @click=${e => this._back(stateObj)}>BACK</button>
-                </div>
-                <div class="grid-item down" style="margin-top: 9px;">
-                  <button class="btn ripple" @click=${e => this._down(stateObj)}><ha-icon icon="mdi:menu-down"/></button>
-                </div>
-                <div class="grid-item exit">
-                  <button class="btn ripple" @click=${e => this._exit(stateObj)}>EXIT</button>
-                </div> 
-
-              </div>
-              <div class="grid-container-source">
-                <div class="grid-item netflix">
-                  <button class="btn_source ripple" @click=${e => this._netflix(stateObj)}><ha-icon icon="mdi:netflix"/></button>
-                </div>
-                <div class="grid-item amazon">
-                  <button class="btn_source ripple" @click=${e => this._amazon(stateObj)}><ha-icon icon="mdi:amazon"/></button>
-                </div>
-                <div class="grid-item disney">
-                  <button class="btn_source ripple" @click=${e => this._disney(stateObj)}><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static disneyIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="21.000000pt" height="21.000000pt" viewBox="0 0 122.000000 125.000000"
                   preserveAspectRatio="xMidYMid meet">
                  <metadata>
@@ -101,10 +29,8 @@ render() {
                  l25 -88 -33 -3 c-37 -3 -140 43 -158 70 -8 13 -6 22 9 38 20 23 101 69 121 70
                  6 0 22 -39 36 -87z"/>
                  </g>
-                 </svg></button>
-                </div>
-                <div class="grid-item dazn">
-                  <button class="btn_source ripple" @click=${e => this._dazn(stateObj)}><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                 </svg>`;
+    static daznIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                     width="22.000000pt" height="20.000000pt" viewBox="0 0 324.000000 323.000000"
                     preserveAspectRatio="xMidYMid meet">
                   <metadata>
@@ -135,38 +61,130 @@ render() {
                   175 -251 175 -251 78 -1 77 0 0 394 0 395 -67 -2 -68 -2 -5 -276 -5 -276 -195
                   279 -195 279 -52 -2 c-29 -1 -55 -5 -58 -7z"/>
                   </g>
-                  </svg></button>
+                  </svg>`;
+    static iconMapping = {
+        "disney": LgRemoteControl.disneyIcon,
+        "dazn": LgRemoteControl.daznIcon
+    };
+
+    static get properties() {
+        return {
+            hass: {},
+            config: {},
+            active: {}
+        };
+    }
+
+    constructor() {
+        super();
+    }
+
+    render() {
+        const stateObj = this.hass.states[this.config.entity];
+        const scale = this.config.scale ? this.config.scale : 1;
+        return html`
+        <div class="card" style="transform: scale(${scale})">
+        <div class="page">
+              <div class="grid-container">
+                <div class="shape">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
                 </div>
+                <div class="grid-item">
+                  <button class="btn-flat ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button> 
+                </div>
+                <div class="grid-item">
+                  <button class="btn ripple" @click=${() => this._power()}><ha-icon icon="mdi:power" style="color: red;"/></button>
+                </div>
+                <div class="grid-item">
+                  <button class="btn-flat ripple" @click=${() => this._123()}>123</button>
+                </div> 
+                <div class="grid-item smart" >
+                  <button class="btn ripple" @click=${() => this._smart()}>SMART</button>
+                </div>
+                <div class="grid-item up" style="margin-bottom: 9px;">
+                  <button class="btn ripple" @click=${() => this._up()}><ha-icon icon="mdi:menu-up"/></button>
+                </div>
+                <div class="grid-item input">
+                  <button class="btn ripple" @click=${() => this._input()}>INPUT</button>
+                </div> 
+                <div class="grid-item left" style="margin-right: 4px;">
+                  <button class="btn ripple" @click=${() => this._left()}><ha-icon icon="mdi:menu-left"/></button>
+                </div>
+                <div class="grid-item ok" style="padding: 0px;">
+                  <button class="btn bnt_ok ripple"  @click=${() => this._enter()}>OK</button>
+                </div>
+                <div class="grid-item right" style="margin-left: 4px;">
+                  <button class="btn ripple" @click=${() => this._right()}><ha-icon icon="mdi:menu-right"/></button>
+                </div>
+                <div class="grid-item back">
+                  <button class="btn ripple" @click=${() => this._back()}>BACK</button>
+                </div>
+                <div class="grid-item down" style="margin-top: 9px;">
+                  <button class="btn ripple" @click=${() => this._down()}><ha-icon icon="mdi:menu-down"/></button>
+                </div>
+                <div class="grid-item exit">
+                  <button class="btn ripple" @click=${() => this._exit()}>EXIT</button>
+                </div> 
+
               </div>
+ 
+              ${this.config.sources ? html`
+                <div class="grid-container-source">
+                ${this.config.sources.map(source => {
+            return html`
+                  <div class="grid-item">
+                    <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
+                      ${LgRemoteControl.getIcon(source.icon)}
+                    </button>
+                  </div>
+                  `;
+        })}
+                </div>
+                ` : html`
+              <div class="grid-container-source">
+                <div class="grid-item netflix">
+                  <button class="btn_source ripple" @click=${() => this._netflix()}><ha-icon icon="mdi:netflix"/></button>
+                </div>
+                <div class="grid-item amazon">
+                  <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
+                </div>
+                <div class="grid-item disney">
+                  <button class="btn_source ripple" @click=${() => this._disney()}>${LgRemoteControl.disneyIcon}</button>
+                </div>
+                <div class="grid-item dazn">
+                  <button class="btn_source ripple" @click=${() => this._dazn()}>${LgRemoteControl.daznIcon}</button>
+                </div>
+              </div>`}
+
               <div class="grid-container-bottom">
                 <div class="grid-item">
-                  <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${e => this._volumeup(stateObj)}><ha-icon icon="mdi:plus"/></button>
+                  <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${() => this._volumeup()}><ha-icon icon="mdi:plus"/></button>
                 </div>
                 <div class="grid-item" style="margin-top: 0px;">
-                  <button class="btn-flat ripple" @click=${e => this._home(stateObj)}>MENU</button>
+                  <button class="btn-flat ripple" @click=${() => this._home()}>MENU</button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 50% 50% 0px 0px;" @click=${e => this._channelup(stateObj)}><ha-icon icon="mdi:menu-up"/></button>
+                  <button class="btn ripple" style="border-radius: 50% 50% 0px 0px;" @click=${() => this._channelup()}><ha-icon icon="mdi:menu-up"/></button>
                 </div>
 
                 <div class="grid-item">
                   <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' :''};" @click=${e => this._mute(stateObj)}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink': ''}">MUTO</span></button>
+                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._mute()}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
                 </div>
                 <div class="grid-item">
                   <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
                 </div>
 
                 <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;" @click=${e => this._volumedown(stateObj)}><ha-icon icon="mdi:minus"/></button>
+                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;" @click=${() => this._volumedown()}><ha-icon icon="mdi:minus"/></button>
                 </div>
                 <div class="grid-item" style="margin-bottom: 0px;">
-                  <button class="btn-flat ripple" @click=${e => this._info(stateObj)}>INFO</button>
+                  <button class="btn-flat ripple" @click=${() => this._info()}>INFO</button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;"  @click=${e => this._channeldown(stateObj)}><ha-icon icon="mdi:menu-down"/></button>
+                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;"  @click=${() => this._channeldown()}><ha-icon icon="mdi:menu-down"/></button>
                 </div>
 
                 <div class="grid-item">
@@ -177,474 +195,295 @@ render() {
                 </div>
 
                 <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${e => this._play(stateObj)}><ha-icon icon="mdi:play"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._play()}><ha-icon icon="mdi:play"/></button>
                 </div>
                   <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${e => this._pause(stateObj)}><ha-icon icon="mdi:pause"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._pause()}><ha-icon icon="mdi:pause"/></button>
                 </div>
                 <div class="grid-item ">
-                  <button class="btn-flat ripple"  @click=${e => this._stop(stateObj)}><ha-icon icon="mdi:stop"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._stop()}><ha-icon icon="mdi:stop"/></button>
                 </div>
                 <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${e => this._rewind(stateObj)}><ha-icon icon="mdi:skip-backward"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._rewind()}><ha-icon icon="mdi:skip-backward"/></button>
                 </div>
                   <div class="grid-item">
-                  <button class="btn-flat ripple" style="color: red;" @click=${e => this._record(stateObj)}><ha-icon icon="mdi:record"/></button>
+                  <button class="btn-flat ripple" style="color: red;" @click=${() => this._record()}><ha-icon icon="mdi:record"/></button>
                 </div>
                 <div class="grid-item ">
-                  <button class="btn-flat ripple"  @click=${e => this._fastforward(stateObj)}><ha-icon icon="mdi:skip-forward"/></button>
+                  <button class="btn-flat ripple"  @click=${() => this._fastforward()}><ha-icon icon="mdi:skip-forward"/></button>
                 </div>
 
               </div>
 
-<!--             <div class="curved"
 
-                <p> Una stesura provvisoria della prima parte dell'Etica fu completata da Spinoza nel 1662. Dopo la pubblicazione, nel 1663, dei Principi della filosofia di Cartesio, caratterizzati 
-                dall'esposizione more geometrico che sarebbe stata tipica anche del capolavoro di Spinoza </p> 
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="m 40 20 a 10 10 0 0 1 20 0 a 10 10 0 0 0 10 10 a 10 10 0 0 1 0 20 a 10 10 0 0 0 -10 10 a 10 10 0 0 1 -20 0 a 10 10 0 0 0 -10 -10 a 10 10 0 0 1 0 -20 a 10 10 0 0 0 10 -10" fill="#ffff00" stroke="#000000" stroke-width="1" /></svg>
-                </div> -->
-        `: html``;
-    })}
-    </div>
-    </div>
-  `;
-}
-
-updated() {}
+          </div>
+          </div>
+        `;
 
 
-_123(state) {
-this.hass.callService("browser_mod", "popup",
-      {
-        "card": {
-            "type": "custom:card-numeric-pad",
-            "entities": [
-              {
-                "entity": this.config.entities[0].entity
-              }
-            ]
-        },
-        "deviceID": ["this"],
-        "title": " ",
-        "style": {
-          "border-radius": "15px"
-        }
-        }
-    )}
-
-_channellist(state) {
-  this.hass.callService("browser_mod", "popup",
-  {
-    "card": {
-      "type": "custom:card-channel-pad",
-      "entities": [
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
-          "number": "501"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
-          "number": "502"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 3 HD.png')",
-          "number": "503"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai 4.png')",
-          "number": "521"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Sport 1.png')",
-          "number": "557"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Sport 2.png')",
-          "number": "58"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/rainews24.png')",
-          "number": "48"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai YoYo.png')",
-          "number": "43"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Movie.png')",
-          "number": "24"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rete4 HD.png')",
-          "number": "504"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Canale5 HD.png')",
-          "number": "505"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Italia1 HD.png')",
-          "number": "506"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/italia 2.png')",
-          "number": "35"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/La 5.png')",
-          "number": "30"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/LA7 HD.png')",
-          "number": "507"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/TV8.png')",
-          "number": "508"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/NOVE.png')",
-          "number": "509"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/DMAX.png')",
-          "number": "52"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Boing.png')",
-          "number": "40"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Cartoonito.png')",
-          "number": "46"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/frisbee.png')",
-          "number": "44"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Rai Gulp.png')",
-          "number": "42"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/K2.png')",
-          "number": "41"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Super!.png')",
-          "number": "47"
-        },          
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/TGCOM24.png')",
-          "number": "551"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/deejay.png')",
-          "number": "569"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/sportitalia.png')",
-          "number": "60"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/supertennis.png')",
-          "number": "64"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/EuroSport HD.png')",
-          "number": "372"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Eurosport 2 HD.png')",
-          "number": "373"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/Focus.png')",
-          "number": "35"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/cielo.png')",
-          "number": "26"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/realtime.png')",
-          "number": "31"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/IRIS.png')",
-          "number": "22"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/paramount.png')",
-          "number": "31"
-        },
-        {
-          "entity": this.config.entities[0].entity,
-          "image": "url('/local/lg_remote/tv_logo/teleradiostereo.png')",
-          "number": "27"
-        }
-      ]
-    },
-    "deviceID": [
-      "this"
-    ],
-    "title": " ",
-    "large": true,
-    "style": {
-      "border-radius": "15px"
     }
-  }
-      )}
 
-_smart(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "tv/getChannelList"
-  });
-}
-
-_smart2(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "TV_CHANNEL_DOWN"
-  });
-}
-
-_input(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "GET_SYSTEM_SETTINGS"
-  });
-}
-
-_power(state) {
-  this.hass.callService("media_player", "toggle", {
-    entity_id: state.entity_id,
-  });
-}
-
-_up(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "UP" 
-  });
-}
-
-_down(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "DOWN"  
-  });
-}
-
-_left(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "LEFT"   
-  });
-}
-
-_enter(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "ENTER"  
-  });
-}
-
-_right(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "RIGHT"  
-  });
-}
-
-_back(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "BACK" 
-  });
-}
-
-_exit(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "EXIT"  
-  });
-}
-
-_netflix(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "Netflix"  
-  });
-}
+    updated() {
+    }
 
 
-_amazon(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "Amazon Prime Video"  
-  });
-}
+    _123() {
+        this.hass.callService("browser_mod", "popup",
+            {
+                "card": {
+                    "type": "custom:card-numeric-pad",
+                    "entity": this.config.entity
+                },
+                "deviceID": ["this"],
+                "title": " ",
+                "style": {
+                    "border-radius": "15px"
+                }
+            }
+        )
+    }
 
-_disney(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "Disney+"  
-  });
-}
+    _channelList() {
+        this.hass.callService("browser_mod", "popup",
+            {
+                "card": {
+                    "type": "custom:card-channel-pad",
+                    "entity": this.config.entity,
+                    "channels": this.config.channels
+                },
+                "deviceID": [
+                    "this"
+                ],
+                "title": " ",
+                "large": true,
+                "style": {
+                    "border-radius": "15px"
+                }
+            }
+        )
+    }
 
-_dazn(state) {
-  this.hass.callService("media_player", "select_source", {
-    entity_id: state.entity_id,
-    source: "DAZN" 
-  });
-}
+    _smart() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "tv/getChannelList"
+        });
+    }
 
-_volumeup(state) {
-  this.hass.callService("media_player", "volume_up", {entity_id: state.entity_id});
-}
+    _smart2() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "TV_CHANNEL_DOWN"
+        });
+    }
 
-_home(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "HOME" 
-  });
-}
+    _input() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "GET_SYSTEM_SETTINGS"
+        });
+    }
 
-_channelup(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "CHANNELUP"
-  });
-}
+    _power() {
+        this.hass.callService("media_player", "toggle", {
+            entity_id: this.config.entity,
+        });
+    }
 
-_mute(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "MUTE"
-  });
-}
+    _up() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "UP"
+        });
+    }
 
-_volumedown(state) {
-  this.hass.callService("media_player", "volume_down", {
-    entity_id: state.entity_id    
-  });
-}
+    _down() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "DOWN"
+        });
+    }
 
-_info(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "INFO"
-  });
-}
+    _left() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "LEFT"
+        });
+    }
 
-_channeldown(state) {
-  this.hass.callService("webostv", "button", {
-    entity_id: state.entity_id,
-    button: "CHANNELDOWN"
-  });
-}
+    _enter() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "ENTER"
+        });
+    }
 
-_play(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/play"
-  });
-}
+    _right() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "RIGHT"
+        });
+    }
 
-_pause(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/pause"
-  });
-}
+    _back() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "BACK"
+        });
+    }
 
-_stop(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/stop"
-  });
-}
+    _exit() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "EXIT"
+        });
+    }
 
-_rewind(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/rewind"
-  });
-}
+    _select_source(source) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: source
+        });
+    }
 
-_record(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/Record"
-  });
-}
-
-_fastforward(state) {
-  this.hass.callService("webostv", "command", {
-    entity_id: state.entity_id,
-    command: "media.controls/fastForward"
-});
-}
+    _netflix() {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: "Netflix"
+        });
+    }
 
 
+    _amazon() {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: "Amazon Prime Video"
+        });
+    }
+
+    _disney() {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: "Disney+"
+        });
+    }
+
+    _dazn() {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: "DAZN"
+        });
+    }
+
+    _volumeup() {
+        this.hass.callService("media_player", "volume_up", {
+            entity_id: this.config.entity
+        });
+    }
+
+    _home() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "HOME"
+        });
+    }
+
+    _channelup() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "CHANNELUP"
+        });
+    }
+
+    _mute() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "MUTE"
+        });
+    }
+
+    _volumedown() {
+        this.hass.callService("media_player", "volume_down", {
+            entity_id: this.config.entity
+        });
+    }
+
+    _info() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "INFO"
+        });
+    }
+
+    _channeldown() {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: "CHANNELDOWN"
+        });
+    }
+
+    _play() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "media.controls/play"
+        });
+    }
+
+    _pause() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "media.controls/pause"
+        });
+    }
+
+    _stop() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "media.controls/stop"
+        });
+    }
+
+    _rewind() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "media.controls/rewind"
+        });
+    }
+
+    _record() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "media.controls/Record"
+        });
+    }
+
+    _fastforward() {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: "media.controls/fastForward"
+        });
+    }
 
 
+    setConfig(config) {
+        if (!config.entity) {
+            console.log("Invalid configuration");
+        }
+        this.config = config;
+    }
 
+    getCardSize() {
+        return 2;
+    }
 
+    static getIcon(iconName) {
+        return Object.keys(this.iconMapping).includes(iconName)
+            ? this.iconMapping[iconName]
+            : html`<ha-icon icon="${iconName}"/>`;
+    }
 
-
-
-setConfig(config) {
-  if (!config.entities) {
-    throw new Error("You need to define entities");
-  }
-  this.config = config;
-}
-
-getCardSize() {
-  return this.config.entities.length + 1;
-}
-
-static get styles() {
-  return css`
+    static get styles() {
+        return css`
   button:focus {outline:0;}
 
   /*Create ripple effec*/
@@ -696,11 +535,12 @@ static get styles() {
 
   .page {
     width:300px;
-    height: 750px;
+    height: 100%;
     display: inline-block;
     flex-direction: row;
     border: 1px solid var(--app-header-text-color);
     border-radius: 35px;
+    padding-bottom: 20px;
   }
   .grid-container {
     display: grid;
@@ -863,7 +703,7 @@ static get styles() {
 
   }
   `;
-}  
+    }
 
 }
 

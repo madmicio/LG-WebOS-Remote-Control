@@ -1,3 +1,10 @@
+# BREAKING CHANGE
+please read the new configuration carefully
+
+new options available
+
+the project is now curated and developed in collaboration with [Piotr Machowski](https://github.com/PiotrMachowski)
+
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
@@ -25,12 +32,59 @@ custom card: "card-numeric-pad" is required.(you can find it on my github)
 "#333336" referred to the dark remote control
 obviously you can customize the color to harmonize the remote control with your theme
 
-lovelace config:
+# lovelace config: default view
 ```yaml
 - type: 'custom:lg-remote-control'
-  entities:
-    - entity: media_player.tv_lg_55c8
+  entity: media_player.tv_lg_55c8
 ```
+# Channel pad
+in this version of the card there is no longer a "channel pad popup" with preset channels.
+this is to give each user the ability to create his own list.
+
+"channels" configuration is not mandatory. if "channels" is not configured the remote control will work normally but you will not be able to use the channel pad.
+pressing the button on the remote control you will receive this message.
+![all](example/source_error.png)
+
+# New Features Congif
+in this new version we have implemented some new features:
+1. customizable and incremental app button
+
+    option: **sources:** ( if you do not configure this option, the remote control will display the default apps)
+
+2. customizable channel pad
+
+    option: **channels:** ( if you do not configure this option, on button click you recive an error message)
+
+3. customizable scale:
+
+    option: **scale:** ( this option reduces or enlarges the size of the remote control. we are testing this option )
+
+# lovelace config: custom view
+```yaml
+- type: 'custom:lg-remote-control'
+  entity: media_player.tv_lg_55c8
+  sources:
+    - name: Netflilx
+      icon: 'mdi:netflilx'
+    - name: Disney
+      icon: disney
+    - name: Dazn
+      icon: dazn
+    - name: YouTube
+      icon: 'mdi:youtube-tv'
+    - name: HDMI 1
+      icon: 'mdi:video-input-hdmi'
+    - name: HDMI 2
+      icon: 'mdi:video-input-hdmi'
+  channels:
+    - image: /local/images/tv_logo/channel_1.png
+      number: '1'
+    - image: /local/images/tv_logo/channel_2.png
+      number: '1'
+  scale: 1
+   
+```
+**note: disney and danz are special icon. so you you must enter it as in the example**
 
 ## hacs Card install
 1. add custom reposity: madmicio/LG-WebOS-Remote-Control as plugin.
@@ -60,27 +114,26 @@ resources:
   
   ## Install Tv Logo
   
-  1. download tv_logo direcoty into www/lg_remote/tv_logo
-  
-  ## chanel pad setup
-  
-  in this version the only way to edit thi pannel is edit "lg-remote-control.js"
-  
-  you can easily find a list of channels structured like this:
+  1. download tv_logo
+  2. direcoty put the images file where you prefer (we suggest: www / images / tv_logo)
+  3. calls the image in the configuration as in the example 
 ```yaml
-  {
-    "entity": "media_player.tv_lg_55c8",
-    "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
-    "number": "501"
-  },
-  {
-    "entity": "media_player.tv_lg_55c8",
-    "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
-    "number": "502"
-  },
+image: /local/your_directory/your_file.png
 ```
+**new_tv logo**
+at this moment only tv logo of italian tv are available.
+users who produce other logos are invited to share them, so we could have a complete and international library
+**new logo spec**
+height: 268px
+width: 171px
+background: transparent
+image must have 10px margin like this example:
 
-**popup button**
+![all](example/logo_example.png)![all](example/logo_area3.png)
+
+
+## Popup Buttons
+
 ![all](example/popup.png)
 
 **NOTE**
