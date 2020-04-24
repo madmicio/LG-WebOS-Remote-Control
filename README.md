@@ -110,28 +110,12 @@ resources:
   ## Install Tv Logo
   
   1. download tv_logo
-  2. direcoty put the images file where you prefer
-  3. calls the image in the configuration as in the example
+  2. direcoty put the images file where you prefer (we suggest: www / images / tv_logo)
+  3. calls the image in the configuration as in the example 
 ```yaml
 image: /local/your_directory/your_file.png
 ```
-  ## chanel pad setup
-  
-  in this version the only way to edit thi pannel is edit "lg-remote-control.js"
-  
-  you can easily find a list of channels structured like this:
-```yaml
-  {
-    "entity": "media_player.tv_lg_55c8",
-    "image": "url('/local/lg_remote/tv_logo/Rai 1 HD.png')",
-    "number": "501"
-  },
-  {
-    "entity": "media_player.tv_lg_55c8",
-    "image": "url('/local/lg_remote/tv_logo/Rai 2 HD.png')",
-    "number": "502"
-  },
-```
+
 
 **popup button**
 ![all](example/popup.png)
