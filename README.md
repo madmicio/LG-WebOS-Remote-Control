@@ -121,8 +121,9 @@ users who produce other logos are invited to share them, so we could have a comp
 **new logo spec**
 height: 268px
 width: 171px
+background: transparent
 image must have 10px margin like this example:
-![all](example/logo_example.png)![all](example/logo_area2.png)
+![all](example/logo_example.png)![all](example/logo_area3.png)
 
 
 **popup button**
