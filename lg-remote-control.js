@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("home-as
 var html = html || LitElement.prototype.html;
 var css = css || LitElement.prototype.css;
 
-class LgRemoteControl extends LitElement {
+class TestLgRemoteControl extends LitElement {
 
     static disneyIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="21.000000pt" height="21.000000pt" viewBox="0 0 122.000000 125.000000"
@@ -63,8 +63,8 @@ class LgRemoteControl extends LitElement {
                   </g>
                   </svg>`;
     static iconMapping = {
-        "disney": LgRemoteControl.disneyIcon,
-        "dazn": LgRemoteControl.daznIcon
+        "disney": TestLgRemoteControl.disneyIcon,
+        "dazn": TestLgRemoteControl.daznIcon
     };
 
     static get properties() {
@@ -81,14 +81,13 @@ class LgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
+        const cardHeight = 750 + (this.config.sources ? Math.floor((this.config.sources.length - 1) / 4) * 42 : 0);
         const scale = this.config.scale ? this.config.scale : 1;
         return html`
         <div class="card" style="transform: scale(${scale})">
-        <div class="page">
-              <div class="grid-container">
-                <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
-                </div>
+        <div class="page" style="height: ${cardHeight}px">
+              <div class="grid-container-power">
+                
                 <div class="grid-item">
                   <button class="btn-flat ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button> 
                 </div>
@@ -97,7 +96,12 @@ class LgRemoteControl extends LitElement {
                 </div>
                 <div class="grid-item">
                   <button class="btn-flat ripple" @click=${() => this._123()}>123</button>
-                </div> 
+                </div>
+              </div>
+<!--              <div class="grid-container">
+                <div class="shape">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                </div>
                 <div class="grid-item smart" >
                   <button class="btn ripple" @click=${() => this._smart()}>SMART</button>
                 </div>
@@ -126,15 +130,119 @@ class LgRemoteControl extends LitElement {
                   <button class="btn ripple" @click=${() => this._exit()}>EXIT</button>
                 </div> 
 
+              </div> -->
+
+<!--                <div class="grid-container-input-sound">
+                <div class="shape">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 a 10 10 0 0 1 10 10 v 25 a 10 10 0 0 1 -10 10 h -50 a 10 10 0 0 1 -10 -10 v -50 a 10 10 0 0 1 10 -10 z " fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                </div>
+                <div class="grid-item go_back_right">
+                  <button class="btn ripple" @click=${() => this._go_back()}>back</button>
+                </div>
+                  <div class="hdmi-container">
+                    <div class="grid-item_hdmi-sound">
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 1</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 2</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 3</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 4</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HBO GO</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>IPLA</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>FILM</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>MUZYKA</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>PLEX</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 10</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 11</button>
+                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 12</button>
+                      
+                    </div> 
+                  </div> 
+
+
+              </div> -->
+<-- ############################### source list div ( i add a lot of button div to simulate tv list)########## -->
+<!--              <div class="grid-container-input">
+                <div class="shape-input">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 h 5 a 10 10 0 0 1 10 10 h -80 v -25 a 10 10 0 0 1 10 -10 z m 0 0" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                </div>
+                <div class="shape-input-background">
+                </div>
+                <div class="grid-item go_back_right">
+                  <button class="btn ripple" @click=${() => this._go_back()}>back</button>
+                </div>
+                <div class="source_text">
+                  <p><b>SOURCE</b></p>
+                </div>
+                <div class="grid-item-hdmi-sound">
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 1</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 2</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 3</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 4</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HBO GO</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>IPLA</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>FILM</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>MUZYKA</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>PLEX</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 10</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 11</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 12</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HBO GO</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>IPLA</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>FILM</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>MUZYKA</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>PLEX</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 10</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 11</button>
+                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 12</button>
+
+
+
+                </div> 
+              </div> -->
+<!-- ######################################### sound output ( it's a draft. the final version will be more beautiful)####### -->
+              <div class="grid-container-sound">
+                <div class="shape-sound">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 h 30 a 10 10 0 0 1 10 10 v 25 h -80 a 10 10 0 0 1 10 -10 h 5 a 15 15 0 0 0 15 -15 a 10 10 0 0 1 10 -10" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                </div>
+                <div class="grid-item go_back_left">
+                  <button class="btn ripple" @click=${() => this._go_back()}>back</button>
+                </div>
+                <div class="sound_text">
+                  <p><b>SOUND</b></p>
+                </div>
               </div>
- 
-              ${this.config.sources ? html`
+              <div class="grid-container-sound-button">
+                <div class="grid-item tv_speaker">
+                    <button class="btn_sound  ripple overlay" style="width: 240px;" @click=${() => this._tv_speaker()}>TV SPEAKER</button>
+                </div>
+                <div class="grid-item int+optic">
+                  <button class="btn_sound  ripple overlay" @click=${() => this._intoptic()}>int+optic</button>
+                  </div>
+                <div class="grid-item int+jack">
+                  <button class="btn_sound  ripple overlay" @click=${() => this._intjack()}>int+jack</button>
+                  </div>
+                <div class="grid-item optical">
+                  <button class="btn_sound  ripple overlay" @click=${() => this._optical()}>optical</button>
+                  </div>
+                <div class="grid-item arc">
+                  <button class="btn_sound  ripple overlay" @click=${() => this._arc()}>arc</button>
+                  </div>
+                <div class="grid-item line">
+                  <button class="btn_sound  ripple overlay" @click=${() => this._lineout()}>lineout</button>
+                  </div>
+                <div class="grid-item headphone">
+                  <button class="btn_sound  ripple overlay" @click=${() => this._go_back()}>headphone</button>
+                </div>
+              </div>
+<!-- ################################# end div sound ############################ -->
+            
+
+<!--              ${this.config.sources ? html`
                 <div class="grid-container-source">
                 ${this.config.sources.map(source => {
             return html`
                   <div class="grid-item">
                     <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
-                      ${LgRemoteControl.getIcon(source.icon)}
+                      ${TestLgRemoteControl.getIcon(source.icon)}
                     </button>
                   </div>
                   `;
@@ -149,12 +257,12 @@ class LgRemoteControl extends LitElement {
                   <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
                 </div>
                 <div class="grid-item disney">
-                  <button class="btn_source ripple" @click=${() => this._disney()}>${LgRemoteControl.disneyIcon}</button>
+                  <button class="btn_source ripple" @click=${() => this._disney()}>${TestLgRemoteControl.disneyIcon}</button>
                 </div>
                 <div class="grid-item dazn">
-                  <button class="btn_source ripple" @click=${() => this._dazn()}>${LgRemoteControl.daznIcon}</button>
+                  <button class="btn_source ripple" @click=${() => this._dazn()}>${TestLgRemoteControl.daznIcon}</button>
                 </div>
-              </div>`}
+              </div>`} -->
 
               <div class="grid-container-bottom">
                 <div class="grid-item">
@@ -213,7 +321,7 @@ class LgRemoteControl extends LitElement {
                   <button class="btn-flat ripple"  @click=${() => this._fastforward()}><ha-icon icon="mdi:skip-forward"/></button>
                 </div>
 
-              </div>
+              </div> 
 
 
           </div>
@@ -472,6 +580,20 @@ class LgRemoteControl extends LitElement {
         this.config = config;
     }
 
+    _tv_speaker() {
+      this.hass.callService("webostv", "select_sound_output", {
+          entity_id: this.config.entity,
+          sound_output: "tv_speaker"
+      });
+  }
+
+  _arc() {
+    this.hass.callService("webostv", "select_sound_output", {
+        entity_id: this.config.entity,
+        sound_output: "external_arc"
+    });
+}
+
     getCardSize() {
         return 2;
     }
@@ -535,22 +657,57 @@ class LgRemoteControl extends LitElement {
 
   .page {
     width:300px;
-    height: 100%;
+    height: 750px;
     display: inline-block;
     flex-direction: row;
     border: 1px solid var(--app-header-text-color);
     border-radius: 35px;
-    padding-bottom: 20px;
   }
-  .grid-container {
+
+  .grid-container-power {
     display: grid;
     grid-template-columns: auto auto auto;
-    grid-template-rows: 86px 86px 86px 86px;
+    grid-template-rows: 86px;
     background-color: transparent;
     padding: 7px 20px 0px 20px;
     overflow: hidden;
   }
 
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 86px;
+    background-color: transparent;
+    padding: 0px 20px 0px 20px;
+    overflow: hidden;
+  }
+
+  .grid-container-input {
+    display: grid;
+    grid-template-columns: 33% 34% 33%;
+    grid-template-rows: 86px 43px 518px;
+    background-color: transparent;
+    padding: 0px 20px 0px 20px;
+    overflow: hidden;
+  }
+  .grid-container-sound {
+    display: grid;
+    grid-template-columns: 33% 34% 33%;
+    grid-template-rows: 86px 43px;
+    background-color: transparent;
+    padding: 0px 20px 0px 20px;
+    overflow: hidden;
+  }
+  .grid-container-sound-button{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 45px 45px 45px 45px;
+    background-color: var(--deactive-background-button-color);
+    margin: 0px 20px 0px 20px;
+    padding-bottom: 12px;
+     overflow: hidden;
+    border-radius: 0px 0px 35px 35px;
+  }
   .grid-container-source {
     display: grid;
     grid-template-columns: auto auto auto auto;
@@ -575,75 +732,223 @@ class LgRemoteControl extends LitElement {
     overflow: hidden;
   }
 
-  .shape {
+  .grid-item-hdmi-sound{
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 2;
-    grid-row-end: 5;
+    grid-row-end: 4;
+    grid-template-columns: auto auto ;
+    grid-template-rows: 60px;
+    background-color: transparent;
+    margin: auto;
+    overflow: scroll;
+    height: 509px;
+    margin-top: 30px;
+    
+    
+  }
+  .grid-item-sound{
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    background-color: transparent;
+    margin: auto;
+    overflow: hidden;
+    height: 509px;
+    margin-top: 30px;
+    
+  }
+
+
+
+  .grid-item-hdmi-sound::-webkit-scrollbar {
+    display: none;
+  }
+  .grid-item-hdmi-sound::-webkit-scrollbar {
+    -ms-overflow-style: none;
+  }
+
+  .shape {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    
+  }
+  .shape-input {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    
+  }
+  .shape-sound {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    
+  }
+  .shape-input-background {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    background-color: var(--deactive-background-button-color);
+    border-radius: 0px 0px 35px 35px;
+    
+  }
+
+  .hdmi-container {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    display: block:
+    width: 100%;
+    margin: auto;
+    
+  }
+
+  .source_text {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    text-align: center;
+    margin-top: 25px;
+    font-size: 30px;
+
+    opacity: 0.3;
+  }
+  .sound_text {
+    grid-column-start: 2;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    text-align: center;
+    margin-top: 25px;
+    font-size: 30px;
+
+    opacity: 0.3;
   }
 
   .smart {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
   }
 
   .up {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
   }
 
   .input {
     grid-column-start: 3;
     grid-column-end: 4;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
   }
 
   .left {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
   }
 
   .ok {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
   }
   .right {
     grid-column-start: 3;
     grid-column-end: 4;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
   }
 
   .back {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-row-start: 4;
-    grid-row-end: 5;
+    grid-row-start: 3;
+    grid-row-end: 4;
   }
 
   .down {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 4;
-    grid-row-end: 5;
+    grid-row-start: 3;
+    grid-row-end: 4;
   }
   .exit {
     grid-column-start: 3;
     grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+
+  .go_back_right {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  .go_back_left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  .tv_speaker {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  .int+optic {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .int+jack {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .arc {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+  .optical {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+  .line {
+    grid-column-start: 1;
+    grid-column-end: 2;
     grid-row-start: 4;
     grid-row-end: 5;
   }
-
-
+  .headphone {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
+  }
 
   
   
@@ -677,6 +982,40 @@ class LgRemoteControl extends LitElement {
     cursor: pointer;
     
   }
+  .btn_hdmi-sound {
+    background-color: var(--deactive-background-button-color);
+    color: var(--primary-text-color);
+    font-size: 14px;
+    width: 246px;
+    height: 42px;
+    border-width: 0px;
+    border-radius: 15px;
+    margin: auto;
+    place-items: center;
+    display: block;
+    cursor: pointer;
+    border: solid 2px var(--primary-background-color);
+    
+  }
+
+  .btn_sound {
+    background-color: var(--deactive-background-button-color);
+    color: var(--primary-text-color);
+    font-size: 14px;
+    width: 110px;
+    height: 32px;
+    border-width: 0px;
+    border-radius: 15px;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+    border: solid 2px var(--primary-background-color);
+    
+  }
+
+  .overlay {
+    background-color: rgba(0,0,0,0.1)
+  }
 
   .btn-flat {
     background-color: var(--deactive-background-button-color); //rgba(255, 0, 0, 1);
@@ -688,7 +1027,6 @@ class LgRemoteControl extends LitElement {
     border-radius: 15px;
     margin: auto;
     display :grid;
-    place-items: center;
     place-items: center;
     display: inline-block;
     cursor: pointer;
@@ -707,4 +1045,4 @@ class LgRemoteControl extends LitElement {
 
 }
 
-customElements.define('lg-remote-control', LgRemoteControl);
+customElements.define('test-lg-remote-control', TestLgRemoteControl);
