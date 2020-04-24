@@ -45,7 +45,7 @@ this is to give each user the ability to create his own list.
 pressing the button on the remote control you will receive this message.
 ![all](example/source_error.png)
 
-# new features congif
+# New Features Congif
 in this new version we have implemented some new features:
 1. customizable and incremental app button
 
