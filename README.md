@@ -1,3 +1,9 @@
+# BREAKING CHANGE
+please read the new configuration carefully
+new options available
+
+the project is now curated and developed in collaboration with [Piotr Machowski](https://github.com/PiotrMachowski)
+
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
