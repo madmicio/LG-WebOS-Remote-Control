@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("home-as
 var html = html || LitElement.prototype.html;
 var css = css || LitElement.prototype.css;
 
-class TestLgRemoteControl extends LitElement {
+class LgRemoteControl extends LitElement {
 
     static disneyIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="21.000000pt" height="21.000000pt" viewBox="0 0 122.000000 125.000000"
@@ -63,8 +63,8 @@ class TestLgRemoteControl extends LitElement {
                   </g>
                   </svg>`;
     static iconMapping = {
-        "disney": TestLgRemoteControl.disneyIcon,
-        "dazn": TestLgRemoteControl.daznIcon
+        "disney": LgRemoteControl.disneyIcon,
+        "dazn": LgRemoteControl.daznIcon
     };
 
     static get properties() {
@@ -81,11 +81,10 @@ class TestLgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const cardHeight = 750 + (this.config.sources ? Math.floor((this.config.sources.length - 1) / 4) * 42 : 0);
         const scale = this.config.scale ? this.config.scale : 1;
         return html`
         <div class="card" style="transform: scale(${scale})">
-        <div class="page" style="height: ${cardHeight}px">
+        <div class="page">
               <div class="grid-container">
                 <div class="shape">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
@@ -135,7 +134,7 @@ class TestLgRemoteControl extends LitElement {
             return html`
                   <div class="grid-item">
                     <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
-                      ${TestLgRemoteControl.getIcon(source.icon)}
+                      ${LgRemoteControl.getIcon(source.icon)}
                     </button>
                   </div>
                   `;
@@ -150,10 +149,10 @@ class TestLgRemoteControl extends LitElement {
                   <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
                 </div>
                 <div class="grid-item disney">
-                  <button class="btn_source ripple" @click=${() => this._disney()}>${TestLgRemoteControl.disneyIcon}</button>
+                  <button class="btn_source ripple" @click=${() => this._disney()}>${LgRemoteControl.disneyIcon}</button>
                 </div>
                 <div class="grid-item dazn">
-                  <button class="btn_source ripple" @click=${() => this._dazn()}>${TestLgRemoteControl.daznIcon}</button>
+                  <button class="btn_source ripple" @click=${() => this._dazn()}>${LgRemoteControl.daznIcon}</button>
                 </div>
               </div>`}
 
@@ -536,11 +535,12 @@ class TestLgRemoteControl extends LitElement {
 
   .page {
     width:300px;
-    height: 750px;
+    height: 100%;
     display: inline-block;
     flex-direction: row;
     border: 1px solid var(--app-header-text-color);
     border-radius: 35px;
+    padding-bottom: 20px;
   }
   .grid-container {
     display: grid;
@@ -707,4 +707,4 @@ class TestLgRemoteControl extends LitElement {
 
 }
 
-customElements.define('test-lg-remote-control', TestLgRemoteControl);
+customElements.define('lg-remote-control', LgRemoteControl);
