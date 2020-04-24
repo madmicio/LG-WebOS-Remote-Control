@@ -115,6 +115,13 @@ resources:
 ```yaml
 image: /local/your_directory/your_file.png
 ```
+**new_tv logo**
+at this moment only tv logo of italian tv are available.
+users who produce other logos are invited to share them, so we could have a complete and international library
+**new logo spec**
+height: 268px
+width: 171px
+image must have 10px margin like this example:
 
 
 **popup button**
