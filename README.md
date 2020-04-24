@@ -25,12 +25,47 @@ custom card: "card-numeric-pad" is required.(you can find it on my github)
 "#333336" referred to the dark remote control
 obviously you can customize the color to harmonize the remote control with your theme
 
-lovelace config:
+**lovelace config: default view**
 ```yaml
 - type: 'custom:lg-remote-control'
-  entities:
-    - entity: media_player.tv_lg_55c8
+  entity: media_player.tv_lg_55c8
 ```
+
+**new features congif**
+in this new version we have implemented some new features:
+  - customizable and incremental app buttons
+    option: **source:** ( if you do not configure this option, the remote control will display the default apps)
+  - customizable channel list
+    option: **channels:** ( if you do not configure this option, the remote control will display the default channels list)
+  - customizable channel list
+    option: **scale:** ( this option reduces or enlarges the size of the remote control. we are testing this option )
+
+**lovelace config: custom view**
+```yaml
+- type: 'custom:lg-remote-control'
+  entity: media_player.tv_lg_55c8
+  sources:
+    - name: Netflilx
+      icon: 'mdi:netflilx'
+    - name: Disney
+      icon: disney
+    - name: Dazn
+      icon: dazn
+    - name: YouTube
+      icon: 'mdi:youtube-tv'
+    - name: HDMI 1
+      icon: 'mdi:video-input-hdmi'
+    - name: HDMI 2
+      icon: 'mdi:video-input-hdmi'
+  channels:
+    - image: /local/images/channel_1.png
+      number: '1'
+    - image: /local/images/channel_2.png
+      number: '1'
+  scale: 0,5
+   
+```
+**note: disney and danz are special icon. so you you must enter it as in the example**
 
 ## hacs Card install
 1. add custom reposity: madmicio/LG-WebOS-Remote-Control as plugin.
