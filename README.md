@@ -41,8 +41,9 @@ obviously you can customize the color to harmonize the remote control with your 
 in this version of the card there is no longer a "channel pad popup" with preset channels.
 this is to give each user the ability to create his own list.
 
-source configuration is not mandatory. if "source:" is not configured the remote control will work normally but you will not be able to use the channel pad.
+"source:" configuration is not mandatory. if "source:" is not configured the remote control will work normally but you will not be able to use the channel pad.
 pressing the button on the remote control you will receive this message.
+![all](example/source_error.png)
 
 **new features congif**
 in this new version we have implemented some new features:
