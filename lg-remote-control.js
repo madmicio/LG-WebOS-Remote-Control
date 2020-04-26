@@ -412,7 +412,7 @@ class TestLgRemoteControl extends LitElement {
     }
 
     getCardSize() {
-        return 2;
+        return 15;
     }
 
     static getIcon(iconName) {
