@@ -71,262 +71,239 @@ class TestLgRemoteControl extends LitElement {
         return {
             hass: {},
             config: {},
-            active: {}
+            _show_inputs: {},
+            _show_sound_output: {}
         };
     }
 
     constructor() {
         super();
+        this._show_inputs = false;
+        this._show_sound_output = false;
     }
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const cardHeight = 750 + (this.config.sources ? Math.floor((this.config.sources.length - 1) / 4) * 42 : 0);
         const scale = this.config.scale ? this.config.scale : 1;
         return html`
-        <div class="card" style="transform: scale(${scale})">
-        <div class="page" style="height: ${cardHeight}px">
-              <div class="grid-container-power">
-                
-                <div class="grid-item">
-                  <button class="btn-flat ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button> 
-                </div>
-                <div class="grid-item">
-                  <button class="btn ripple" @click=${() => this._power()}><ha-icon icon="mdi:power" style="color: red;"/></button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn-flat ripple" @click=${() => this._123()}>123</button>
-                </div>
-              </div>
-<!--              <div class="grid-container">
-                <div class="shape">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
-                </div>
-                <div class="grid-item smart" >
-                  <button class="btn ripple" @click=${() => this._smart()}>SMART</button>
-                </div>
-                <div class="grid-item up" style="margin-bottom: 9px;">
-                  <button class="btn ripple" @click=${() => this._up()}><ha-icon icon="mdi:menu-up"/></button>
-                </div>
-                <div class="grid-item input">
-                  <button class="btn ripple" @click=${() => this._input()}>INPUT</button>
-                </div> 
-                <div class="grid-item left" style="margin-right: 4px;">
-                  <button class="btn ripple" @click=${() => this._left()}><ha-icon icon="mdi:menu-left"/></button>
-                </div>
-                <div class="grid-item ok" style="padding: 0px;">
-                  <button class="btn bnt_ok ripple"  @click=${() => this._enter()}>OK</button>
-                </div>
-                <div class="grid-item right" style="margin-left: 4px;">
-                  <button class="btn ripple" @click=${() => this._right()}><ha-icon icon="mdi:menu-right"/></button>
-                </div>
-                <div class="grid-item back">
-                  <button class="btn ripple" @click=${() => this._back()}>BACK</button>
-                </div>
-                <div class="grid-item down" style="margin-top: 9px;">
-                  <button class="btn ripple" @click=${() => this._down()}><ha-icon icon="mdi:menu-down"/></button>
-                </div>
-                <div class="grid-item exit">
-                  <button class="btn ripple" @click=${() => this._exit()}>EXIT</button>
-                </div> 
+            <div class="card" style="transform: scale(${scale})">
+            <div class="page">
+                  <div class="grid-container-power">
 
-              </div> -->
-
-<!--                <div class="grid-container-input-sound">
-                <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 a 10 10 0 0 1 10 10 v 25 a 10 10 0 0 1 -10 10 h -50 a 10 10 0 0 1 -10 -10 v -50 a 10 10 0 0 1 10 -10 z " fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
-                </div>
-                <div class="grid-item go_back_right">
-                  <button class="btn ripple" @click=${() => this._go_back()}>back</button>
-                </div>
-                  <div class="hdmi-container">
-                    <div class="grid-item_hdmi-sound">
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 1</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 2</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 3</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 4</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HBO GO</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>IPLA</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>FILM</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>MUZYKA</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>PLEX</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 10</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 11</button>
-                      <button class="btn_hdmi-sound  ripple" @click=${() => this._go_back()}>HDMI 12</button>
-                      
-                    </div> 
-                  </div> 
-
-
-              </div> -->
-<-- ############################### source list div ( i add a lot of button div to simulate tv list)########## -->
-<!--              <div class="grid-container-input">
-                <div class="shape-input">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 h 5 a 10 10 0 0 1 10 10 h -80 v -25 a 10 10 0 0 1 10 -10 z m 0 0" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
-                </div>
-                <div class="shape-input-background">
-                </div>
-                <div class="grid-item go_back_right">
-                  <button class="btn ripple" @click=${() => this._go_back()}>back</button>
-                </div>
-                <div class="source_text">
-                  <p><b>SOURCE</b></p>
-                </div>
-                <div class="grid-item-hdmi-sound">
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 1</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 2</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 3</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 4</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HBO GO</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>IPLA</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>FILM</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>MUZYKA</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>PLEX</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 10</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 11</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 12</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HBO GO</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>IPLA</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>FILM</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>MUZYKA</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>PLEX</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 10</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 11</button>
-                <button class="btn_hdmi-sound  ripple overlay" @click=${() => this._go_back()}>HDMI 12</button>
-
-
-
-                </div> 
-              </div> -->
-<!-- ######################################### sound output ( it's a draft. the final version will be more beautiful)####### -->
-              <div class="grid-container-sound">
-                <div class="shape-sound">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 h 30 a 10 10 0 0 1 10 10 v 25 h -80 a 10 10 0 0 1 10 -10 h 5 a 15 15 0 0 0 15 -15 a 10 10 0 0 1 10 -10" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
-                </div>
-                <div class="grid-item go_back_left">
-                  <button class="btn ripple" @click=${() => this._go_back()}>back</button>
-                </div>
-                <div class="sound_text">
-                  <p><b>SOUND</b></p>
-                </div>
-              </div>
-              <div class="grid-container-sound-button">
-                <div class="grid-item tv_speaker">
-                    <button class="btn_sound  ripple overlay" style="width: 240px;" @click=${() => this._tv_speaker()}>TV SPEAKER</button>
-                </div>
-                <div class="grid-item int+optic">
-                  <button class="btn_sound  ripple overlay" @click=${() => this._intoptic()}>int+optic</button>
+                    <div class="grid-item">
+                      <button class="btn-flat ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: red;"/></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn-flat ripple" @click=${() => this._123()}>123</button>
+                    </div>
                   </div>
-                <div class="grid-item int+jack">
-                  <button class="btn_sound  ripple overlay" @click=${() => this._intjack()}>int+jack</button>
-                  </div>
-                <div class="grid-item optical">
-                  <button class="btn_sound  ripple overlay" @click=${() => this._optical()}>optical</button>
-                  </div>
-                <div class="grid-item arc">
-                  <button class="btn_sound  ripple overlay" @click=${() => this._arc()}>arc</button>
-                  </div>
-                <div class="grid-item line">
-                  <button class="btn_sound  ripple overlay" @click=${() => this._lineout()}>lineout</button>
-                  </div>
-                <div class="grid-item headphone">
-                  <button class="btn_sound  ripple overlay" @click=${() => this._go_back()}>headphone</button>
-                </div>
-              </div>
-<!-- ################################# end div sound ############################ -->
-            
 
-<!--              ${this.config.sources ? html`
-                <div class="grid-container-source">
-                ${this.config.sources.map(source => {
+
+                 ${this._show_inputs ? html`
+<!-- ################################# SOURCES ################################# -->
+                  <div class="grid-container-input">
+                    <div class="shape-input">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 h 5 a 10 10 0 0 1 10 10 h -80 v -25 a 10 10 0 0 1 10 -10 z m 0 0" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                    </div>
+                    <div class="shape-input-background">
+                    </div>
+                    <div class="grid-item go_back_right">
+                      <button class="btn ripple" @click=${() => this._show_inputs = false}>back</button>
+                    </div>
+                    <div class="source_text">
+                      <p><b>SOURCE</b></p>
+                    </div>
+                    <div class="grid-item-hdmi-sound">
+                    ${stateObj.attributes.source_list.map(source => html`
+                    <button class="btn_hdmi-sound  ripple overlay" @click=${() => {
+            this._select_source(source);
+            this._show_inputs = false;
+        }}}>${source}</button>
+                    `)}
+                    </div>
+                  </div>
+<!-- ################################# SOURCES END ################################# -->
+                 ` : html`
+
+                 ${this._show_sound_output ? html`
+<!-- ################################# SOUND ################################# -->
+                  <div class="grid-container-sound">
+                    <div class="shape-sound">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 h 30 a 10 10 0 0 1 10 10 v 25 h -80 a 10 10 0 0 1 10 -10 h 5 a 15 15 0 0 0 15 -15 a 10 10 0 0 1 10 -10" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                    </div>
+                    <div class="grid-item go_back_left">
+                      <button class="btn ripple" @click=${() => this._show_sound_output = false}>back</button>
+                    </div>
+                    <div class="sound_text">
+                      <p><b>SOUND</b></p>
+                    </div>
+                  </div>
+                  <div class="grid-container-sound-button">
+                    <div class="grid-item tv_speaker">
+                        <button class="btn_sound  ripple overlay" style="width: 240px;" @click=${() => this._select_sound_output("tv_speaker")}>TV SPEAKER</button>
+                    </div>
+                    <div class="grid-item int+optic">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("tv_external_speaker")}>int+optic</button>
+                      </div>
+                    <div class="grid-item int+jack">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("tv_speaker_headphone")}>int+jack</button>
+                      </div>
+                    <div class="grid-item optical">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("external_optical")}>optical</button>
+                      </div>
+                    <div class="grid-item arc">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("external_arc")}>arc</button>
+                      </div>
+                    <div class="grid-item line">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("lineout")}>lineout</button>
+                      </div>
+                    <div class="grid-item headphone">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("headphone")}>headphone</button>
+                    </div>
+<!--
+                    <div class="grid-item bluetooth">
+                      <button class="btn_sound  ripple overlay" @click=${() => this._select_sound_output("bt_soundbar")}>bluetooth</button>
+                    </div>
+-->
+                  </div>
+                  </div>
+<!-- ################################# SOUND END ################################# -->
+                 ` : html`
+<!-- ################################# DIRECTION PAD ################################# -->
+                  <div class="grid-container">
+                    <div class="shape">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                    </div>
+                    <div class="grid-item smart" >
+                      <button class="btn ripple" @click=${() => this._show_sound_output = true}>SMART</button>
+                    </div>
+                    <div class="grid-item up" style="margin-bottom: 9px;">
+                      <button class="btn ripple" @click=${() => this._button("UP")}><ha-icon icon="mdi:menu-up"/></button>
+                    </div>
+                    <div class="grid-item input">
+                      <button class="btn ripple" @click=${() => this._show_inputs = true}>INPUT</button>
+                    </div>
+                    <div class="grid-item left" style="margin-right: 4px;">
+                      <button class="btn ripple" @click=${() => this._button("LEFT")}><ha-icon icon="mdi:menu-left"/></button>
+                    </div>
+                    <div class="grid-item ok" style="padding: 0px;">
+                      <button class="btn bnt_ok ripple"  @click=${() => this._button("ENTER")}>OK</button>
+                    </div>
+                    <div class="grid-item right" style="margin-left: 4px;">
+                      <button class="btn ripple" @click=${() => this._button("RIGHT")}><ha-icon icon="mdi:menu-right"/></button>
+                    </div>
+                    <div class="grid-item back">
+                      <button class="btn ripple" @click=${() => this._button("BACK")}>BACK</button>
+                    </div>
+                    <div class="grid-item down" style="margin-top: 9px;">
+                      <button class="btn ripple" @click=${() => this._button("DOWN")}><ha-icon icon="mdi:menu-down"/></button>
+                    </div>
+                    <div class="grid-item exit">
+                      <button class="btn ripple" @click=${() => this._button("EXIT")}>EXIT</button>
+                    </div>
+
+                  </div>
+<!-- ################################# DIRECTION PAD END ################################# -->
+                  `}
+
+<!-- ################################# SOURCE BUTTONS ################################# -->
+                  ${this.config.sources ? html`
+                    <div class="grid-container-source">
+                    ${this.config.sources.map(source => {
             return html`
-                  <div class="grid-item">
-                    <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
-                      ${TestLgRemoteControl.getIcon(source.icon)}
-                    </button>
-                  </div>
-                  `;
+                      <div class="grid-item">
+                        <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
+                          ${TestLgRemoteControl.getIcon(source.icon)}
+                        </button>
+                      </div>
+                      `;
         })}
-                </div>
-                ` : html`
-              <div class="grid-container-source">
-                <div class="grid-item netflix">
-                  <button class="btn_source ripple" @click=${() => this._netflix()}><ha-icon icon="mdi:netflix"/></button>
-                </div>
-                <div class="grid-item amazon">
-                  <button class="btn_source ripple" @click=${() => this._amazon()}><ha-icon icon="mdi:amazon"/></button>
-                </div>
-                <div class="grid-item disney">
-                  <button class="btn_source ripple" @click=${() => this._disney()}>${TestLgRemoteControl.disneyIcon}</button>
-                </div>
-                <div class="grid-item dazn">
-                  <button class="btn_source ripple" @click=${() => this._dazn()}>${TestLgRemoteControl.daznIcon}</button>
-                </div>
-              </div>`} -->
+                    </div>
+                    ` : html`
+                  <div class="grid-container-source">
+                    <div class="grid-item netflix">
+                      <button class="btn_source ripple" @click=${() => this._select_source("Netflix")}><ha-icon icon="mdi:netflix"/></button>
+                    </div>
+                    <div class="grid-item amazon">
+                      <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon icon="mdi:amazon"/></button>
+                    </div>
+                    <div class="grid-item disney">
+                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
+                    </div>
+                    <div class="grid-item dazn">
+                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
+                    </div>
+                  </div>`}
+<!-- ################################# SOURCE BUTTONS END ################################# -->
 
-              <div class="grid-container-bottom">
-                <div class="grid-item">
-                  <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${() => this._volumeup()}><ha-icon icon="mdi:plus"/></button>
-                </div>
-                <div class="grid-item" style="margin-top: 0px;">
-                  <button class="btn-flat ripple" @click=${() => this._home()}>MENU</button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 50% 50% 0px 0px;" @click=${() => this._channelup()}><ha-icon icon="mdi:menu-up"/></button>
-                </div>
+                  <div class="grid-container-bottom">
+                    <div class="grid-item">
+                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px;" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:plus"/></button>
+                    </div>
+                    <div class="grid-item" style="margin-top: 0px;">
+                      <button class="btn-flat ripple" @click=${() => this._button("HOME")}>MENU</button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn ripple" style="border-radius: 50% 50% 0px 0px;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:menu-up"/></button>
+                    </div>
 
-                <div class="grid-item">
-                  <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._mute()}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
-                </div>
+                    <div class="grid-item">
+                      <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
+                    </div>
 
-                <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;" @click=${() => this._volumedown()}><ha-icon icon="mdi:minus"/></button>
-                </div>
-                <div class="grid-item" style="margin-bottom: 0px;">
-                  <button class="btn-flat ripple" @click=${() => this._info()}>INFO</button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;"  @click=${() => this._channeldown()}><ha-icon icon="mdi:menu-down"/></button>
-                </div>
+                    <div class="grid-item">
+                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;" @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:minus"/></button>
+                    </div>
+                    <div class="grid-item" style="margin-bottom: 0px;">
+                      <button class="btn-flat ripple" @click=${() => this._button("INFO")}>INFO</button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="mdi:menu-down"/></button>
+                    </div>
 
-                <div class="grid-item">
-                </div>
-                <div class="grid-item">
-                </div>
-                <div class="grid-item">
-                </div>
+                    <div class="grid-item">
+                    </div>
+                    <div class="grid-item">
+                    </div>
+                    <div class="grid-item">
+                    </div>
 
-                <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${() => this._play()}><ha-icon icon="mdi:play"/></button>
-                </div>
-                  <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${() => this._pause()}><ha-icon icon="mdi:pause"/></button>
-                </div>
-                <div class="grid-item ">
-                  <button class="btn-flat ripple"  @click=${() => this._stop()}><ha-icon icon="mdi:stop"/></button>
-                </div>
-                <div class="grid-item">
-                  <button class="btn-flat ripple"  @click=${() => this._rewind()}><ha-icon icon="mdi:skip-backward"/></button>
-                </div>
-                  <div class="grid-item">
-                  <button class="btn-flat ripple" style="color: red;" @click=${() => this._record()}><ha-icon icon="mdi:record"/></button>
-                </div>
-                <div class="grid-item ">
-                  <button class="btn-flat ripple"  @click=${() => this._fastforward()}><ha-icon icon="mdi:skip-forward"/></button>
-                </div>
+<!-- ################################# MEDIA CONTROL ################################# -->
+                    <div class="grid-item">
+                      <button class="btn-flat ripple"  @click=${() => this._command("media.controls/play")}><ha-icon icon="mdi:play"/></button>
+                    </div>
+                      <div class="grid-item">
+                      <button class="btn-flat ripple"  @click=${() => this._command("media.controls/pause")}><ha-icon icon="mdi:pause"/></button>
+                    </div>
+                    <div class="grid-item ">
+                      <button class="btn-flat ripple"  @click=${() => this._command("media.controls/stop")}><ha-icon icon="mdi:stop"/></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn-flat ripple"  @click=${() => this._command("media.controls/rewind")}><ha-icon icon="mdi:skip-backward"/></button>
+                    </div>
+                      <div class="grid-item">
+                      <button class="btn-flat ripple" style="color: red;" @click=${() => this._command("media.controls/Record")}><ha-icon icon="mdi:record"/></button>
+                    </div>
+                    <div class="grid-item ">
+                      <button class="btn-flat ripple"  @click=${() => this._command("media.controls/fastForward")}><ha-icon icon="mdi:skip-forward"/></button>
+                    </div>
+<!-- ################################# MEDIA CONTROL END ################################# -->
 
-              </div> 
+                  </div>
 
-
-          </div>
-          </div>
-        `;
+              `}
+              </div>
+              </div>
+            `;
 
 
     }
@@ -371,6 +348,41 @@ class TestLgRemoteControl extends LitElement {
         )
     }
 
+    _button(button) {
+        this.hass.callService("webostv", "button", {
+            entity_id: this.config.entity,
+            button: button
+        });
+    }
+
+    _command(command) {
+        this.hass.callService("webostv", "command", {
+            entity_id: this.config.entity,
+            command: command
+        });
+    }
+
+    _media_player_service(service) {
+        this.hass.callService("media_player", service, {
+            entity_id: this.config.entity,
+        });
+    }
+
+    _select_source(source) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: source
+        });
+    }
+
+    _select_sound_output(sound_output) {
+        this.hass.callService("webostv", "select_sound_output", {
+            entity_id: this.config.entity,
+            sound_output: sound_output
+        });
+        this._show_sound_output = false;
+    }
+
     _smart() {
         this.hass.callService("webostv", "command", {
             entity_id: this.config.entity,
@@ -392,207 +404,12 @@ class TestLgRemoteControl extends LitElement {
         });
     }
 
-    _power() {
-        this.hass.callService("media_player", "toggle", {
-            entity_id: this.config.entity,
-        });
-    }
-
-    _up() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "UP"
-        });
-    }
-
-    _down() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "DOWN"
-        });
-    }
-
-    _left() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "LEFT"
-        });
-    }
-
-    _enter() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "ENTER"
-        });
-    }
-
-    _right() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "RIGHT"
-        });
-    }
-
-    _back() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "BACK"
-        });
-    }
-
-    _exit() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "EXIT"
-        });
-    }
-
-    _select_source(source) {
-        this.hass.callService("media_player", "select_source", {
-            entity_id: this.config.entity,
-            source: source
-        });
-    }
-
-    _netflix() {
-        this.hass.callService("media_player", "select_source", {
-            entity_id: this.config.entity,
-            source: "Netflix"
-        });
-    }
-
-
-    _amazon() {
-        this.hass.callService("media_player", "select_source", {
-            entity_id: this.config.entity,
-            source: "Amazon Prime Video"
-        });
-    }
-
-    _disney() {
-        this.hass.callService("media_player", "select_source", {
-            entity_id: this.config.entity,
-            source: "Disney+"
-        });
-    }
-
-    _dazn() {
-        this.hass.callService("media_player", "select_source", {
-            entity_id: this.config.entity,
-            source: "DAZN"
-        });
-    }
-
-    _volumeup() {
-        this.hass.callService("media_player", "volume_up", {
-            entity_id: this.config.entity
-        });
-    }
-
-    _home() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "HOME"
-        });
-    }
-
-    _channelup() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "CHANNELUP"
-        });
-    }
-
-    _mute() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "MUTE"
-        });
-    }
-
-    _volumedown() {
-        this.hass.callService("media_player", "volume_down", {
-            entity_id: this.config.entity
-        });
-    }
-
-    _info() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "INFO"
-        });
-    }
-
-    _channeldown() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "CHANNELDOWN"
-        });
-    }
-
-    _play() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "media.controls/play"
-        });
-    }
-
-    _pause() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "media.controls/pause"
-        });
-    }
-
-    _stop() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "media.controls/stop"
-        });
-    }
-
-    _rewind() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "media.controls/rewind"
-        });
-    }
-
-    _record() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "media.controls/Record"
-        });
-    }
-
-    _fastforward() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "media.controls/fastForward"
-        });
-    }
-
-
     setConfig(config) {
         if (!config.entity) {
             console.log("Invalid configuration");
         }
         this.config = config;
     }
-
-    _tv_speaker() {
-      this.hass.callService("webostv", "select_sound_output", {
-          entity_id: this.config.entity,
-          sound_output: "tv_speaker"
-      });
-  }
-
-  _arc() {
-    this.hass.callService("webostv", "select_sound_output", {
-        entity_id: this.config.entity,
-        sound_output: "external_arc"
-    });
-}
 
     getCardSize() {
         return 2;
@@ -657,11 +474,12 @@ class TestLgRemoteControl extends LitElement {
 
   .page {
     width:300px;
-    height: 750px;
+    height: 100%;
     display: inline-block;
     flex-direction: row;
     border: 1px solid var(--app-header-text-color);
     border-radius: 35px;
+    padding-bottom: 20px;
   }
 
   .grid-container-power {
