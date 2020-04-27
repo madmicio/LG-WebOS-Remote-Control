@@ -342,37 +342,37 @@ class TestLgRemoteControl extends LitElement {
 <!-- ################################ keypad ################################## -->
                     <div class="grid-container-keypad">
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("1")}>1</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("1")}>1</button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("2")}>2</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("2")}>2</button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("3")}>3</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("3")}>3</button>
                       </div> 
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("4")}>4</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("4")}>4</button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("5")}>5</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("5")}>5</button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("6")}>6</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("6")}>6</button>
                       </div> 
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("7")}>7</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("7")}>7</button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("8")}>8</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("8")}>8</button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("9")}>9</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("9")}>9</button>
                       </div>
                       <div class="grid-item">
                         <button class="btn-keypad"></button>
                       </div>
                       <div class="grid-item">
-                        <button class="btn-keypad ripple" @click=${() => this._click_button("0")}>0</button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("0")}>0</button>
                       </div>
                       <div class="grid-item">
                         <button class="btn-keypad"></button>
