@@ -1,6 +1,6 @@
-var LitElement = LitElement || Object.getPrototypeOf(customElements.get("home-assistant-main"));
-var html = html || LitElement.prototype.html;
-var css = css || LitElement.prototype.css;
+var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
+var html = LitElement.prototype.html;
+var css = LitElement.prototype.css;
 
 class TestLgRemoteControl extends LitElement {
 
@@ -467,7 +467,7 @@ class TestLgRemoteControl extends LitElement {
                       <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
+                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                     </div>
                     <div class="grid-item">
                       <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
