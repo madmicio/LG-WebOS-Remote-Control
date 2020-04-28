@@ -4,7 +4,8 @@ var css = LitElement.prototype.css;
 
 class TestLgRemoteControl extends LitElement {
 
-    disneyIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static get disneyIcon() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="21.000000pt" height="21.000000pt" viewBox="0 0 122.000000 125.000000"
                   preserveAspectRatio="xMidYMid meet">
                  <metadata>
@@ -30,7 +31,10 @@ class TestLgRemoteControl extends LitElement {
                  6 0 22 -39 36 -87z"/>
                  </g>
                  </svg>`;
-    daznIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    }
+
+    static get daznIcon() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                     width="22.000000pt" height="20.000000pt" viewBox="0 0 324.000000 323.000000"
                     preserveAspectRatio="xMidYMid meet">
                   <metadata>
@@ -62,8 +66,10 @@ class TestLgRemoteControl extends LitElement {
                   279 -195 279 -52 -2 c-29 -1 -55 -5 -58 -7z"/>
                   </g>
                   </svg>`;
+    }
 
-    tvoptic = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static get tvoptic() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="56.000000pt" height="17.000000pt" viewBox="0 0 567.000000 171.000000"
                   preserveAspectRatio="xMidYMid meet">
                   <metadata>
@@ -110,8 +116,10 @@ class TestLgRemoteControl extends LitElement {
                   -23 -46 -49z"/>
                   </g>
                   </svg>`;
+    }
 
-    optic = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static get optic() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                 width="18.000000pt" height="18.000000pt" viewBox="0 0 150.000000 150.000000"
                 preserveAspectRatio="xMidYMid meet">
                <metadata>
@@ -138,7 +146,10 @@ class TestLgRemoteControl extends LitElement {
                49 -65 65 -65 65 -53 -54z"/>
                </g>
                </svg>`;
-    arc = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    }
+
+    static get arc() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
               width="43.000000pt" height="20.000000pt" viewBox="0 0 323.000000 150.000000"
               preserveAspectRatio="xMidYMid meet">
               <metadata>
@@ -166,7 +177,10 @@ class TestLgRemoteControl extends LitElement {
               <path d="M2270 745 l0 -125 50 0 50 0 0 125 0 125 -50 0 -50 0 0 -125z"/>
               </g>
               </svg>`;
-    lineout = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    }
+
+    static get lineout() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
               width="20.000000pt" height="20.000000pt" viewBox="0 0 162.000000 170.000000"
               preserveAspectRatio="xMidYMid meet">
               <metadata>
@@ -191,12 +205,14 @@ class TestLgRemoteControl extends LitElement {
               85 3 90 25 93 22 3 22 6 22 143 l0 139 -225 0 -225 0 0 -140z"/>
               </g>
               </svg>`;
+    }
 
-
-    iconMapping = {
-        "disney": this.disneyIcon,
-        "dazn": this.daznIcon
-    };
+    static get iconMapping() {
+        return {
+            "disney": this.disneyIcon,
+            "dazn": this.daznIcon
+        };
+    }
 
     static get properties() {
         return {
@@ -312,19 +328,19 @@ class TestLgRemoteControl extends LitElement {
                         <button class="${stateObj.attributes.sound_output === "tv_speaker" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("tv_speaker")}><ha-icon icon="mdi:television-classic"></button>
                       </div>
                       <div class="grid-item item_3_c">
-                        <button class="${stateObj.attributes.sound_output === "tv_external_speaker" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("tv_external_speaker")}>${this.tvoptic}</button>
+                        <button class="${stateObj.attributes.sound_output === "tv_external_speaker" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("tv_external_speaker")}>${TestLgRemoteControl.tvoptic}</button>
                         </div>
                       <div class="grid-item item_4_sx">
                         <button class="${stateObj.attributes.sound_output === "tv_speaker_headphone" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("tv_speaker_headphone")}><ha-icon icon="mdi:television-classic"></ha-icon> + <ha-icon icon="mdi:headphones"/ha-icon></button>
                         </div>
                       <div class="grid-item item_4_c">
-                        <button class="${stateObj.attributes.sound_output === "external_optical" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("external_optical")}>${this.optic}</button>
+                        <button class="${stateObj.attributes.sound_output === "external_optical" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("external_optical")}>${TestLgRemoteControl.optic}</button>
                         </div>
                       <div class="grid-item item_5_sx">
-                        <button class="${stateObj.attributes.sound_output === "external_arc" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("external_arc")}>${this.arc}</button>
+                        <button class="${stateObj.attributes.sound_output === "external_arc" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("external_arc")}>${TestLgRemoteControl.arc}</button>
                         </div>
                       <div class="grid-item item_5_c">
-                        <button class="${stateObj.attributes.sound_output === "lineout" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("lineout")}>${this.lineout}</button>
+                        <button class="${stateObj.attributes.sound_output === "lineout" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("lineout")}>${TestLgRemoteControl.lineout}</button>
                         </div>
                       <div class="grid-item item_6_sx">
                         <button class="${stateObj.attributes.sound_output === "headphone" ? 'btn_sound_on' : 'btn_sound_off ripple overlay'}" @click=${() => this._select_sound_output("headphone")}><ha-icon icon="mdi:headphones"></button>
@@ -426,7 +442,7 @@ class TestLgRemoteControl extends LitElement {
             return html`
                       <div class="grid-item">
                         <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
-                          ${this.getIcon(source.icon)}
+                          ${TestLgRemoteControl.getIcon(source.icon)}
                         </button>
                       </div>
                       
@@ -443,10 +459,10 @@ class TestLgRemoteControl extends LitElement {
                       <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon icon="mdi:amazon"/></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${this.disneyIcon}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${this.daznIcon}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
                     </div>
                   </div>`}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
@@ -627,9 +643,9 @@ class TestLgRemoteControl extends LitElement {
         return 15;
     }
 
-    getIcon(iconName) {
-        return Object.keys(this.iconMapping).includes(iconName)
-            ? this.iconMapping[iconName]
+    static getIcon(iconName) {
+        return Object.keys(TestLgRemoteControl.iconMapping).includes(iconName)
+            ? TestLgRemoteControl.iconMapping[iconName]
             : html`<ha-icon icon="${iconName}"/>`;
     }
 
