@@ -1,10 +1,11 @@
-var LitElement = LitElement || Object.getPrototypeOf(customElements.get("home-assistant-main"));
-var html = html || LitElement.prototype.html;
-var css = css || LitElement.prototype.css;
+var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
+var html = LitElement.prototype.html;
+var css = LitElement.prototype.css;
 
 class TestLgRemoteControl extends LitElement {
 
-    static disneyIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static get disneyIcon() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="21.000000pt" height="21.000000pt" viewBox="0 0 122.000000 125.000000"
                   preserveAspectRatio="xMidYMid meet">
                  <metadata>
@@ -30,7 +31,10 @@ class TestLgRemoteControl extends LitElement {
                  6 0 22 -39 36 -87z"/>
                  </g>
                  </svg>`;
-    static daznIcon = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    }
+
+    static get daznIcon() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                     width="22.000000pt" height="20.000000pt" viewBox="0 0 324.000000 323.000000"
                     preserveAspectRatio="xMidYMid meet">
                   <metadata>
@@ -62,8 +66,10 @@ class TestLgRemoteControl extends LitElement {
                   279 -195 279 -52 -2 c-29 -1 -55 -5 -58 -7z"/>
                   </g>
                   </svg>`;
+    }
 
-    static tvoptic = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static get tvoptic() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="56.000000pt" height="17.000000pt" viewBox="0 0 567.000000 171.000000"
                   preserveAspectRatio="xMidYMid meet">
                   <metadata>
@@ -110,8 +116,10 @@ class TestLgRemoteControl extends LitElement {
                   -23 -46 -49z"/>
                   </g>
                   </svg>`;
+    }
 
-    static optic = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    static get optic() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                 width="18.000000pt" height="18.000000pt" viewBox="0 0 150.000000 150.000000"
                 preserveAspectRatio="xMidYMid meet">
                <metadata>
@@ -138,7 +146,10 @@ class TestLgRemoteControl extends LitElement {
                49 -65 65 -65 65 -53 -54z"/>
                </g>
                </svg>`;
-    static arc = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    }
+
+    static get arc() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
               width="43.000000pt" height="20.000000pt" viewBox="0 0 323.000000 150.000000"
               preserveAspectRatio="xMidYMid meet">
               <metadata>
@@ -166,7 +177,10 @@ class TestLgRemoteControl extends LitElement {
               <path d="M2270 745 l0 -125 50 0 50 0 0 125 0 125 -50 0 -50 0 0 -125z"/>
               </g>
               </svg>`;
-    static lineout = html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    }
+
+    static get lineout() {
+        return html`<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
               width="20.000000pt" height="20.000000pt" viewBox="0 0 162.000000 170.000000"
               preserveAspectRatio="xMidYMid meet">
               <metadata>
@@ -191,13 +205,14 @@ class TestLgRemoteControl extends LitElement {
               85 3 90 25 93 22 3 22 6 22 143 l0 139 -225 0 -225 0 0 -140z"/>
               </g>
               </svg>`;
+    }
 
-
-
-    static iconMapping = {
-        "disney": TestLgRemoteControl.disneyIcon,
-        "dazn": TestLgRemoteControl.daznIcon
-    };
+    static get iconMapping() {
+        return {
+            "disney": this.disneyIcon,
+            "dazn": this.daznIcon
+        };
+    }
 
     static get properties() {
         return {
@@ -221,9 +236,11 @@ class TestLgRemoteControl extends LitElement {
     render() {
         const stateObj = this.hass.states[this.config.entity];
         const scale = this.config.scale ? this.config.scale : 1;
+        const buttoncolor = this.config.buttoncolor ? this.config.buttoncolor : "#f2f0fa";
+        const background = this.config.background ? this.config.background : "var(--primary-background-color)";
         return html`
             <div class="card" style="transform: scale(${scale})">
-            <div class="page">
+            <div class="page" style="--remote-button-color: ${buttoncolor}; --remote-color: ${background};}">
                   <div class="grid-container-power">
 
                     <div class="grid-item">
@@ -245,12 +262,12 @@ class TestLgRemoteControl extends LitElement {
 <!-- ################################# SOURCES ################################# -->
                   <div class="grid-container-input">
                     <div class="shape-input">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 h 5 a 10 10 0 0 1 10 10 h -80 v -25 a 10 10 0 0 1 10 -10 z m 0 0" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 40 5 a 10 10 0 0 1 10 10 a 15 15 0 0 0 15 15 h 5 a 10 10 0 0 1 10 10 h -80 v -25 a 10 10 0 0 1 10 -10 z m 0 0" fill="var(--remote-button-color)" stroke="#000000" stroke-width="0" /></svg>
                     </div>
                     <div class="shape-input-background">
                     </div>
                     <div class="grid-item item_1_dx">
-                      <button class="btn ripple" @click=${() => this._show_inputs = false}>BACK</button>
+                      <button class="btn ripple" @click=${() => this._show_inputs = false}>${backimage}</button>
                     </div>
                     <div class="source_text">
                       <p><b>SOURCE</b></p>
@@ -271,7 +288,7 @@ class TestLgRemoteControl extends LitElement {
 <!-- ################################# SOUND ################################# -->
                   <div class="grid-container-sound">
                     <div class="shape-sound">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 238 270"><path d="m 124 15 h 84 a 30 30 0 0 1 30 30 v 195 a 30 30 0 0 1 -30 30 h -178 a 30 30 0 0 1 -30 -30 v -115 a 30 30 0 0 1 30 -30 a 50 50 0 0 0 50 -50 a 30 30 0 0 1 30 -30 z " fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 238 270"><path d="m 124 15 h 84 a 30 30 0 0 1 30 30 v 195 a 30 30 0 0 1 -30 30 h -178 a 30 30 0 0 1 -30 -30 v -115 a 30 30 0 0 1 30 -30 a 50 50 0 0 0 50 -50 a 30 30 0 0 1 30 -30 z " fill="var(--remote-button-color)" stroke="#000000" stroke-width="0" /></svg>
                     </div>
                     <div class="grid-item_sound_back">
                       <button class="btn ripple" @click=${() => this._show_sound_output = false}>BACK</button>
@@ -383,33 +400,33 @@ class TestLgRemoteControl extends LitElement {
 
                  ` : html`
 <!-- ################################# DIRECTION PAD ################################# -->
-                  <div class="grid-container">
+                  <div class="grid-container-cursor">
                     <div class="shape">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--deactive-background-button-color)" stroke="#000000" stroke-width="0" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 79"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--remote-button-color)" stroke="#000000" stroke-width="0" /></svg>
                     </div>
                     <div class="grid-item item_1_sx" >
                       <button class="btn ripple" @click=${() => this._show_sound_output = true}>SOUND</button>
                     </div>
                     <div class="grid-item item_1_c" style="margin-bottom: 9px;">
-                      <button class="btn ripple" @click=${() => this._button("UP")}><ha-icon icon="mdi:menu-up"/></button>
+                      <button class="btn ripple" style="background-color: transparent;" @click=${() => this._button("UP")}><ha-icon icon="mdi:menu-up"/></button>
                     </div>
                     <div class="grid-item item_1_dx">
                       <button class="btn ripple" @click=${() => this._show_inputs = true}>INPUT</button>
                     </div>
                     <div class="grid-item item_2_sx" style="margin-right: 4px;">
-                      <button class="btn ripple" @click=${() => this._button("LEFT")}><ha-icon icon="mdi:menu-left"/></button>
+                      <button class="btn ripple" style="background-color: transparent;" @click=${() => this._button("LEFT")}><ha-icon icon="mdi:menu-left"/></button>
                     </div>
                     <div class="grid-item item_2_c" style="padding: 0px;">
                       <button class="btn bnt_ok ripple"  @click=${() => this._button("ENTER")}>OK</button>
                     </div>
                     <div class="grid-item item_2_dx" style="margin-left: 4px;">
-                      <button class="btn ripple" @click=${() => this._button("RIGHT")}><ha-icon icon="mdi:menu-right"/></button>
+                      <button class="btn ripple" style="background-color: transparent;" @click=${() => this._button("RIGHT")}><ha-icon icon="mdi:menu-right"/></button>
                     </div>
                     <div class="grid-item item_3_sx">
                       <button class="btn ripple" @click=${() => this._button("BACK")}>BACK</button>
                     </div>
                     <div class="grid-item item_3_c" style="margin-top: 9px;">
-                      <button class="btn ripple" @click=${() => this._button("DOWN")}><ha-icon icon="mdi:menu-down"/></button>
+                      <button class="btn ripple" style="background-color: transparent;" @click=${() => this._button("DOWN")}><ha-icon icon="mdi:menu-down"/></button>
                     </div>
                     <div class="grid-item item_3_dx">
                       <button class="btn ripple" @click=${() => this._button("EXIT")}>EXIT</button>
@@ -432,8 +449,8 @@ class TestLgRemoteControl extends LitElement {
                       </div>
                       
                       `;
-                      
-      })}
+
+        })}
                     </div>
                     ` : html`
                   <div class="grid-container-source">
@@ -444,10 +461,10 @@ class TestLgRemoteControl extends LitElement {
                       <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon icon="mdi:amazon"/></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
+                      <button class="btn_source ripple" style="margin-top: 15px;" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
+                      <button class="btn_source ripple" style="margin-top: 15px;" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
                     </div>
                   </div>`}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
@@ -467,7 +484,7 @@ class TestLgRemoteControl extends LitElement {
                       <button class="btn" style="border-radius: 0px; cursor: default;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}">MUTO</span></button>
+                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                     </div>
                     <div class="grid-item">
                       <button class="btn" style="border-radius: 0px; cursor: default;">P</button>
@@ -629,8 +646,8 @@ class TestLgRemoteControl extends LitElement {
     }
 
     static getIcon(iconName) {
-        return Object.keys(this.iconMapping).includes(iconName)
-            ? this.iconMapping[iconName]
+        return Object.keys(TestLgRemoteControl.iconMapping).includes(iconName)
+            ? TestLgRemoteControl.iconMapping[iconName]
             : html`<ha-icon icon="${iconName}"/>`;
     }
 
@@ -679,6 +696,7 @@ class TestLgRemoteControl extends LitElement {
 
 
   .page {
+    background-color: var(--remote-color);
     width:300px;
     height: 100%;
     display: inline-block;
@@ -697,14 +715,15 @@ class TestLgRemoteControl extends LitElement {
     overflow: hidden;
   }
 
-  .grid-container {
+  .grid-container-cursor {
     display: grid;
     grid-template-columns: auto auto auto;
-    grid-template-rows: 86px;
+    grid-template-rows: auto auto auto;
     background-color: transparent;
     padding: 0px 20px 0px 20px;
     margin-bottom: 7px;
     overflow: hidden;
+    height: 260px;
   }
 
   .grid-container-keypad {
@@ -715,7 +734,7 @@ class TestLgRemoteControl extends LitElement {
     margin: 0px 31px 0px 31px;
     margin-bottom: 10px;
     overflow: hidden;
-    background-color: var(--deactive-background-button-color);
+    background-color: var(--remote-button-color);
     border-radius: 35px;
   }
 
@@ -832,7 +851,7 @@ class TestLgRemoteControl extends LitElement {
     grid-column-end: 4;
     grid-row-start: 3;
     grid-row-end: 4;
-    background-color: var(--deactive-background-button-color);
+    background-color: var(--remote-button-color);
     border-radius: 0px 0px 35px 35px;
     
   }
@@ -968,7 +987,7 @@ class TestLgRemoteControl extends LitElement {
 
  
   .btn {
-    background-color: var(--deactive-background-button-color);
+    background-color: var(--remote-button-color);
     color: var(--primary-text-color);
     font-size: 14px;
     width: 60px;
@@ -993,7 +1012,7 @@ class TestLgRemoteControl extends LitElement {
   }
 
   .btn_source {
-    background-color: var(--deactive-background-button-color);
+    background-color: var(--remote-button-color);
     color: var(--primary-text-color);
     font-size: 14px;
     width: 42px;
@@ -1007,7 +1026,7 @@ class TestLgRemoteControl extends LitElement {
     
   }
   .btn_hdmi-sound {
-    background-color: var(--deactive-background-button-color);
+    background-color: var(--remote-button-color);
     color: var(--primary-text-color);
     font-size: 14px;
     width: 240px;
@@ -1018,10 +1037,10 @@ class TestLgRemoteControl extends LitElement {
     place-items: center;
     display: block;
     cursor: pointer;
-    border: solid 2px var(--primary-background-color);
+    border: solid 2px var(--remote-color);
   }
     .btn_hdmi-sound-on {
-    background-color: var(--active-background-button-color);
+    background-color: var(--primary-color);
     color: #ffffff;
     font-size: 14px;
     width: 246px;
@@ -1032,7 +1051,6 @@ class TestLgRemoteControl extends LitElement {
     place-items: center;
     display: block;
     cursor: pointer;
-    border: solid 2px var(--primary-text-color);
     
   }
 
@@ -1061,9 +1079,9 @@ class TestLgRemoteControl extends LitElement {
     margin: auto;
     display: block;
     cursor: pointer;
-    background-color: var(--active-background-button-color);
+    background-color: var(--primary-color);
     color: #ffffff;
-    border: solid 2px var(--primary-text-color);
+
   }
   .btn_sound_off {
     font-size: 12px;
@@ -1074,9 +1092,9 @@ class TestLgRemoteControl extends LitElement {
     margin: auto;
     display: block;
     cursor: pointer;
-    background-color: var(--deactive-background-button-color);
+    background-color: var(--remote-button-color);
     color: var(--primary-text-color);
-    border: solid 2px var(--primary-background-color);
+    border: solid 2px var(--remote-color);
   }
 
   .overlay {
@@ -1084,7 +1102,7 @@ class TestLgRemoteControl extends LitElement {
   }
 
   .btn-flat {
-    background-color: var(--deactive-background-button-color); //rgba(255, 0, 0, 1);
+    background-color: var(--remote-button-color); //rgba(255, 0, 0, 1);
     color: var(--primary-text-color);
     font-size: 14px;
     width: 60px;
@@ -1103,7 +1121,7 @@ class TestLgRemoteControl extends LitElement {
     width: 80px;
     height:80px;
     font-size: 18px;
-    border: solid 2px var(--primary-background-color);
+    border: solid 2px var(--remote-color);
 
   }
 
