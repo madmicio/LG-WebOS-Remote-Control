@@ -239,10 +239,10 @@ class TestLgRemoteControl extends LitElement {
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
-        var colorbuttons = this.config.colorbuttons == "enable" ? true : false;
+        const colorButtons = this.config.color_buttons === "enable";
         return html`
             <div class="card" style="transform: scale(${scale})">
-            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};}">
+            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};">
                   <div class="grid-container-power">
 
                     <div class="grid-item">
@@ -471,7 +471,7 @@ class TestLgRemoteControl extends LitElement {
 <!-- ################################# SOURCE BUTTONS END ################################# -->
 
 <!-- ################################# COLORED BUTTONS ################################# -->
-                ${colorbuttons == "enable" ? html`
+                ${colorButtons ? html`
                   <div class="grid-container-source" style="grid-template-rows: 26px">
                     <div class="grid-item">
                       <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._media_player_service("RED")}></button>
