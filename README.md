@@ -8,7 +8,7 @@ the project is now curated and developed in collaboration with [Piotr Machowski]
 
 
 
-![all](example/remote-control.jpg)
+![all](example/remote-control2.jpg)
 
 ![all](example/channels.jpg)
 
