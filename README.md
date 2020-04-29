@@ -8,7 +8,7 @@ the project is now curated and developed in collaboration with [Piotr Machowski]
 
 
 
-![all](example/remote-control2.jpg)
+![all](example/remote-control3.jpg)
 
 ![all](example/channels.jpg)
 
@@ -28,7 +28,7 @@ added two panels:
 - Sound Output Pannel
 - color buttons (option)
 
-![all](example/sound-source.jpg)
+![all](example/sound-source-pad.png)
 
 ![all](example/color_buttons.jpg)
 ## Color Management
