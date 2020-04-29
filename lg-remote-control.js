@@ -462,10 +462,10 @@ class TestLgRemoteControl extends LitElement {
                       <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon icon="mdi:amazon"/></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="margin-top: 15px;" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="margin-top: 15px;" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
                     </div>
                   </div>`}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
@@ -768,7 +768,7 @@ class TestLgRemoteControl extends LitElement {
   .grid-container-input {
     display: grid;
     grid-template-columns: 33% 34% 33%;
-    grid-template-rows: 86px 43px 522px;
+    grid-template-rows: 86px 43px 519px;
     background-color: transparent;
     padding: 0px 20px 0px 20px;
     overflow: hidden;
@@ -804,8 +804,6 @@ class TestLgRemoteControl extends LitElement {
     background-color: transparent;
     margin: auto;
     overflow: hidden;
-    font-size: 30px;
-    text-align: center;
   }
   .grid-item_sound_back {
     background-color: transparent;
