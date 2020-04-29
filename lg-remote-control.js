@@ -267,7 +267,7 @@ class TestLgRemoteControl extends LitElement {
                     <div class="shape-input-background">
                     </div>
                     <div class="grid-item item_1_dx">
-                      <button class="btn ripple" @click=${() => this._show_inputs = false}>${backimage}</button>
+                      <button class="btn ripple" @click=${() => this._show_inputs = false}>BACK</button>
                     </div>
                     <div class="source_text">
                       <p><b>SOURCE</b></p>
