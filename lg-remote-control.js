@@ -239,6 +239,7 @@ class TestLgRemoteControl extends LitElement {
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
+        var colorbuttons = this.config.colorbuttons == "enable" ? true : false;
         return html`
             <div class="card" style="transform: scale(${scale})">
             <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};}">
@@ -267,7 +268,7 @@ class TestLgRemoteControl extends LitElement {
                     <div class="shape-input-background">
                     </div>
                     <div class="grid-item item_1_dx">
-                      <button class="btn ripple" @click=${() => this._show_inputs = false}>${backimage}</button>
+                      <button class="btn ripple" @click=${() => this._show_inputs = false}>BACK</button>
                     </div>
                     <div class="source_text">
                       <p><b>SOURCE</b></p>
@@ -468,6 +469,26 @@ class TestLgRemoteControl extends LitElement {
                     </div>
                   </div>`}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
+
+<!-- ################################# COLORED BUTTONS ################################# -->
+                ${colorbuttons == "enable" ? html`
+                  <div class="grid-container-source" style="grid-template-rows: 26px">
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._media_player_service("RED")}></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: green; height: 22px;" @click=${e => this._media_player_service("GREEN")}></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: yellow; height: 22px;" @click=${e => this._media_player_service("YELLOW")}></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: blue; height: 22px;" @click=${e => this._media_player_service("BLUE")}></button>
+                    </div>
+                  </div>
+                  ` : html`
+                  `}
+<!-- ################################# COLORED BUTTONS END ################################# -->
 
                   <div class="grid-container-bottom">
                     <div class="grid-item">
