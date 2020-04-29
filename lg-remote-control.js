@@ -239,9 +239,10 @@ class TestLgRemoteControl extends LitElement {
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
+        const colorButtons = this.config.color_buttons === "enable";
         return html`
             <div class="card" style="transform: scale(${scale})">
-            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};}">
+            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};">
                   <div class="grid-container-power">
 
                     <div class="grid-item">
@@ -461,13 +462,33 @@ class TestLgRemoteControl extends LitElement {
                       <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon icon="mdi:amazon"/></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="margin-top: 15px;" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${TestLgRemoteControl.disneyIcon}</button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="margin-top: 15px;" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${TestLgRemoteControl.daznIcon}</button>
                     </div>
                   </div>`}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
+
+<!-- ################################# COLORED BUTTONS ################################# -->
+                ${colorButtons ? html`
+                  <div class="grid-container-source" style="grid-template-rows: 26px">
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._button("RED")}></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: green; height: 22px;" @click=${e => this._button("GREEN")}></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: yellow; height: 22px;" @click=${e => this._button("YELLOW")}></button>
+                    </div>
+                    <div class="grid-item">
+                      <button class="btn_source ripple" style="background-color: blue; height: 22px;" @click=${e => this._button("BLUE")}></button>
+                    </div>
+                  </div>
+                  ` : html`
+                  `}
+<!-- ################################# COLORED BUTTONS END ################################# -->
 
                   <div class="grid-container-bottom">
                     <div class="grid-item">
@@ -747,7 +768,7 @@ class TestLgRemoteControl extends LitElement {
   .grid-container-input {
     display: grid;
     grid-template-columns: 33% 34% 33%;
-    grid-template-rows: 86px 43px 522px;
+    grid-template-rows: 86px 43px 519px;
     background-color: transparent;
     padding: 0px 20px 0px 20px;
     overflow: hidden;
@@ -783,8 +804,6 @@ class TestLgRemoteControl extends LitElement {
     background-color: transparent;
     margin: auto;
     overflow: hidden;
-    font-size: 30px;
-    text-align: center;
   }
   .grid-item_sound_back {
     background-color: transparent;
