@@ -9,8 +9,8 @@ Remote Control for LG TV WebOS
 ![all](example/channels.jpg)
 
 browser_mod is required for this channel panel
-custom card: "card-channel-pad" is required.(you can find it on my github)
 
+custom card: "card-channel-pad" is required.(you can find it on my github)
 
 
 ## New Features:
@@ -18,8 +18,8 @@ custom card: "card-channel-pad" is required.(you can find it on my github)
 added two panels:
 - TV App List
 - Sound Output Pannel
-- integrated keypad
-- color buttons (option)
+- Integrated keypad
+- Color buttons (option)
 
 ![all](example/sound-source-pad.png)
 

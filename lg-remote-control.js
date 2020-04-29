@@ -474,16 +474,16 @@ class TestLgRemoteControl extends LitElement {
                 ${colorButtons ? html`
                   <div class="grid-container-source" style="grid-template-rows: 26px">
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._media_player_service("RED")}></button>
+                      <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._button("RED")}></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="background-color: green; height: 22px;" @click=${e => this._media_player_service("GREEN")}></button>
+                      <button class="btn_source ripple" style="background-color: green; height: 22px;" @click=${e => this._button("GREEN")}></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="background-color: yellow; height: 22px;" @click=${e => this._media_player_service("YELLOW")}></button>
+                      <button class="btn_source ripple" style="background-color: yellow; height: 22px;" @click=${e => this._button("YELLOW")}></button>
                     </div>
                     <div class="grid-item">
-                      <button class="btn_source ripple" style="background-color: blue; height: 22px;" @click=${e => this._media_player_service("BLUE")}></button>
+                      <button class="btn_source ripple" style="background-color: blue; height: 22px;" @click=${e => this._button("BLUE")}></button>
                     </div>
                   </div>
                   ` : html`

@@ -1,6 +1,3 @@
-
-
-
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
@@ -12,21 +9,17 @@ the project is now curated and developed in collaboration with [Piotr Machowski]
 
 ![all](example/channels.jpg)
 
-browser_mod is required for this channel panel
-custom card: "card-channel-pad" is required.(you can find it on my github)
+browser_mod is required for this channel panel (you can find it [here](https://github.com/thomasloven/hass-browser_mod))
 
-
-![all](example/pad.png)
-
-browser_mod is required for this keypad
-custom card: "card-numeric-pad" is required.(you can find it on my github)
+custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
 ## New Features:
 
 added two panels:
+- Integrated keypad
 - TV App List
-- Sound Output Pannel
-- color buttons (option)
+- Sound Output Panel
+- Color buttons (option)
 
 ![all](example/sound-source-pad.png)
 
@@ -55,7 +48,7 @@ colors:
 ```
 
 ## hacs Card install
-1. add custom reposity: madmicio/LG-WebOS-Remote-Control as plugin.
+1. add custom repository: madmicio/LG-WebOS-Remote-Control as plugin.
 
 2. install `LG WebOS Remote Control` plugin
 
@@ -90,10 +83,10 @@ resources:
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:lg-remote-control` | Type of the card |
 | `entity` | string | **Required** |  | tv entity |
-| `colors:` | string | **Option** |  | list of color options |
+| `colors` | string | **Option** |  | list of color options |
 | `channels` |  | **Option**|  | list of channel in popup |
-| `souce` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
-| `color buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
+| `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
+| `color_buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
 
 ### Source Options
 | Name | Type | Default | Supported options | Description |
@@ -109,16 +102,14 @@ sources:
   - icon: 'mdi:youtube'
     app: "YouTube"
 ```
-**Note:** disney and dazn are special, icon you must enter them like this:
+**Note:**  `disney` and `dazn` are special, icon you must enter them like this:
 ```yaml
   - icon: disney
     app: Disney
   - icon: dazn
     app: Dazn
-
-
 ```
-### channels Options
+### Channels Options
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `image` | url | **Required** | /local/your_dir/tv_logo/your_image.png | url of the image to be displayed in the channel pad popup |
@@ -147,7 +138,7 @@ this is to give each user the ability to create his own list.
 pressing the button on the remote control you will receive this message.
 ![all](example/source_error.png)
 
-# New Features Congif
+# New Features Config
 in this new version we have implemented some new features:
 1. customizable and incremental app button
 
@@ -155,7 +146,7 @@ in this new version we have implemented some new features:
 
 2. customizable channel pad
 
-    option: **channels:** ( if you do not configure this option, on button click you recive an error message)
+    option: **channels:** ( if you do not configure this option, on button click you receive an error message)
 
 3. customizable scale:
 
@@ -193,7 +184,7 @@ in this new version we have implemented some new features:
   ## Install Tv Logo
   
   1. download tv_logo
-  2. direcoty put the images file where you prefer (we suggest: www / images / tv_logo)
+  2. directory put the images file where you prefer (we suggest: www / images / tv_logo)
   3. calls the image in the configuration as in the example 
 ```yaml
 image: /local/your_directory/your_file.png
