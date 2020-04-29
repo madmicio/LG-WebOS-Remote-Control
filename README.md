@@ -1,14 +1,14 @@
+# BREAKING CHANGE
+please read the new configuration carefully
 
+new options available
 
+the project is now curated and developed in collaboration with [Piotr Machowski](https://github.com/PiotrMachowski)
 
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
-the project is now curated and developed in collaboration with [Piotr Machowski](https://github.com/PiotrMachowski)
-
-
-
-![all](example/remote-control3.jpg)
+![all](example/remote-control.jpg)
 
 ![all](example/channels.jpg)
 
@@ -16,126 +16,27 @@ browser_mod is required for this channel panel
 custom card: "card-channel-pad" is required.(you can find it on my github)
 
 
+![all](example/pad.png)
 
-## New Features:
+browser_mod is required for this keypad
+custom card: "card-numeric-pad" is required.(you can find it on my github)
 
-added two panels:
-- TV App List
-- Sound Output Pannel
-- integrated keypad
-- color buttons (option)
-
-![all](example/sound-source-pad.png)
-
-![all](example/color_buttons.jpg)
-## Color Management
-color customization implemented through the section
-```yaml
-colors:
-```
-
-
-- buttons: set buttons  background color    - default: "#f2f0fa"
-- texts: set buttons color                  - default: "var(--primary-text-color)"
-- background: set remote background color   - default: "var(--primary-background-color)"
-```yaml
-colors:
-  buttons: var(--deactive-background-button-color)
-  texts: pink
-  background: rgba(95,155,234)
-```
-
-**NOTE: option in "your-theme.yaml**
+**NOTE: need in "your-theme.yaml**
 ```yaml
 #button
   deactive-background-button-color: "#f2f0fa"
 ```
 
-## hacs Card install
-1. add custom reposity: madmicio/LG-WebOS-Remote-Control as plugin.
 
-2. install `LG WebOS Remote Control` plugin
+#f2f0fa" referred to the clear remote control
+"#333336" referred to the dark remote control
+obviously you can customize the color to harmonize the remote control with your theme
 
-3. Add a reference  inside your resources config:
-
-  ```yaml
-resources:
-  - type: module
-    url: /hacsfiles/LG-WebOS-Remote-Control/lg-remote-control.js
-```
-
-
-### Manual install
-
-1. Download and copy `lg-remote-control.js` from (https://github.com/madmicio/LG-WebOS-Remote-Control) into your custom components  directory.
-
-2. Add a reference `lg-remote-control.js` inside your resources config:
-
-  ```yaml
-  resources:
-    - url: /local/"your_directory"/lg-remote-control.js
-      type: module
-  ```
 # lovelace config: default view
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
 ```
-
-### Main Options
-| Name | Type | Default | Supported options | Description |
-| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type` | string | **Required** | `custom:lg-remote-control` | Type of the card |
-| `entity` | string | **Required** |  | tv entity |
-| `colors:` | string | **Option** |  | list of color options |
-| `channels` |  | **Option**|  | list of channel in popup |
-| `souce` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
-| `color buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
-
-### Source Options
-| Name | Type | Default | Supported options | Description |
-| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `icon` | string | **Required** | 'mdi:netflix'| url of the image to be displayed in the channel pad popup |
-| `app` | string | **Required** | app name | you have to write the exact name of the app to launch. you can find the correct name in the state of your media_player entity under "source_list:" |
-```yaml
-sources:
-  - icon: 'mdi:power'
-    app: "Netflix"
-  - icon: 'mdi:amazon'
-    app: "Amazon Prime Video"
-  - icon: 'mdi:youtube'
-    app: "YouTube"
-```
-**Note:** disney and dazn are special, icon you must enter them like this:
-```yaml
-  - icon: disney
-    app: Disney
-  - icon: dazn
-    app: Dazn
-
-
-```
-### channels Options
-| Name | Type | Default | Supported options | Description |
-| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `image` | url | **Required** | /local/your_dir/tv_logo/your_image.png | url of the image to be displayed in the channel pad popup |
-| `number` | string | **Required** | number | TV channel number |
-```yaml
-channels:
-  - image: /local/lg_remote/tv_logo/Rai 1 HD.png
-    number: '501'
-  - image: /local/lg_remote/tv_logo/Rai 2 HD.png
-    number: '502'
-  - image: /local/lg_remote/tv_logo/Rai 3 HD.png
-    number: '503'
-```
-
-### Colors Options
-| Name | Type | Default | Supported options | Description |
-| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `buttons` | string | **Option** | color formats | buttons background-color |
-| `texts` | string | **Option** | color formats | number and icon color |
-| `background:` | string | **Option** | color formats | list of color options |
 # Channel pad
 in this version of the card there is no longer a "channel pad popup" with preset channels.
 this is to give each user the ability to create his own list.
@@ -185,7 +86,31 @@ in this new version we have implemented some new features:
 ```
 **note: disney and danz are special icon. so you you must enter it as in the example**
 
+## hacs Card install
+1. add custom reposity: madmicio/LG-WebOS-Remote-Control as plugin.
 
+2. install `LG WebOS Remote Control` plugin
+
+3. Add a reference  inside your resources config:
+
+  ```yaml
+resources:
+  - type: module
+    url: /hacsfiles/LG-WebOS-Remote-Control/lg-remote-control.js
+```
+
+
+### Manual install
+
+1. Download and copy `lg-remote-control.js` from (https://github.com/madmicio/LG-WebOS-Remote-Control) into your custom components  directory.
+
+2. Add a reference `lg-remote-control.js` inside your resources config:
+
+  ```yaml
+  resources:
+    - url: /local/"your_directory"/lg-remote-control.js
+      type: module
+  ```
   
   ## Install Tv Logo
   
@@ -211,3 +136,6 @@ image must have 10px margin like this example:
 
 ![all](example/popup.png)
 
+**NOTE**
+- **SMART** button not enable
+- **INPUT** button not enable
