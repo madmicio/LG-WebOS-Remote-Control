@@ -214,6 +214,3 @@ image must have 10px margin like this example:
 
 ![all](example/popup.png)
 
-**NOTE**
-- **SMART** button not enable
-- **INPUT** button not enable
