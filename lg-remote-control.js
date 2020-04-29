@@ -759,7 +759,7 @@ class LgRemoteControl extends LitElement {
     grid-template-rows: 65px 65px 65px 65px;
     background-color: transparent;
     margin: 0px 31px 0px 31px;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     overflow: hidden;
     background-color: var(--remote-button-color);
     border-radius: 35px;
@@ -776,7 +776,7 @@ class LgRemoteControl extends LitElement {
   .grid-container-sound {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 86px 15px 41px 41px 41px 41px 5px;
+    grid-template-rows: 86px 15px 41px 41px 41px 41px 2px;
     background-color: transparent;
     padding: 0px 31px 0px 31px;
     overflow: hidden;
