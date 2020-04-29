@@ -12,7 +12,7 @@ class TestLgRemoteControl extends LitElement {
                  Created by potrace 1.15, written by Peter Selinger 2001-2017
                  </metadata>
                  <g transform="translate(0.000000,125.000000) scale(0.100000,-0.100000)"
-                 fill="var(--primary-text-color)" stroke="none">
+                 fill="var(--remote-text-color)" stroke="none">
                  <path d="M841 1181 c-14 -9 -12 -53 4 -107 6 -18 -1 -24 -50 -44 -50 -20 -56
                  -26 -53 -49 4 -33 34 -39 89 -17 22 9 41 16 43 16 3 0 12 -23 21 -50 19 -58
                  43 -76 71 -56 17 13 17 19 7 58 -6 23 -14 50 -18 59 -4 12 6 20 42 33 70 25
@@ -41,7 +41,7 @@ class TestLgRemoteControl extends LitElement {
                   Created by potrace 1.15, written by Peter Selinger 2001-2017
                   </metadata>
                   <g transform="translate(0.000000,323.000000) scale(0.09000,-0.090000)"
-                  fill="var(--primary-text-color)"  stroke="none">
+                  fill="var(--remote-text-color)"  stroke="none">
                   <path d="M197 3033 c-4 -3 -7 -286 -7 -627 l0 -621 87 -87 87 -88 -87 -88 -87
                   -89 0 -627 0 -626 1430 0 1430 0 0 627 0 628 -87 88 -88 88 88 86 87 86 0 628
                   0 629 -1423 0 c-783 0 -1427 -3 -1430 -7z m2713 -663 l0 -531 -115 -117 -115
@@ -76,7 +76,7 @@ class TestLgRemoteControl extends LitElement {
                   Created by potrace 1.16, written by Peter Selinger 2001-2019
                   </metadata>
                   <g transform="translate(0.000000,171.000000) scale(0.100000,-0.100000)"
-                  fill="var(--primary-text-color)" stroke="none">
+                  fill="var(--remote-text-color)" stroke="none">
                   <path d="M1408 1423 l-188 -188 -103 103 c-108 108 -136 122 -170 84 -34 -38
                   -22 -62 85 -169 l103 -103 -269 0 c-303 0 -316 -3 -367 -73 l-29 -40 0 -407
                   c0 -407 0 -407 23 -441 12 -18 38 -44 56 -56 l34 -23 637 0 637 0 34 23 c18
@@ -126,7 +126,7 @@ class TestLgRemoteControl extends LitElement {
                Created by potrace 1.16, written by Peter Selinger 2001-2019
                </metadata>
                <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)"
-               fill="var(--primary-text-color)" stroke="none">
+               fill="var(--remote-text-color)" stroke="none">
                <path d="M951 1356 l-73 -74 -37 15 c-49 21 -142 20 -175 -3 -84 -54 -73 -186
                29 -350 124 -198 363 -374 486 -359 41 6 99 46 122 84 21 36 22 104 2 161 -17
                49 -25 35 78 143 40 43 47 56 47 91 0 34 -7 47 -42 83 l-42 43 25 27 c41 44
@@ -156,7 +156,7 @@ class TestLgRemoteControl extends LitElement {
               Created by potrace 1.16, written by Peter Selinger 2001-2019
               </metadata>
               <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)"
-              fill="var(--primary-text-color)" stroke="none">
+              fill="var(--remote-text-color)" stroke="none">
               <path d="M791 1352 c-60 -32 -71 -67 -71 -229 l0 -143 -280 0 -280 0 0 -235 0
               -235 280 0 280 0 0 -136 c0 -154 10 -190 65 -224 32 -20 48 -20 885 -20 l853
               0 34 26 c36 27 63 72 56 92 -4 9 37 12 184 12 l189 0 42 85 42 85 0 323 0 322
@@ -187,7 +187,7 @@ class TestLgRemoteControl extends LitElement {
               Created by potrace 1.16, written by Peter Selinger 2001-2019
               </metadata>
               <g transform="translate(0.000000,170.000000) scale(0.100000,-0.100000)"
-              fill="var(--primary-text-color)" stroke="none">
+              fill="var(--remote-text-color)" stroke="none">
               <path d="M436 1614 c-12 -12 -16 -37 -16 -110 l0 -94 -60 0 -60 0 0 -50 0 -50
               165 0 165 0 0 50 0 50 -60 0 -60 0 0 94 c0 96 -11 126 -45 126 -7 0 -21 -7
               -29 -16z"/>
@@ -236,11 +236,12 @@ class TestLgRemoteControl extends LitElement {
     render() {
         const stateObj = this.hass.states[this.config.entity];
         const scale = this.config.scale ? this.config.scale : 1;
-        const buttoncolor = this.config.buttoncolor ? this.config.buttoncolor : "#f2f0fa";
-        const background = this.config.background ? this.config.background : "var(--primary-background-color)";
+        const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
+        const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
+        const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
         return html`
             <div class="card" style="transform: scale(${scale})">
-            <div class="page" style="--remote-button-color: ${buttoncolor}; --remote-color: ${background};}">
+            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};}">
                   <div class="grid-container-power">
 
                     <div class="grid-item">
@@ -248,11 +249,10 @@ class TestLgRemoteControl extends LitElement {
                     </div>
                     <div class="grid-item">
                       <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: red;"/></button>
-<!--                    </div>
-                    <div class="grid-item">
+                    </div>
+<!--                    <div class="grid-item">
                       <button class="btn-flat ripple" @click=${() => this._123()}>123</button>
                     </div> -->
-                    </div>
                     <div class="grid-item">
                       <button class="btn-flat ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
                     </div>
@@ -694,6 +694,12 @@ class TestLgRemoteControl extends LitElement {
     50% { opacity: 0; }
     }
 
+  .card {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 
   .page {
     background-color: var(--remote-color);
@@ -988,7 +994,7 @@ class TestLgRemoteControl extends LitElement {
  
   .btn {
     background-color: var(--remote-button-color);
-    color: var(--primary-text-color);
+    color: var(--remote-text-color);
     font-size: 14px;
     width: 60px;
     height: 60px;
@@ -1003,7 +1009,7 @@ class TestLgRemoteControl extends LitElement {
   
   .btn-keypad {
     background-color: transparent;
-    color: var(--primary-text-color);
+    color: var(--remote-text-color);
     font-size: 26px;
     width: 100%;
     height: 100%;
@@ -1013,7 +1019,7 @@ class TestLgRemoteControl extends LitElement {
 
   .btn_source {
     background-color: var(--remote-button-color);
-    color: var(--primary-text-color);
+    color: var(--remote-text-color);
     font-size: 14px;
     width: 42px;
     height: 32px;
@@ -1027,7 +1033,7 @@ class TestLgRemoteControl extends LitElement {
   }
   .btn_hdmi-sound {
     background-color: var(--remote-button-color);
-    color: var(--primary-text-color);
+    color: var(--remote-text-color);
     font-size: 14px;
     width: 240px;
     height: 36px;
@@ -1064,7 +1070,7 @@ class TestLgRemoteControl extends LitElement {
     cursor: pointer;
     background-color: transparent;
     opacity: 0.4;
-    color: var(--primary-text-color)
+    color: var(--remote-text-color)
     font-weight: bold;
 
   }
@@ -1093,7 +1099,7 @@ class TestLgRemoteControl extends LitElement {
     display: block;
     cursor: pointer;
     background-color: var(--remote-button-color);
-    color: var(--primary-text-color);
+    color: var(--remote-text-color);
     border: solid 2px var(--remote-color);
   }
 
@@ -1103,7 +1109,7 @@ class TestLgRemoteControl extends LitElement {
 
   .btn-flat {
     background-color: var(--remote-button-color); //rgba(255, 0, 0, 1);
-    color: var(--primary-text-color);
+    color: var(--remote-text-color);
     font-size: 14px;
     width: 60px;
     height: 32px;
