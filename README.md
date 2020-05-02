@@ -95,22 +95,22 @@ resources:
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `icon` | string | **Required** | 'mdi:netflix'| url of the image to be displayed in the channel pad popup |
-| `app` | string | **Required** | app name | you have to write the exact name of the app to launch. you can find the correct name in the state of your media_player entity under "source_list:" |
+| `name` | string | **Required** | app name | you have to write the exact name of the app to launch. you can find the correct name in the state of your media_player entity under "source_list:" |
 ```yaml
 sources:
   - icon: 'mdi:power'
-    app: "Netflix"
+    name: "Netflix"
   - icon: 'mdi:amazon'
-    app: "Amazon Prime Video"
+    name: "Amazon Prime Video"
   - icon: 'mdi:youtube'
-    app: "YouTube"
+    name: "YouTube"
 ```
 **Note:**  `disney` and `dazn` are special, icon you must enter them like this:
 ```yaml
   - icon: disney
-    app: Disney
+    name: Disney
   - icon: dazn
-    app: Dazn
+    name: Dazn
 ```
 ### Channels Options
 | Name | Type | Default | Supported options | Description |
