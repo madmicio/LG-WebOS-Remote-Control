@@ -321,7 +321,7 @@ class LgRemoteControl extends LitElement {
 
                     ${this._show_keypad ? html`
 <!-- ################################ keypad ################################## -->
-                    <div class="grid-container-keypad" style="--remotewidth: ${remoteWidth}">
+                    <div class="grid-container-keypad">
                         <button class="btn-keypad ripple" @click=${() => this._button("1")}>1</button>
                         <button class="btn-keypad ripple" @click=${() => this._button("2")}>2</button>
                         <button class="btn-keypad ripple" @click=${() => this._button("3")}>3</button>
@@ -338,7 +338,7 @@ class LgRemoteControl extends LitElement {
   <!-- ################################# keypad end ############################## --> 
                  ` : html`
 <!-- ################################# DIRECTION PAD ################################# -->
-                  <div class="grid-container-cursor" style="--remotewidth: ${remoteWidth}; ">
+                  <div class="grid-container-cursor">
                   <div class="shape">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 79"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--remote-button-color)" stroke="#000000" stroke-width="0" /></svg>
                     </div> 
@@ -358,7 +358,7 @@ class LgRemoteControl extends LitElement {
                   `}
 <!-- ################################# SOURCE BUTTONS ################################# -->
                   ${this.config.sources ? html`
-                      <div class="grid-container-source" style="--remotewidth: ${remoteWidth}">
+                      <div class="grid-container-source">
                       ${this.config.sources.map(source => {
                       return html`
                         <button class="btn_source ripple" @click=${() => this._select_source(source.name)}>
@@ -368,7 +368,7 @@ class LgRemoteControl extends LitElement {
                       })}
                       </div>
                     ` : html`
-                  <div class="grid-container-source" style="--remotewidth: ${remoteWidth}">
+                  <div class="grid-container-source">
                       <button class="btn_source ripple" @click=${() => this._select_source("Netflix")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:netflix"/></button>
                       <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:amazon"/></button>
                       <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${LgRemoteControl.disneyIcon}</button>
@@ -378,7 +378,7 @@ class LgRemoteControl extends LitElement {
 
 <!-- ################################# COLORED BUTTONS ################################# -->
                 ${colorButtons ? html`
-                  <div class="grid-container-source" style="--remotewidth: ${remoteWidth}; height: calc(var(--remotewidth) / 10);">
+                  <div class="grid-container-source" style="height: calc(var(--remotewidth) / 10);">
                       <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._button("RED")}></button>
                       <button class="btn_source ripple" style="background-color: green; height: 22px;" @click=${e => this._button("GREEN")}></button>
                       <button class="btn_source ripple" style="background-color: yellow; height: 22px;" @click=${e => this._button("YELLOW")}></button>
@@ -388,7 +388,7 @@ class LgRemoteControl extends LitElement {
                   `}
 <!-- ################################# COLORED BUTTONS END ################################# -->
 
-                  <div class="grid-container-volume-channel-control" style="--remotewidth: ${remoteWidth}">
+                  <div class="grid-container-volume-channel-control" >
                       <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:plus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-top: 0px; height: 50%;" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"></button>
                       <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
@@ -401,7 +401,7 @@ class LgRemoteControl extends LitElement {
                   </div>
 
 <!-- ################################# MEDIA CONTROL ################################# -->
-                 <div class="grid-container-media-control" style="--remotewidth: ${remoteWidth}">
+                 <div class="grid-container-media-control" >
                       <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/play")}><ha-icon icon="mdi:play"/></button>
                       <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/pause")}><ha-icon icon="mdi:pause"/></button>
                       <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/stop")}><ha-icon icon="mdi:stop"/></button>
