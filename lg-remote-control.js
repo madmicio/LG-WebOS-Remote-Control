@@ -806,8 +806,8 @@ class LgRemoteControl extends LitElement {
            grid-area: exit;
       }
        ha-icon {
-           width: 50%;
-           height: 50% 
+           width: calc(var(--remotewidth) / 10.8);
+           height: calc(var(--remotewidth) / 10.8); 
       }
        .btn {
            background-color: var(--remote-button-color);
