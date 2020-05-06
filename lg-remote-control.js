@@ -578,7 +578,6 @@ class LgRemoteControl extends LitElement {
            justify-content: center;
            width: 100%;
            height: 100%;
-           border: 1px solid var(--app-header-text-color);
       }
        .page {
            background-color: var(--remote-color);
