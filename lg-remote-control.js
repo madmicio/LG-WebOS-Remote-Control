@@ -255,7 +255,7 @@ class LgRemoteControl extends LitElement {
     render() {
         const stateObj = this.hass.states[this.config.entity];
         const scale = this.config.scale ? this.config.scale : 1;
-        var remoteWidth = this.config.remoteWidth ? this.config.remoteWidth : "300px";
+        var remoteWidth = this.config.remoteWidth ? this.config.remoteWidth : "260px";
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
@@ -379,10 +379,10 @@ class LgRemoteControl extends LitElement {
 <!-- ################################# COLORED BUTTONS ################################# -->
                 ${colorButtons ? html`
                   <div class="grid-container-source" style="height: calc(var(--remotewidth) / 10);">
-                      <button class="btn_source ripple" style="background-color: red; height: 22px;" @click=${e => this._button("RED")}></button>
-                      <button class="btn_source ripple" style="background-color: green; height: 22px;" @click=${e => this._button("GREEN")}></button>
-                      <button class="btn_source ripple" style="background-color: yellow; height: 22px;" @click=${e => this._button("YELLOW")}></button>
-                      <button class="btn_source ripple" style="background-color: blue; height: 22px;" @click=${e => this._button("BLUE")}></button>
+                      <button class="btn_source ripple" style="background-color: red; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("RED")}></button>
+                      <button class="btn_source ripple" style="background-color: green; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("GREEN")}></button>
+                      <button class="btn_source ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("YELLOW")}></button>
+                      <button class="btn_source ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("BLUE")}></button>
                   </div>
                   ` : html`
                   `}
@@ -578,6 +578,7 @@ class LgRemoteControl extends LitElement {
            justify-content: center;
            width: 100%;
            height: 100%;
+           border: 1px solid var(--app-header-text-color);
       }
        .page {
            background-color: var(--remote-color);
@@ -585,8 +586,8 @@ class LgRemoteControl extends LitElement {
            display: inline-block;
            flex-direction: row;
            border: 1px solid var(--app-header-text-color);
-           border-radius: 35px;
-           padding: calc(var(--remotewidth) / 37.5) calc(var(--remotewidth) / 25);
+           border-radius: calc(var(--remotewidth) / 7.5);
+           padding: calc(var(--remotewidth) / 37.5) calc(var(--remotewidth) / 15.2) calc(var(--remotewidth) / 11) calc(var(--remotewidth) / 15.2);
       }
        .grid-container-power {
            display: grid;
