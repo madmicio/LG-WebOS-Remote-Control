@@ -86,6 +86,7 @@ resources:
 | `channels` |  | **Option**|  | list of channel in popup |
 | `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
 | `color_buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
+| `scale` |  | **Option**| number | scale factor; default 1 |
 
 ### Source Options
 | Name | Type | Default | Supported options | Description |
@@ -178,7 +179,14 @@ in this new version we have implemented some new features:
 ```
 **note: disney and danz are special icon. so you you must enter it as in the example**
 
-
+  ## Scale option:
+  
+  the remote control supports the scale option to adjust its size
+```yaml
+- type: 'custom:lg-remote-control'
+  entity: media_player.tv_lg_55c8
+  sources:
+```
   
   ## Install Tv Logo
   
