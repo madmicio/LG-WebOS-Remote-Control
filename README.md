@@ -1,7 +1,7 @@
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 [![buymeacoffee_badge](https://img.shields.io/badge/Donate-buymeacoffe-ff813f?style=flat)](https://www.buymeacoffee.com/madmicio)
 
 the project is now curated and developed in collaboration with [Piotr Machowski](https://github.com/PiotrMachowski)
