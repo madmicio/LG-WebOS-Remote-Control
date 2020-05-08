@@ -25,8 +25,6 @@ class LgRemoteControl extends LitElement {
               l-5.8-0.5c-6.5-0.5-24.4,7.5-27.6,12.2c-1.4,2.3-1,3.8,1.6,6.6c3.5,4,17.6,12,21.1,12.2C137.2,1508.6,140,1501.8,142.4,1493.4z"/>
               </g>
               </svg>
-     
-     
      `;
     }
 
@@ -57,8 +55,9 @@ class LgRemoteControl extends LitElement {
               </svg>
      `;
     }
+
     static get nowTv() {
-      return html`
+        return html`
               <svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
               viewBox="0 0 30 30.7" style="enable-background:new 0 0 30 30.7;" xml:space="preserve">
               <style type="text/css">
@@ -82,10 +81,8 @@ class LgRemoteControl extends LitElement {
               c-1.9,1.7-3.5,2.3-7,2.3C152,888.6,150.4,888,148.5,886.3z"/>
               </g>
               </svg>
-   
      `;
     }
-
 
     static get tvoptic() {
         return html`<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -123,10 +120,8 @@ class LgRemoteControl extends LitElement {
      `;
     }
 
-
-
     static get tvheadphone() {
-      return html`    
+        return html`    
               <svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
               viewBox="0 0 567 171" style="enable-background:new 0 0 567 171;" xml:space="preserve">
               <style type="text/css">
@@ -146,10 +141,10 @@ class LgRemoteControl extends LitElement {
               C5060,1147.8,4786.9,1418.9,4450,1418.9z"/>
               </g>
               </svg>`;
-          }
+    }
 
-          static get optic() {
-            return html`<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    static get optic() {
+        return html`<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
               viewBox="0 0 567 171" style="enable-background:new 0 0 567 171;" xml:space="preserve">
               <style type="text/css">
               .st0{fill:var(--remote-text-color);}
@@ -174,7 +169,7 @@ class LgRemoteControl extends LitElement {
               </g>
               </svg>
          `;
-        }
+    }
 
     static get arc() {
         return html`<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -197,9 +192,6 @@ class LgRemoteControl extends LitElement {
               </g>
               </svg>`;
     }
-
-
-
 
     static get lineout() {
         return html`<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -254,8 +246,7 @@ class LgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const scale = this.config.scale ? this.config.scale : 1;
-        var remoteWidth = this.config.remoteWidth ? this.config.remoteWidth : "260px";
+        const remoteWidth = Math.round((this.config.scale ? this.config.scale : 1) * 260) + "px";
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
@@ -417,26 +408,6 @@ class LgRemoteControl extends LitElement {
             `;
     }
 
-    updated() {
-    }
-
-
-    _123() {
-        this.hass.callService("browser_mod", "popup",
-            {
-                "card": {
-                    "type": "custom:card-numeric-pad",
-                    "entity": this.config.entity
-                },
-                "deviceID": ["this"],
-                "title": " ",
-                "style": {
-                    "border-radius": "15px"
-                }
-            }
-        )
-    }
-
     _channelList() {
         this.hass.callService("browser_mod", "popup",
             {
@@ -492,27 +463,6 @@ class LgRemoteControl extends LitElement {
         this._show_sound_output = false;
     }
 
-    _smart() {
-        this.hass.callService("webostv", "command", {
-            entity_id: this.config.entity,
-            command: "tv/getChannelList"
-        });
-    }
-
-    _smart2() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "TV_CHANNEL_DOWN"
-        });
-    }
-
-    _input() {
-        this.hass.callService("webostv", "button", {
-            entity_id: this.config.entity,
-            button: "GET_SYSTEM_SETTINGS"
-        });
-    }
-
     setConfig(config) {
         if (!config.entity) {
             console.log("Invalid configuration");
@@ -527,7 +477,7 @@ class LgRemoteControl extends LitElement {
     static getIcon(iconName) {
         return Object.keys(LgRemoteControl.iconMapping).includes(iconName)
             ? LgRemoteControl.iconMapping[iconName]
-            : html`<ha-icon style="heigth: 70%; width: 70%;" icon="${iconName}"/>`;
+            : html`<ha-icon style="height: 70%; width: 70%;" icon="${iconName}"/>`;
     }
 
     static get styles() {
@@ -964,8 +914,6 @@ class LgRemoteControl extends LitElement {
            font-size: calc(var(--remotewidth) / 16.6);
            // border: solid 2px var(--backgroundcolor
       }
-      ;undefined}undefined
-
   `;
     }
 
