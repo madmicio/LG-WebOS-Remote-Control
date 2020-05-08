@@ -160,8 +160,8 @@ in this new version we have implemented some new features:
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
   sources:
-    - name: Netflilx
-      icon: 'mdi:netflilx'
+    - name: Netflix
+      icon: 'mdi:netflix'
     - name: Disney
       icon: disney
     - name: Dazn
