@@ -18,11 +18,7 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 
 ## New Features:
 
-added two panels:
-- Integrated keypad
-- TV App List
-- Sound Output Panel
-- Color buttons (option)
+**remote is now resizable**
 
 ![all](example/sound-source-pad.png)
 
