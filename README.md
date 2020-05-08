@@ -8,7 +8,7 @@ the project is now curated and developed in collaboration with [Piotr Machowski]
 
 
 
-![all](example/remote-control3.jpg)
+![all](example/remote.png)
 
 ![all](example/channels.jpg)
 
@@ -20,9 +20,6 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 
 **remote is now resizable**
 
-![all](example/sound-source-pad.png)
-
-![all](example/color_buttons.jpg)
 ## Color Management
 color customization implemented through the section
 ```yaml
