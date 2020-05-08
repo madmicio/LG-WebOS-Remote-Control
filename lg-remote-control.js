@@ -363,17 +363,17 @@ class LgRemoteControl extends LitElement {
                       <button class="btn_source ripple" @click=${() => this._select_source("Netflix")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:netflix"/></button>
                       <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:amazon"/></button>
                       <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${LgRemoteControl.disneyIcon}</button>
-                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${LgRemoteControl.nowTv}</button>
+                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${LgRemoteControl.daznIcon}</button>
                   </div>`}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
 
 <!-- ################################# COLORED BUTTONS ################################# -->
                 ${colorButtons ? html`
-                  <div class="grid-container-source" style="height: calc(var(--remotewidth) / 10);">
-                      <button class="btn_source ripple" style="background-color: red; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("RED")}></button>
-                      <button class="btn_source ripple" style="background-color: green; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("GREEN")}></button>
-                      <button class="btn_source ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("YELLOW")}></button>
-                      <button class="btn_source ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("BLUE")}></button>
+                  <div class="grid-container-color_btn">
+                      <button class="btn-color ripple" style="background-color: red; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("RED")}></button>
+                      <button class="btn-color ripple" style="background-color: green; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("GREEN")}></button>
+                      <button class="btn-color ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("YELLOW")}></button>
+                      <button class="btn-color ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("BLUE")}></button>
                   </div>
                   ` : html`
                   `}
@@ -592,11 +592,22 @@ class LgRemoteControl extends LitElement {
            grid-template-rows: auto;
            background-color: transparent;
            width: calc(var(--remotewidth) / 1.03);
-           height: calc(var(--remotewidth) / 4.5);
            overflow: hidden;
            margin: auto;
       }
-       .grid-container-volume-channel-control {
+
+        .grid-container-color_btn{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto;
+            background-color: transparent;
+            width: calc(var(--remotewidth) / 1.03);
+            height: calc(var(--remotewidth) / 10);
+            overflow: hidden;
+            margin: auto;
+        }
+
+        .grid-container-volume-channel-control {
            display: grid;
            grid-template-columns: 1fr 1fr 1fr;
            grid-template-rows: 1fr 1fr 1fr;
@@ -816,14 +827,26 @@ class LgRemoteControl extends LitElement {
        .btn_source {
            background-color: var(--remote-button-color);
            color: var(--remote-text-color);
-           width: 70%;
-           height: 55%;
+           width: calc(var(--remotewidth) / 5.9);
+           height: calc(var(--remotewidth) / 8.125);
            border-width: 0px;
            border-radius: calc(var(--remotewidth) / 10);
-           margin: auto;
+           margin: calc(var(--remotewidth) / 18.57) auto calc(var(--remotewidth) / 20) auto;
            place-items: center;
            cursor: pointer;
       }
+        .btn-color {
+            background-color: var(--remote-button-color);
+            color: var(--remote-text-color);
+            width: 70%;
+            height: 55%;
+            border-width: 0px;
+            border-radius: calc(var(--remotewidth) / 10);
+            margin: auto;
+            place-items: center;
+            cursor: pointer;
+        }   
+
        .icon_source {
            height: 100%;
            width: 100%;
