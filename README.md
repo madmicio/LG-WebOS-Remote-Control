@@ -1,6 +1,9 @@
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![buymeacoffee_badge](https://img.shields.io/badge/Donate-buymeacoffe-ff813f?style=flat)](https://www.buymeacoffee.com/madmicio)
+
 the project is now curated and developed in collaboration with [Piotr Machowski](https://github.com/PiotrMachowski)
 
 
@@ -92,22 +95,22 @@ resources:
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `icon` | string | **Required** | 'mdi:netflix'| url of the image to be displayed in the channel pad popup |
-| `app` | string | **Required** | app name | you have to write the exact name of the app to launch. you can find the correct name in the state of your media_player entity under "source_list:" |
+| `name` | string | **Required** | app name | you have to write the exact name of the app to launch. you can find the correct name in the state of your media_player entity under "source_list:" |
 ```yaml
 sources:
   - icon: 'mdi:power'
-    app: "Netflix"
+    name: "Netflix"
   - icon: 'mdi:amazon'
-    app: "Amazon Prime Video"
+    name: "Amazon Prime Video"
   - icon: 'mdi:youtube'
-    app: "YouTube"
+    name: "YouTube"
 ```
 **Note:**  `disney` and `dazn` are special, icon you must enter them like this:
 ```yaml
   - icon: disney
-    app: Disney
+    name: Disney
   - icon: dazn
-    app: Dazn
+    name: Dazn
 ```
 ### Channels Options
 | Name | Type | Default | Supported options | Description |
@@ -157,8 +160,8 @@ in this new version we have implemented some new features:
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
   sources:
-    - name: Netflilx
-      icon: 'mdi:netflilx'
+    - name: Netflix
+      icon: 'mdi:netflix'
     - name: Disney
       icon: disney
     - name: Dazn
@@ -204,4 +207,6 @@ image must have 10px margin like this example:
 ## Popup Buttons
 
 ![all](example/popup.png)
+
+<a href="https://www.buymeacoffee.com/madmicio" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 

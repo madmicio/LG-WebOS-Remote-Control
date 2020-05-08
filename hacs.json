@@ -1,6 +1,6 @@
 {
 "name": "LG WebOS Remote Control",
-"content_in_root": false,
+"content_in_root": true,
 "filename": "lg-remote-control.js",
 "render_readme" : true
 }
