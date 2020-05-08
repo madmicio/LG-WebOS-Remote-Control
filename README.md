@@ -185,7 +185,7 @@ in this new version we have implemented some new features:
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
-  sources:
+  scale: 0.98
 ```
   
   ## Install Tv Logo
