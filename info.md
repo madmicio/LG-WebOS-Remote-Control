@@ -4,7 +4,7 @@ see the details below
 # LG-WebOS-Remote-Control
 Remote Control for LG TV WebOS
 
-![all](example/remote-control3.jpg)
+![all](example/remote.png)
 
 ![all](example/channels.jpg)
 
@@ -20,6 +20,9 @@ added two panels:
 - Sound Output Pannel
 - Integrated keypad
 - Color buttons (option)
+- sccale option
+- remote border color
+- remote border width
 
 ![all](example/sound-source-pad.png)
 
