@@ -19,6 +19,8 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 ## New Features:
 
 **remote is now resizable**
+**border add to colors options**
+**corderwidth add to dimensions option**
 
 ## Color Management
 color customization implemented through the section
