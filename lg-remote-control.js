@@ -246,13 +246,17 @@ class LgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const remoteWidth = Math.round((this.config.dimensions.scale ? this.config.dimensions.scale : 1) * 260) + "px";
+        const colorButtons = this.config.color_buttons === "enable";
+
+        const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
+        const scale = this.config.dimensions && this.config.dimensions.scale ? this.config.dimensions.scale : 1;
+        const remoteWidth = Math.round(scale * 260) + "px";
+
+        const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
+        const borderColor = this.config.colors && this.config.colors.border ? this.config.colors.border: "var(--app-header-text-color)";
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "#f2f0fa";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
-        const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
-        const colorButtons = this.config.color_buttons === "enable";
-        const borderColor = this.config.colors && this.config.colors.border ? this.config.colors.border: "var(--app-header-text-color)";
-        const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width: "1px"; 
+
         return html`
             <div class="card">
             <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth};  --main-border-color: ${borderColor}; --main-border-width: ${borderWidth}">
