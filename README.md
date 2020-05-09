@@ -18,9 +18,9 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 
 ## New Features:
 
-**remote is now resizable**
-**border add to colors options**
-**corderwidth add to dimensions option**
+**remote is now resizable - scale added to dimensions option**
+**corderwidth added to dimensions option**
+**border added to colors option**
 
 ## Color Management
 color customization implemented through the section
@@ -85,7 +85,6 @@ resources:
 | `channels` |  | **Option**|  | list of channel in popup |
 | `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
 | `color_buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
-| `scale` |  | **Option**| number | scale factor; default 1 |
 
 ### Source Options
 | Name | Type | Default | Supported options | Description |
@@ -129,6 +128,15 @@ channels:
 | `buttons` | string | **Option** | color formats | buttons background-color |
 | `texts` | string | **Option** | color formats | number and icon color |
 | `background:` | string | **Option** | color formats | list of color options |
+| `border:` | string | --app-header-text-color | color formats | remote border color |
+
+
+### dimensions Options
+| Name | Type | Default | Supported options | Description |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scale` |  | **Option**| number | scale factor; default 1 |
+| `border_width` |  | **Option**| number | set remote border width; default 1px |
+
 # Channel pad
 in this version of the card there is no longer a "channel pad popup" with preset channels.
 this is to give each user the ability to create his own list.
@@ -173,18 +181,20 @@ in this new version we have implemented some new features:
       number: '1'
     - image: /local/images/tv_logo/channel_2.png
       number: '1'
-  scale: 1
+
    
 ```
 **note: disney and danz are special icon. so you you must enter it as in the example**
 
-  ## Scale option:
+  ## dimnensions option:
   
   the remote control supports the scale option to adjust its size
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
-  scale: 0.98
+  dimensions:
+    scale: 0.98
+    border_width: 3px
 ```
   
   ## Install Tv Logo
