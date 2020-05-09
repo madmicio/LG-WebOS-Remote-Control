@@ -251,6 +251,7 @@ class LgRemoteControl extends LitElement {
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
         const colorButtons = this.config.color_buttons === "enable";
+        const sourcesDefault = this.config.default_sources != "disable" && this.config.sources === false;
         return html`
             <div class="card">
             <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth}"">
@@ -359,12 +360,16 @@ class LgRemoteControl extends LitElement {
                       })}
                       </div>
                     ` : html`
-                  <div class="grid-container-source">
-                      <button class="btn_source ripple" @click=${() => this._select_source("Netflix")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:netflix"/></button>
-                      <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:amazon"/></button>
-                      <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${LgRemoteControl.disneyIcon}</button>
-                      <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${LgRemoteControl.daznIcon}</button>
-                  </div>`}
+                  `}
+                  ${sourcesDefault ? html`
+                    <div class="grid-container-source">
+                        <button class="btn_source ripple" @click=${() => this._select_source("Netflix")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:netflix"/></button>
+                        <button class="btn_source ripple" @click=${() => this._select_source("Amazon Prime Video")}><ha-icon style="heigth: 70%; width: 70%;" icon="mdi:amazon"/></button>
+                        <button class="btn_source ripple" @click=${() => this._select_source("Disney+")}>${LgRemoteControl.disneyIcon}</button>
+                        <button class="btn_source ripple" @click=${() => this._select_source("DAZN")}>${LgRemoteControl.daznIcon}</button>
+                    </div>
+                    ` : html`
+                    `}
 <!-- ################################# SOURCE BUTTONS END ################################# -->
 
 <!-- ################################# COLORED BUTTONS ################################# -->
