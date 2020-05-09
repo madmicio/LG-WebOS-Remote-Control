@@ -251,9 +251,11 @@ class LgRemoteControl extends LitElement {
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var(--primary-background-color)";
         const colorButtons = this.config.color_buttons === "enable";
+        const borderColor = this.config.colors && this.config.colors.border ? this.config.colors.border: "var(--app-header-text-color)";
+        const borderWidth = this.config.colors && this.config.colors.borderwidth ? this.config.colors.borderwidth: "1px"; 
         return html`
             <div class="card">
-            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth}"">
+            <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth};  --main-border-color: ${borderColor}; --main-border-width: ${borderWidth}">
                   <div class="grid-container-power"  style="--remotewidth: ${remoteWidth}">
                       <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
                       <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: red;"/></button>
@@ -534,7 +536,7 @@ class LgRemoteControl extends LitElement {
            height: 100%;
            display: inline-block;
            flex-direction: row;
-           border: 1px solid var(--app-header-text-color);
+           border: var(--main-border-width) solid var(--main-border-color);
            border-radius: calc(var(--remotewidth) / 7.5);
            padding: calc(var(--remotewidth) / 37.5) calc(var(--remotewidth) / 15.2) calc(var(--remotewidth) / 11) calc(var(--remotewidth) / 15.2);
       }
