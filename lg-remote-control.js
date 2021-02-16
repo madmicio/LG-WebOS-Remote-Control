@@ -422,9 +422,6 @@ class LgRemoteControl extends LitElement {
                     "entity": this.config.entity,
                     "channels": this.config.channels
                 },
-                "deviceID": [
-                    "this"
-                ],
                 "title": " ",
                 "large": true,
                 "style": {
