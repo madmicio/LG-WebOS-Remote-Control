@@ -1,0 +1,12 @@
+In the readme the following is mentioned regarding the following special icons on the remote:
+  - icon: disney
+    name: Disney
+  - icon: dazn
+    name: Dazn
+    
+    After testing I noticed the Disney button requires the following name:
+    
+   - icon: disney
+     name: Disney+
+     
+     Otherwise the button does not work at all
