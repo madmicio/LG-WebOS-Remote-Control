@@ -278,7 +278,7 @@ class LgRemoteControl extends LitElement {
                     <button class="${stateObj.attributes.source === source ? 'btn-input-on' : 'btn-input  ripple overlay'}" @click=${() => {
                         this._select_source(source);
                         this._show_inputs = false;
-                    }}}>${source}</button>
+                    }}>${source}</button>
                     `)}
                   </div>
 <!-- ################################# SOURCES END ################################# -->
