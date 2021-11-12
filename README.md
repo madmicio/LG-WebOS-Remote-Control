@@ -29,7 +29,7 @@ colors:
 ```
 
 
-- buttons: set buttons  background color    - default: "#f2f0fa"
+- buttons: set buttons  background color    - default: "var(--secondary-background-color)"
 - texts: set buttons color                  - default: "var(--primary-text-color)"
 - background: set remote background color   - default: "var(--primary-background-color)"
 ```yaml
