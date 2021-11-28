@@ -328,7 +328,7 @@ class LgRemoteControl extends LitElement {
                         <button class="btn-keypad ripple" @click=${() => this._button("7")}>7</button>
                         <button class="btn-keypad ripple" @click=${() => this._button("8")}>8</button>
                         <button class="btn-keypad ripple" @click=${() => this._button("9")}>9</button>
-                        <button class="btn-keypad"></button>
+                        <button class="btn-keypad ripple" @click=${() => this._button("DASH")}>—</button>
                         <button class="btn-keypad ripple" @click=${() => this._button("0")}>0</button>
                         <button class="btn-keypad"></button>
                   </div>
