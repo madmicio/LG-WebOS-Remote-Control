@@ -136,6 +136,21 @@ sound_devices:
     entity: media_player.living_room_speaker
 ```
 
+
+### Custom button Options
+The LG tv remote has more buttons available, also depending on the model. 
+
+| Name | Type | Default | Supported options | Description |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name` | string | **Required** | A [Supported button](https://www.home-assistant.io/integrations/webostv/#service-webostvbutton) command  |  |
+| `icon` | string | **Required** | 'mdi:netflix'| url of the image to be displayed in the extra button  |
+
+```yaml
+custom_buttons:
+  - name: SCREEN_REMOTE
+    icon: mdi:dots-horizontal
+```
+
 ### Colors Options
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
