@@ -256,7 +256,12 @@ class LgRemoteControl extends LitElement {
         console.log(stateObj.attributes.sound_output, this._custom_sound_devices);
         if(!('sound_output' in stateObj.attributes)){
             // tv is off
-            this._current_audio_device =  stateObj;
+            if("off" in this._custom_sound_devices){
+                this._current_audio_device =  this.hass.states[this._custom_sound_devices["off"].entity];
+            }
+            else {
+                this._current_audio_device = stateObj;
+            }
         }
         else if(stateObj.attributes.sound_output in this._custom_sound_devices){
             this._current_audio_device =  this.hass.states[this._custom_sound_devices[stateObj.attributes.sound_output].entity];
@@ -459,8 +464,8 @@ class LgRemoteControl extends LitElement {
                 entity_id: this._current_audio_device.entity_id,
                 is_volume_muted: false
             });
-            //TODO: in the future: add config to choose if host should be muted as well for visual feedback
-            if(true){
+            //TODO: in the future: add config to choose if host should be muted as well for visual feedback.
+            if(false){
                 this.hass.callService("media_player", "volume_mute", {
                     entity_id: this.config.entity,
                     is_volume_muted: false
@@ -474,7 +479,7 @@ class LgRemoteControl extends LitElement {
                 is_volume_muted: true
             });
 
-            if(true){
+            if(false){
                 this.hass.callService("media_player", "volume_mute", {
                     entity_id: this.config.entity,
                     is_volume_muted: true
