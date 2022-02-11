@@ -474,6 +474,7 @@ class LgRemoteControl extends LitElement {
             console.log("Invalid configuration");
         }
         this.config = config;
+        console.log(config)
     }
 
     getCardSize() {
