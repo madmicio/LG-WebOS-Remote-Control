@@ -4,6 +4,7 @@
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
+
 class LgRemoteControl extends LitElement {
 
     static get disneyIcon() {
