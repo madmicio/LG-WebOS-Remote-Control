@@ -617,7 +617,6 @@ class LgRemoteControl extends LitElement {
            grid-template-rows: auto;
            background-color: transparent;
            width: calc(var(--remotewidth) / 1.03);
-           height: calc(var(--remotewidth) / 4);
            overflow: hidden;
            margin: auto;
       }
@@ -863,7 +862,6 @@ class LgRemoteControl extends LitElement {
        .btn_extra {
            background-color: var(--remote-button-color);
            color: var(--remote-text-color);
-           width: 70%;
            height: 70%;
            border-width: 0px;
            border-radius: 50%;
