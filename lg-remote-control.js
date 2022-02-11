@@ -864,9 +864,9 @@ class LgRemoteControl extends LitElement {
            background-color: var(--remote-button-color);
            color: var(--remote-text-color);
            width: 70%;
-           height: 70%
+           height: 70%;
            border-width: 0px;
-           border-radius: calc(var(--remotewidth) / 10);
+           border-radius: 50%;
            margin: calc(var(--remotewidth) / 18.57) auto calc(var(--remotewidth) / 20) auto;
            place-items: center;
            cursor: pointer;
