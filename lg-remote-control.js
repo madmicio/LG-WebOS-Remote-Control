@@ -246,6 +246,8 @@ class LgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
+        const audioStateObj = stateObj;
+
         const colorButtons = this.config.color_buttons === "enable";
 
         const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
@@ -386,13 +388,13 @@ class LgRemoteControl extends LitElement {
 <!-- ################################# COLORED BUTTONS END ################################# -->
 
                   <div class="grid-container-volume-channel-control" >
-                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:plus"/></button>
+                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_up", audioStateObj.entity_id)}><ha-icon icon="mdi:plus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-top: 0px; height: 50%;" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"></button>
                       <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                       <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;"" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="mdi:parking"/></button>
-                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:minus"/></button>
+                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_down", audioStateObj.entity_id)}><ha-icon icon="mdi:minus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-bottom: 0px; height: 50%;" @click=${() => this._button("INFO")}><ha-icon icon="mdi:information-variant"/></button>
                       <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="mdi:chevron-down"/></button>
                   </div>
@@ -448,10 +450,14 @@ class LgRemoteControl extends LitElement {
         });
     }
 
-    _media_player_service(service) {
+    _media_player_entity_service(service, entity){
         this.hass.callService("media_player", service, {
-            entity_id: this.config.entity,
+            entity_id: entity,
         });
+    }
+
+    _media_player_service(service) {
+        this._media_player_entity_service(service,this.config.entity)
     }
 
     _select_source(source) {
@@ -474,7 +480,6 @@ class LgRemoteControl extends LitElement {
             console.log("Invalid configuration");
         }
         this.config = config;
-        console.log(config)
     }
 
     getCardSize() {
