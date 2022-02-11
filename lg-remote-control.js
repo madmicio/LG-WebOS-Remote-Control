@@ -257,7 +257,7 @@ class LgRemoteControl extends LitElement {
         if(!('sound_output' in stateObj.attributes)){
             // tv is off
             if("none" in this._custom_sound_devices){
-                this._current_audio_device =  this.hass.states[this._custom_sound_devices["off"].entity];
+                this._current_audio_device =  this.hass.states[this._custom_sound_devices["none"].entity];
             }
             else {
                 this._current_audio_device = stateObj;
