@@ -362,7 +362,7 @@ class LgRemoteControl extends LitElement {
                       <div class="grid-container-extra-buttons">
                       ${this.config.custom_buttons.map(button => {
                              return html`
-                                <button class="btn_extra ripple" @click=${() => console.log(button.name)}>
+                                <button class="btn_extra ripple" @click=${() => this._button(button.name)}>
                                   ${LgRemoteControl.getIcon(button.icon)}
                                 </button>
                              `;
