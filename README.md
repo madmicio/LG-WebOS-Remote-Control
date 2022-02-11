@@ -126,16 +126,14 @@ If you have an external device that outputs the sound and the volume up/down/mut
 
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `image` | url | **Required** | /local/your_dir/tv_logo/your_image.png | url of the image to be displayed in the channel pad popup |
-| `number` | string | **Required** | number | TV channel number |
+| `name` | string | **Required** | Output options: tv_speaker, tv_external_speaker, tv_speaker_headphone, external_optical, external_arc, lineout, headphone, bt_soundbar and "none" for off-state | The name of the output mode this setting applies to |
+| `entity` | string | **Required** | number | Entity of the media_player that should be controlled |
 ```yaml
-channels:
-  - image: /local/lg_remote/tv_logo/Rai 1 HD.png
-    number: '501'
-  - image: /local/lg_remote/tv_logo/Rai 2 HD.png
-    number: '502'
-  - image: /local/lg_remote/tv_logo/Rai 3 HD.png
-    number: '503'
+sound_devices:
+  - name: none
+    entity: media_player.sonos_bar
+  - name: external_optical
+    entity: media_player.living_room_speaker
 ```
 
 ### Colors Options

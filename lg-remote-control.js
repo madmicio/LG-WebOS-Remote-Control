@@ -541,7 +541,13 @@ class LgRemoteControl extends LitElement {
         }
         this.config = config;
         if("sound_devices" in this.config){
-            this.config.sound_devices.forEach(el => { this._custom_sound_devices[el.name] = el})
+            this.config.sound_devices.forEach(el => {
+                if(!el.entity){
+                    console.warn("Custom sound_device {} missing entity id!".format(el.name))
+                    return;
+                }
+                this._custom_sound_devices[el.name] = el
+            })
 
             //this._custom_sound_devices = this.config.sound_devices;
         }
