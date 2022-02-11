@@ -540,7 +540,8 @@ class LgRemoteControl extends LitElement {
         }
         this.config = config;
         if("sound_devices" in this.config){
-            this._custom_sound_devices = this.config.sound_devices;
+            this.config.sound_devices.forEach(el => { this._custom_sound_devices[el.mode] = el})
+            //this._custom_sound_devices = this.config.sound_devices;
         }
     }
 
