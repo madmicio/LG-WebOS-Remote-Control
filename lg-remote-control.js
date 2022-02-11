@@ -253,7 +253,8 @@ class LgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        console.log(stateObj.attributes.sound_output, this._custom_sound_devices);
+        //console.log(stateObj.attributes.sound_output, this._custom_sound_devices);
+
         if(!('sound_output' in stateObj.attributes)){
             // tv is off
             if("none" in this._custom_sound_devices){
@@ -269,7 +270,7 @@ class LgRemoteControl extends LitElement {
         }else{
             this._current_audio_device = stateObj;
         }
-        console.log("current audio device", this._current_audio_device.entity_id)
+        //console.log("current audio device", this._current_audio_device.entity_id)
 
 
         const colorButtons = this.config.color_buttons === "enable";
@@ -461,35 +462,45 @@ class LgRemoteControl extends LitElement {
     }
 
     _mute_toggle(){
+        let exec_active_set = function (mode){
+            this.hass.callService("media_player", "volume_mute", {
+                entity_id: this._current_audio_device.entity_id,
+                is_volume_muted: mode
+            });
+
+        }
+
+
         if(this._current_audio_device.attributes.is_volume_muted){
             //is now muted
 
-            if(true){
+            //TODO: in the future: add config to choose if host should be muted as well for visual feedback.
+            if(false){
+
                 this.hass.callService("media_player", "volume_mute", {
                     entity_id: this.config.entity,
                     is_volume_muted: false
                 });
+
+
+            }
+            else{
+                exec_active_set(false);
             }
 
-            this.hass.callService("media_player", "volume_mute", {
-                entity_id: this._current_audio_device.entity_id,
-                is_volume_muted: false
-            });
-            //TODO: in the future: add config to choose if host should be muted as well for visual feedback.
+
 
         }
         else{
-            if(true){
+            if(false){
                 this.hass.callService("media_player", "volume_mute", {
                     entity_id: this.config.entity,
                     is_volume_muted: true
                 });
+                sleep(500);
+            } else {
+                exec_active_set(true)
             }
-
-            this.hass.callService("media_player", "volume_mute", {
-                entity_id: this._current_audio_device.entity_id,
-                is_volume_muted: true
-            });
 
 
         }
