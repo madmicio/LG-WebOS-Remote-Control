@@ -557,7 +557,7 @@ class LgRemoteControl extends LitElement {
            background-color: transparent;
            overflow: hidden;
            width: var(--remotewidth);
-           height: calc(var(--remotewidth) / 3);
+           height: calc(var(--remotewidth) / 2);
       }
        .grid-container-cursor {
            display: grid;
