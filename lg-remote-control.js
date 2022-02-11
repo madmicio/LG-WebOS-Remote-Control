@@ -263,7 +263,7 @@ class LgRemoteControl extends LitElement {
         }else{
             this._current_audio_device = stateObj;
         }
-        console.log("current audio device", audioStateObj.entity_id)
+        console.log("current audio device", this._current_audio_device.entity_id)
         const colorButtons = this.config.color_buttons === "enable";
 
         const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
