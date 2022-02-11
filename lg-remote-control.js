@@ -259,7 +259,7 @@ class LgRemoteControl extends LitElement {
             this._current_audio_device =  stateObj;
         }
         else if(stateObj.attributes.sound_output in this._custom_sound_devices){
-            this._current_audio_device =  this._custom_sound_devices[stateObj.attributes.sound_output].entity;
+            this._current_audio_device =  this.hass.states[this._custom_sound_devices[stateObj.attributes.sound_output].entity];
         }else{
             this._current_audio_device = stateObj;
         }
