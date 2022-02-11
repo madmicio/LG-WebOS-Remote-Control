@@ -264,7 +264,13 @@ class LgRemoteControl extends LitElement {
                       <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
                       <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === 'off' ? 'black' : 'red'};"/></button>
                       <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
+                      <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
+                      <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === 'off' ? 'black' : 'red'};"/></button>
+                      <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
+                      
                   </div> 
+                  
+                  
                  ${this._show_inputs ? html`
 <!-- ################################# SOURCES ################################# -->
                   <div class="grid-container-input">
@@ -547,7 +553,7 @@ class LgRemoteControl extends LitElement {
        .grid-container-power {
            display: grid;
            grid-template-columns: 1fr 1fr 1fr;
-           grid-template-rows: 1fr;
+           grid-template-rows: 2fr;
            background-color: transparent;
            overflow: hidden;
            width: var(--remotewidth);
