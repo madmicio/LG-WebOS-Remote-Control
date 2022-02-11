@@ -248,6 +248,7 @@ class LgRemoteControl extends LitElement {
         this._show_text = false;
         this._show_keypad = false;
         this._custom_sound_devices = {};
+        this._current_audio_device = undefined;
     }
 
     render() {
@@ -255,12 +256,12 @@ class LgRemoteControl extends LitElement {
         console.log(stateObj.attributes.sound_output, this._custom_sound_devices);
         if(!('sound_output' in stateObj.attributes)){
             // tv is off
-            const audioStateObj = stateObj;
+            this._current_audio_device =  stateObj;
         }
         else if(stateObj.attributes.sound_output in this._custom_sound_devices){
-            const audioStateObj = this._custom_sound_devices[stateObj.attributes.sound_output].entity;
+            this._current_audio_device =  this._custom_sound_devices[stateObj.attributes.sound_output].entity;
         }else{
-            const audioStateObj = stateObj;
+            this._current_audio_device = stateObj;
         }
         console.log("current audio device", audioStateObj.entity_id)
         const colorButtons = this.config.color_buttons === "enable";
@@ -403,13 +404,13 @@ class LgRemoteControl extends LitElement {
 <!-- ################################# COLORED BUTTONS END ################################# -->
 
                   <div class="grid-container-volume-channel-control" >
-                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_up", audioStateObj.entity_id)}><ha-icon icon="mdi:plus"/></button>
+                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_up", this._current_audio_device.entity_id)}><ha-icon icon="mdi:plus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-top: 0px; height: 50%;" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"></button>
                       <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                       <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;"" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="mdi:parking"/></button>
-                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_down", audioStateObj.entity_id)}><ha-icon icon="mdi:minus"/></button>
+                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_down", this._current_audio_device.entity_id)}><ha-icon icon="mdi:minus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-bottom: 0px; height: 50%;" @click=${() => this._button("INFO")}><ha-icon icon="mdi:information-variant"/></button>
                       <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="mdi:chevron-down"/></button>
                   </div>
