@@ -1,7 +1,7 @@
 import logging
 
 
-_LOGGER = logging.getLogger(__name__)
+var LOGGER = logging.getLogger(__name__)
 
 
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
@@ -253,6 +253,7 @@ class LgRemoteControl extends LitElement {
     }
 
     render() {
+        LOGGER.warn("########  TESTETSTETET")
         const stateObj = this.hass.states[this.config.entity];
 
         if(stateObj.attributes.sound_output in this._custom_sound_devices){
