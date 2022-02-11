@@ -253,7 +253,7 @@ class LgRemoteControl extends LitElement {
     render() {
         const stateObj = this.hass.states[this.config.entity];
         console.log("HELLOOOO")
-        if(stateObj.attributes.sound_output in this._custom_sound_devices){
+        if(this._custom_sound_devices.includes(stateObj.attributes.sound_output)){
 
             const audioStateObj = this._custom_sound_devices[stateObj.attributes.sound_output].entity;
 
