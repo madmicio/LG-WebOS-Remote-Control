@@ -1,7 +1,12 @@
+import logging
+
+
+_LOGGER = logging.getLogger(__name__)
+
+
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
-
 class LgRemoteControl extends LitElement {
 
     static get disneyIcon() {
@@ -229,10 +234,12 @@ class LgRemoteControl extends LitElement {
         return {
             hass: {},
             config: {},
+            _custom_sound_devices: {},
             _show_inputs: {},
             _show_sound_output: {},
             _show_text: {},
             _show_keypad: {}
+
         };
     }
 
@@ -242,11 +249,19 @@ class LgRemoteControl extends LitElement {
         this._show_sound_output = false;
         this._show_text = false;
         this._show_keypad = false;
+        this._custom_sound_devices = {};
     }
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const audioStateObj = stateObj;
+
+        if(stateObj.attributes.sound_output in this._custom_sound_devices){
+
+            const audioStateObj = this._custom_sound_devices[stateObj.attributes.sound_output].entity;
+
+        }else{
+            const audioStateObj = stateObj;
+        }
 
         const colorButtons = this.config.color_buttons === "enable";
 
@@ -480,6 +495,9 @@ class LgRemoteControl extends LitElement {
             console.log("Invalid configuration");
         }
         this.config = config;
+        if("custom_sound_devices" in this.config){
+            this._custom_sound_devices = this.config._custom_sound_devices;
+        }
     }
 
     getCardSize() {
