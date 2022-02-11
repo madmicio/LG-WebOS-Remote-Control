@@ -254,11 +254,12 @@ class LgRemoteControl extends LitElement {
 
         const stateObj = this.hass.states[this.config.entity];
         console.log(stateObj.attributes.sound_output, this._custom_sound_devices);
-
-        if(this._custom_sound_devices.includes(stateObj.attributes.sound_output)){
-
+        if(!stateObj.attributes.includes("sound_output")){
+            // tv is off
+            const audioStateObj = stateObj;
+        }
+        else if(this._custom_sound_devices.includes(stateObj.attributes.sound_output)){
             const audioStateObj = this._custom_sound_devices[stateObj.attributes.sound_output].entity;
-
         }else{
             const audioStateObj = stateObj;
         }
@@ -496,7 +497,7 @@ class LgRemoteControl extends LitElement {
         }
         this.config = config;
         if("custom_sound_devices" in this.config){
-            this._custom_sound_devices = this.config._custom_sound_devices;
+            this._custom_sound_devices = this.config.custom_sound_devices;
         }
     }
 
