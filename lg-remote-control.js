@@ -269,6 +269,8 @@ class LgRemoteControl extends LitElement {
             this._current_audio_device = stateObj;
         }
         console.log("current audio device", this._current_audio_device.entity_id)
+
+
         const colorButtons = this.config.color_buttons === "enable";
 
         const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
@@ -460,32 +462,35 @@ class LgRemoteControl extends LitElement {
     _mute_toggle(){
         if(this._current_audio_device.attributes.is_volume_muted){
             //is now muted
+
+            if(true){
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this.config.entity,
+                    is_volume_muted: false
+                });
+            }
+
             this.hass.callService("media_player", "volume_mute", {
                 entity_id: this._current_audio_device.entity_id,
                 is_volume_muted: false
             });
             //TODO: in the future: add config to choose if host should be muted as well for visual feedback.
-            if(false){
-                this.hass.callService("media_player", "volume_mute", {
-                    entity_id: this.config.entity,
-                    is_volume_muted: false
-                });
 
-            }
         }
         else{
+            if(true){
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this.config.entity,
+                    is_volume_muted: true
+                });
+            }
+
             this.hass.callService("media_player", "volume_mute", {
                 entity_id: this._current_audio_device.entity_id,
                 is_volume_muted: true
             });
 
-            if(false){
-                this.hass.callService("media_player", "volume_mute", {
-                    entity_id: this.config.entity,
-                    is_volume_muted: true
-                });
 
-            }
         }
 
     }
@@ -534,8 +539,8 @@ class LgRemoteControl extends LitElement {
             console.log("Invalid configuration");
         }
         this.config = config;
-        if("custom_sound_devices" in this.config){
-            this._custom_sound_devices = this.config.custom_sound_devices;
+        if("sound_devices" in this.config){
+            this._custom_sound_devices = this.config.sound_devices;
         }
     }
 

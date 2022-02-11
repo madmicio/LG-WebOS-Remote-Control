@@ -120,6 +120,24 @@ channels:
     number: '503'
 ```
 
+### Sound device Options
+
+If you have an external device that outputs the sound and the volume up/down/mute buttons are not passed to this device (like when your RF LG remote is not pointed to your IR-controlled soundbar..) you can define another media player as sound output. You can also specify an entity that should be controlled when the TV is in the off state.
+
+| Name | Type | Default | Supported options | Description |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `image` | url | **Required** | /local/your_dir/tv_logo/your_image.png | url of the image to be displayed in the channel pad popup |
+| `number` | string | **Required** | number | TV channel number |
+```yaml
+channels:
+  - image: /local/lg_remote/tv_logo/Rai 1 HD.png
+    number: '501'
+  - image: /local/lg_remote/tv_logo/Rai 2 HD.png
+    number: '502'
+  - image: /local/lg_remote/tv_logo/Rai 3 HD.png
+    number: '503'
+```
+
 ### Colors Options
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
