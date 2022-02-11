@@ -462,14 +462,6 @@ class LgRemoteControl extends LitElement {
     }
 
     _mute_toggle(){
-        let exec_active_set = function (mode){
-            this.hass.callService("media_player", "volume_mute", {
-                entity_id: this._current_audio_device.entity_id,
-                is_volume_muted: mode
-            });
-
-        }
-
 
         if(this._current_audio_device.attributes.is_volume_muted){
             //is now muted
@@ -485,7 +477,10 @@ class LgRemoteControl extends LitElement {
 
             }
             else{
-                exec_active_set(false);
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this._current_audio_device.entity_id,
+                    is_volume_muted: false
+                });
             }
 
 
@@ -499,7 +494,10 @@ class LgRemoteControl extends LitElement {
                 });
                 sleep(500);
             } else {
-                exec_active_set(true)
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this._current_audio_device.entity_id,
+                    is_volume_muted: true
+                });
             }
 
 
