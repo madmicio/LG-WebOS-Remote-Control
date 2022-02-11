@@ -264,9 +264,7 @@ class LgRemoteControl extends LitElement {
                       <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
                       <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === 'off' ? 'black' : 'red'};"/></button>
                       <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
-                      <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
-                      <button class="btn ripple" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === 'off' ? 'black' : 'red'};"/></button>
-                      <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
+
                       
                   </div> 
                   
@@ -359,6 +357,21 @@ class LgRemoteControl extends LitElement {
                   `}
                 
                   `}
+<!-- ################################# EXTRA BUTTONS ################################# -->
+                  ${this.config.custom_buttons ? html`
+                      <div class="grid-container-extra-buttons">
+                      ${this.config.custom_buttons.map(button => {
+                             return html`
+                                <button class="btn_extra ripple" @click=${() => console.log(button.name)}>
+                                  ${LgRemoteControl.getIcon(button.icon)}
+                                </button>
+                             `;
+                      })}
+                      </div>
+                    ` : html`
+                  `}
+<!-- ################################# EXTRA BUTTONS END ################################# -->
+
 <!-- ################################# SOURCE BUTTONS ################################# -->
                   ${this.config.sources ? html`
                       <div class="grid-container-source">
@@ -557,7 +570,7 @@ class LgRemoteControl extends LitElement {
            background-color: transparent;
            overflow: hidden;
            width: var(--remotewidth);
-           height: calc(var(--remotewidth) / 2);
+           height: calc(var(--remotewidth) / 3);
       }
        .grid-container-cursor {
            display: grid;
@@ -598,6 +611,16 @@ class LgRemoteControl extends LitElement {
            width: var(--remotewidth);
            grid-template-areas: "bnt title" ". ." "tv tv-opt" "tv-phone opt" "hdmi line" "phone bluetooth" 
       }
+      .grid-container-extra-buttons {
+           display: grid;
+           grid-template-columns: 1fr 1fr 1fr 1fr;
+           grid-template-rows: auto;
+           background-color: transparent;
+           width: calc(var(--remotewidth) / 1.03);
+           overflow: hidden;
+           margin: auto;
+      }
+      
        .grid-container-source {
            display: grid;
            grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -836,6 +859,17 @@ class LgRemoteControl extends LitElement {
            height: 100%;
            border-width: 0px;
       }
+       .btn_extra {
+           background-color: var(--remote-button-color);
+           color: var(--remote-text-color);
+           width: calc(var(--remotewidth) / 5.9);
+           height: calc(var(--remotewidth) / 8.125);
+           border-width: 0px;
+           border-radius: calc(var(--remotewidth) / 10);
+           margin: calc(var(--remotewidth) / 18.57) auto calc(var(--remotewidth) / 20) auto;
+           place-items: center;
+           cursor: pointer;
+      }
        .btn_source {
            background-color: var(--remote-button-color);
            color: var(--remote-text-color);
@@ -847,6 +881,8 @@ class LgRemoteControl extends LitElement {
            place-items: center;
            cursor: pointer;
       }
+      
+
         .btn-color {
             background-color: var(--remote-button-color);
             color: var(--remote-text-color);
