@@ -275,7 +275,7 @@ class LgRemoteControl extends LitElement {
 
         if(!('source' in stateObj.attributes)){
             // tv is off
-            if("none" in this._custom_media_control){
+            if("none" in this._custom_media_devices){
                 this._current_media_device =  this.hass.states[this._custom_media_devices["none"].entity];
             }
             else {
