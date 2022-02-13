@@ -569,7 +569,7 @@ class LgRemoteControl extends LitElement {
                     console.warn("Recording is not supported on custom media devices")
                     return;
             }
-            this._media_player_entity_service("media_player.media_"+service, this._current_media_device.entity_id)
+            this._media_player_entity_service("media_"+service, this._current_media_device.entity_id)
 
 
         }
