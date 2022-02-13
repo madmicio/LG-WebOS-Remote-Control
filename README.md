@@ -138,7 +138,7 @@ sound_devices:
 
 ### Media device Options
 
-If you have an external media that outputs the sound and the volume up/down/mute buttons are not passed to this device (HDMI CEC is sometimes a little hard for TV's..) you can define another media player to control. You can also specify an entity that should be controlled when the TV is in the off state.
+If you have an external media player and the media controls are not passed to this device (HDMI CEC is sometimes a little hard for TV's..) you can define a media_player to control directly using the media_player service. You can also specify an entity that should be controlled when the TV is in the off state.
 
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
