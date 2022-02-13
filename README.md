@@ -136,6 +136,22 @@ sound_devices:
     entity: media_player.living_room_speaker
 ```
 
+### Media device Options
+
+If you have an external media that outputs the sound and the volume up/down/mute buttons are not passed to this device (HDMI CEC is sometimes a little hard for TV's..) you can define another media player to control. You can also specify an entity that should be controlled when the TV is in the off state.
+
+| Name | Type | Default | Supported options | Description |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name` | string | **Required** | Source options: all sources listed for your device  and "none" for off-state | The name of the output mode this setting applies to |
+| `entity` | string | **Required** | entity_id | Entity of the media_player that should be controlled |
+```yaml
+
+media_devices:
+  - name: none
+    entity: media_player.sonos_bar
+  - name: HDMI1
+    entity: media_player.living_room_chromecast
+```
 
 ### Custom button Options
 The LG tv remote has more buttons available, also depending on the model. 
@@ -150,6 +166,8 @@ custom_buttons:
   - name: SCREEN_REMOTE
     icon: mdi:dots-horizontal
 ```
+
+
 
 ### Colors Options
 | Name | Type | Default | Supported options | Description |
