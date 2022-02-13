@@ -229,6 +229,7 @@ class LgRemoteControl extends LitElement {
         return {
             hass: {},
             config: {},
+            _custom_media_control: {},
             _show_inputs: {},
             _show_sound_output: {},
             _show_text: {},
@@ -242,10 +243,29 @@ class LgRemoteControl extends LitElement {
         this._show_sound_output = false;
         this._show_text = false;
         this._show_keypad = false;
+        this._custom_media_devices = {};
+        this._current_media_device = undefined;
     }
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
+
+        if(!('source' in stateObj.attributes)){
+            // tv is off
+            if("none" in this._custom_media_control){
+                this._current_media_device =  this.hass.states[this._custom_media_devices["none"].entity];
+            }
+            else {
+                this._current_media_device = stateObj;
+            }
+        }
+        else if(stateObj.attributes.source in this._custom_media_devices){
+            this._current_media_device =  this.hass.states[this._custom_media_devices[stateObj.attributes.source].entity];
+        }else{
+            this._current_media_device = stateObj;
+        }
+
+
         const colorButtons = this.config.color_buttons === "enable";
 
         const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
@@ -399,12 +419,12 @@ class LgRemoteControl extends LitElement {
 
 <!-- ################################# MEDIA CONTROL ################################# -->
                  <div class="grid-container-media-control" >
-                      <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/play")}><ha-icon icon="mdi:play"/></button>
-                      <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/pause")}><ha-icon icon="mdi:pause"/></button>
-                      <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/stop")}><ha-icon icon="mdi:stop"/></button>
-                      <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/rewind")}><ha-icon icon="mdi:skip-backward"/></button>
-                      <button class="btn-flat flat-low ripple" style="color: red;" @click=${() => this._command("media.controls/Record")}><ha-icon icon="mdi:record"/></button>
-                      <button class="btn-flat flat-low ripple"  @click=${() => this._command("media.controls/fastForward")}><ha-icon icon="mdi:skip-forward"/></button>
+                      <button class="btn-flat flat-low ripple"  @click=${() => this._media_control_action("play")}><ha-icon icon="mdi:play"/></button>
+                      <button class="btn-flat flat-low ripple"  @click=${() => this._media_control_action("pause")}><ha-icon icon="mdi:pause"/></button>
+                      <button class="btn-flat flat-low ripple"  @click=${() => this._media_control_action("stop")}><ha-icon icon="mdi:stop"/></button>
+                      <button class="btn-flat flat-low ripple"  @click=${() => this._media_control_action("rewind")}><ha-icon icon="mdi:skip-backward"/></button>
+                      <button class="btn-flat flat-low ripple" style="color: red;" @click=${() => this._media_control_action("Record")}><ha-icon icon="mdi:record"/></button>
+                      <button class="btn-flat flat-low ripple"  @click=${() => this._media_control_action("fastForward")}><ha-icon icon="mdi:skip-forward"/></button>
                   </div> 
 <!-- ################################# MEDIA CONTROL END ################################# -->
                   </div>
@@ -448,10 +468,41 @@ class LgRemoteControl extends LitElement {
         });
     }
 
-    _media_player_service(service) {
+    _media_control_action(action){
+
+        if(this._current_media_device.entity_id === this.config.entity){
+            this._command("media.controls/"+action)
+
+        }
+        else{
+            let service = action;
+            switch(action){
+                case "rewind":
+                    service = "previous_track";
+                    break;
+                case "fastForward":
+                    service = "next_track";
+                    break;
+                case "Record":
+                    console.warn("Recording is not supported on custom media devices")
+                    return;
+            }
+            this._media_player_entity_service("media_player.media_"+service, this._current_media_device.entity_id)
+
+
+        }
+
+
+    }
+
+    _media_player_entity_service(service, entity){
         this.hass.callService("media_player", service, {
-            entity_id: this.config.entity,
+            entity_id: entity,
         });
+    }
+
+    _media_player_service(service) {
+        this._media_player_entity_service(service,this.config.entity)
     }
 
     _select_source(source) {
@@ -474,6 +525,16 @@ class LgRemoteControl extends LitElement {
             console.log("Invalid configuration");
         }
         this.config = config;
+        if("media_devices" in this.config){
+            this.config.media_devices.forEach(el => {
+                if(!el.entity){
+                    console.warn("Custom media_devices {} missing entity id!".format(el.name))
+                    return;
+                }
+                this._custom_media_devices[el.name] = el
+            })
+
+        }
     }
 
     getCardSize() {
