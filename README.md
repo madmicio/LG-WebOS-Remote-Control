@@ -164,6 +164,7 @@ in this new version we have implemented some new features:
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
+  mac: xx:xx:xx:xx
   sources:
     - name: Netflix
       icon: 'mdi:netflix'
@@ -193,6 +194,7 @@ in this new version we have implemented some new features:
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
+  mac: xx:xx:xx:xx
   dimensions:
     scale: 0.98
     border_width: 3px
