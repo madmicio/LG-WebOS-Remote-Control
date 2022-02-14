@@ -73,6 +73,7 @@ resources:
 ```yaml
 - type: 'custom:lg-remote-control'
   entity: media_player.tv_lg_55c8
+  mac: xx:xx:xx:xx
 ```
 
 ### Main Options
