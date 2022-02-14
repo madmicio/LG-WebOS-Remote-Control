@@ -19,6 +19,7 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 ## New Features:
 
 ## fixed turn on/off
+**difene mac addres in config is needed - wake_on_lan in configuration.yaml in needed**
 
 ## fixed colors
 
