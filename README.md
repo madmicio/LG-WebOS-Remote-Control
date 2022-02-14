@@ -18,8 +18,9 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 
 ## New Features:
 
-**fixed turn on/off**
-**fixed colors**
+##fixed turn on/off##
+
+##fixed colors##
 
 ## Color Management
 color customization implemented through the section
