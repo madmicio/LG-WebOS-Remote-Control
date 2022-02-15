@@ -266,7 +266,7 @@ class LgRemoteControl extends LitElement {
                       ${stateObj.state === 'off' ? html`
                       <button class="btn ripple" @click=${() => this._media_player_turn_on(mac)}><ha-icon icon="mdi:power" style="color: ${textColor};"/></button>
                       ` : html`
-                      <button class="btn ripple" @click=${() => this._media_player_turn_off()}><ha-icon icon="mdi:power" style="color: red;"/></button>
+                      <button class="btn ripple" @click=${() => this._media_player_service("turn_off")}><ha-icon icon="mdi:power" style="color: red;"/></button>
                       `}
                       <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
                   </div> 
@@ -450,6 +450,11 @@ class LgRemoteControl extends LitElement {
         this.hass.callService("webostv", "command", {
             entity_id: this.config.entity,
             command: command
+        });
+    }
+    _media_player_turn_on(mac) {
+        this.hass.callService("wake_on_lan", "send_magic_packet", {
+            mac: mac
         });
     }
 
