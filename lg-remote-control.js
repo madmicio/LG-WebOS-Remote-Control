@@ -481,7 +481,10 @@ class LgRemoteControl extends LitElement {
 
     setConfig(config) {
         if (!config.entity) {
-            console.log("Invalid configuration");
+            throw new Error("Invalid configuration");
+        }
+        if (!config.mac) {
+            throw new Error("You need to difine Mac Address");
         }
         this.config = config;
     }
