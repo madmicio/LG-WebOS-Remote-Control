@@ -458,7 +458,7 @@ class LgRemoteControl extends LitElement {
                 mac: mac
             });
         } else {
-            _media_player_service("turn_on");   
+            this._media_player_service("turn_on");   
         }
     }
 
