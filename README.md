@@ -19,7 +19,7 @@ custom card: "card-channel-pad" is required (you can find it [here](https://gith
 ## New Features:
 
 ## fixed turn on/off
-**difene mac addres in config is needed - wake_on_lan in configuration.yaml in needed**
+**define mac address in config for simple setups (where a specific broadcast IP is not required), otherwise you will need to create an automation using the "Device is requested to turn on" trigger against the entity**
 
 ## fixed colors
 
@@ -81,7 +81,7 @@ resources:
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:lg-remote-control` | Type of the card |
 | `entity` | string | **Required** |  | tv entity |
-| `mac` | string | **Required** |  | tv mac address |
+| `mac` | string | **Option** |  | tv mac address (if not specified, you need to create an automation to perform the action to turn the TV on) |
 | `colors` | string | **Option** |  | list of color options |
 | `channels` |  | **Option**|  | list of channel in popup |
 | `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
