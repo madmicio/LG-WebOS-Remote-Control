@@ -453,9 +453,13 @@ class LgRemoteControl extends LitElement {
         });
     }
     _media_player_turn_on(mac) {
-        this.hass.callService("wake_on_lan", "send_magic_packet", {
-            mac: mac
-        });
+        if (this.config.mac) {
+            this.hass.callService("wake_on_lan", "send_magic_packet", {
+                mac: mac
+            });
+        } else {
+            _media_player_service("turn_on");   
+        }
     }
 
     _media_player_service(service) {
@@ -482,9 +486,6 @@ class LgRemoteControl extends LitElement {
     setConfig(config) {
         if (!config.entity) {
             throw new Error("Invalid configuration");
-        }
-        if (!config.mac) {
-            throw new Error("You need to difine Mac Address");
         }
         this.config = config;
     }
