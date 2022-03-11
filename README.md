@@ -81,6 +81,7 @@ resources:
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:lg-remote-control` | Type of the card |
 | `entity` | string | **Required** |  | tv entity |
+| `name` | string | **Option** |  | tv name |
 | `mac` | string | **Option** |  | tv mac address (if not specified, you need to create an automation to perform the action to turn the TV on) |
 | `colors` | string | **Option** |  | list of color options |
 | `channels` |  | **Option**|  | list of channel in popup |
