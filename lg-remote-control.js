@@ -261,6 +261,9 @@ class LgRemoteControl extends LitElement {
         return html`
             <div class="card">
             <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth};  --main-border-color: ${borderColor}; --main-border-width: ${borderWidth}">
+                  ${this.config.name
+                  ? html` <span class="title"> ${this.config.name} </span> `
+                  : ""}
                   <div class="grid-container-power"  style="--remotewidth: ${remoteWidth}">
                       <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
                       ${stateObj.state === 'off' ? html`
@@ -956,6 +959,12 @@ class LgRemoteControl extends LitElement {
            height:100%;
            font-size: calc(var(--remotewidth) / 16.6);
            // border: solid 2px var(--backgroundcolor
+      }
+
+       .title {
+          display: block;
+          text-align: center;
+          font-weight: bold
       }
   `;
     }
