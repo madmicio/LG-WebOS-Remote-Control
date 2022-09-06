@@ -426,16 +426,16 @@ class LgRemoteControl extends LitElement {
         const popupEvent = new Event('ll-custom', {bubbles: true, cancelable: false, composed: true});
         popupEvent.detail = {
             "browser_mod": {
-                "command": "popup",
-                "card": {
-                    "type": "custom:card-channel-pad",
-                    "entity": this.config.entity,
-                    "channels": this.config.channels
-                },
-                "title": " ",
-                "large": true,
-                "style": {
-                    "border-radius": "15px"
+                "service": "browser_mod.popup",
+                "data": {
+                    "content": {
+                        "type": "custom:card-channel-pad",
+                        "entity": this.config.entity,
+                        "channels": this.config.channels
+                    },
+                    "title": " ",
+                    "size": "wide",
+                    "style": "--popup-border-radius: 15px;"
                 }
             }
         };
