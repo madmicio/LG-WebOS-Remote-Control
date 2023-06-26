@@ -97,15 +97,15 @@ resources:
 sources:
   - icon: 'mdi:power'
     name: "Netflix"
-  - icon: 'mdi:amazon'
-    name: "Amazon Prime Video"
   - icon: 'mdi:youtube'
     name: "YouTube"
 ```
-**Note:**  `disney` and `dazn` are special, icon you must enter them like this:
+**Note:**  `disney` `amazon` and `dazn` are special, icon you must enter them like this:
 ```yaml
   - icon: disney
-    name: Disney
+    name: Disney+
+  - icon: amazon
+    name: Prime VIdeo
   - icon: dazn
     name: Dazn
 ```
