@@ -16,6 +16,8 @@ browser_mod is required for this channel panel (you can find it [here](https://g
 
 custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
+## fixed Disney+ and Prime Video icon:
+
 ## New Features:
 
 ## fixed turn on/off
@@ -105,7 +107,7 @@ sources:
   - icon: disney
     name: Disney+
   - icon: amazon
-    name: Prime VIdeo
+    name: Prime Video
   - icon: dazn
     name: Dazn
 ```
@@ -169,7 +171,7 @@ in this new version we have implemented some new features:
   sources:
     - name: Netflix
       icon: 'mdi:netflix'
-    - name: Disney
+    - name: Disney+
       icon: disney
     - name: Dazn
       icon: dazn
