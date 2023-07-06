@@ -267,7 +267,8 @@ class LgRemoteControl extends LitElement {
         return {
             "disney": this.disneyIcon,
             "dazn": this.daznIcon,
-            "nowtv": this.nowTv
+            "nowtv": this.nowTv,
+            "amazon": this.amazon,
         };
     }
 
