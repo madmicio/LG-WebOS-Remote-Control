@@ -1,3 +1,6 @@
+
+
+
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
@@ -276,10 +279,12 @@ class LgRemoteControl extends LitElement {
         return {
             hass: {},
             config: {},
+            _custom_sound_devices: {},
             _show_inputs: {},
             _show_sound_output: {},
             _show_text: {},
             _show_keypad: {}
+
         };
     }
 
@@ -289,10 +294,32 @@ class LgRemoteControl extends LitElement {
         this._show_sound_output = false;
         this._show_text = false;
         this._show_keypad = false;
+        this._custom_sound_devices = {};
+        this._current_audio_device = undefined;
     }
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
+        //console.log(stateObj.attributes.sound_output, this._custom_sound_devices);
+
+        if(!('sound_output' in stateObj.attributes)){
+            // tv is off
+            if("none" in this._custom_sound_devices){
+                this._current_audio_device =  this.hass.states[this._custom_sound_devices["none"].entity];
+
+            }
+            else {
+                this._current_audio_device = stateObj;
+            }
+        }
+        else if(stateObj.attributes.sound_output in this._custom_sound_devices){
+            this._current_audio_device =  this.hass.states[this._custom_sound_devices[stateObj.attributes.sound_output].entity];
+        }else{
+            this._current_audio_device = stateObj;
+        }
+        //console.log("current audio device", this._current_audio_device.entity_id)
+
+
         const colorButtons = this.config.color_buttons === "enable";
 
         const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
@@ -441,13 +468,13 @@ class LgRemoteControl extends LitElement {
 <!-- ################################# COLORED BUTTONS END ################################# -->
 
                   <div class="grid-container-volume-channel-control" >
-                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:plus"/></button>
+                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_up", this._current_audio_device.entity_id)}><ha-icon icon="mdi:plus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-top: 0px; height: 50%;" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"></button>
                       <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
-                      <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
-                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;"" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
+                      <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${this._current_audio_device.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
+                      <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;"" @click=${() => this._mute_toggle() /*this._button("MUTE")*/}><span class="${this._current_audio_device.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="mdi:parking"/></button>
-                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:minus"/></button>
+                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_entity_service("volume_down", this._current_audio_device.entity_id)}><ha-icon icon="mdi:minus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-bottom: 0px; height: 50%;" @click=${() => this._button("INFO")}><ha-icon icon="mdi:information-variant"/></button>
                       <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="mdi:chevron-down"/></button>
                   </div>
@@ -489,6 +516,50 @@ class LgRemoteControl extends LitElement {
         this.ownerDocument.querySelector("home-assistant").dispatchEvent(popupEvent);
     }
 
+    _mute_toggle(){
+
+        if(this._current_audio_device.attributes.is_volume_muted){
+            //is now muted
+
+            //TODO: in the future: add config to choose if host should be muted as well for visual feedback.
+            if(false){
+
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this.config.entity,
+                    is_volume_muted: false
+                });
+
+
+            }
+            else{
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this._current_audio_device.entity_id,
+                    is_volume_muted: false
+                });
+            }
+
+
+
+        }
+        else{
+            if(false){
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this.config.entity,
+                    is_volume_muted: true
+                });
+                sleep(500);
+            } else {
+                this.hass.callService("media_player", "volume_mute", {
+                    entity_id: this._current_audio_device.entity_id,
+                    is_volume_muted: true
+                });
+            }
+
+
+        }
+
+    }
+
     _button(button) {
         this.hass.callService("webostv", "button", {
             entity_id: this.config.entity,
@@ -512,10 +583,14 @@ class LgRemoteControl extends LitElement {
         }
     }
 
-    _media_player_service(service) {
+    _media_player_entity_service(service, entity){
         this.hass.callService("media_player", service, {
-            entity_id: this.config.entity,
+            entity_id: entity,
         });
+    }
+
+    _media_player_service(service) {
+        this._media_player_entity_service(service,this.config.entity)
     }
 
     _select_source(source) {
@@ -538,6 +613,17 @@ class LgRemoteControl extends LitElement {
             throw new Error("Invalid configuration");
         }
         this.config = config;
+        if("sound_devices" in this.config){
+            this.config.sound_devices.forEach(el => {
+                if(!el.entity){
+                    console.warn("Custom sound_device {} missing entity id!".format(el.name))
+                    return;
+                }
+                this._custom_sound_devices[el.name] = el
+            })
+
+            //this._custom_sound_devices = this.config.sound_devices;
+        }
     }
 
     getCardSize() {

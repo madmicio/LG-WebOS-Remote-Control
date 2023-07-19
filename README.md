@@ -126,6 +126,22 @@ channels:
     number: '503'
 ```
 
+### Sound device Options
+
+If you have an external device that outputs the sound and the volume up/down/mute buttons are not passed to this device (like when your RF LG remote is not pointed to your IR-controlled soundbar..) you can define another media player as sound output. You can also specify an entity that should be controlled when the TV is in the off state.
+
+| Name | Type | Default | Supported options | Description |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name` | string | **Required** | Output options: tv_speaker, tv_external_speaker, tv_speaker_headphone, external_optical, external_arc, lineout, headphone, bt_soundbar and "none" for off-state | The name of the output mode this setting applies to |
+| `entity` | string | **Required** | number | Entity of the media_player that should be controlled |
+```yaml
+sound_devices:
+  - name: none
+    entity: media_player.sonos_bar
+  - name: external_optical
+    entity: media_player.living_room_speaker
+```
+
 ### Colors Options
 | Name | Type | Default | Supported options | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
