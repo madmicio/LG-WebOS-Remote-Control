@@ -279,7 +279,9 @@ class LgRemoteControl extends LitElement {
             _show_inputs: {},
             _show_sound_output: {},
             _show_text: {},
-            _show_keypad: {}
+            _show_keypad: {},
+            _show_vol_text: {},
+            volume_value: { type: Number, reflect: true }
         };
     }
 
@@ -289,6 +291,9 @@ class LgRemoteControl extends LitElement {
         this._show_sound_output = false;
         this._show_text = false;
         this._show_keypad = false;
+        this._show_vol_text = false;
+        this.volume_value = 0;
+        this.soundOutput = "";
     }
 
     render() {
@@ -304,6 +309,18 @@ class LgRemoteControl extends LitElement {
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "var(--secondary-background-color)";
         const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
         const mac = this.config.mac;
+        
+        if (this.config.ampli_entity &&
+            (this.hass.states[this.config.entity].attributes.sound_output === 'external_arc' ||
+             this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
+
+                this.volume_value = Math.round(this.hass.states[this.config.ampli_entity].attributes.volume_level * 100);
+
+        } else {
+
+                this.volume_value = Math.round(this.hass.states[this.config.entity].attributes.volume_level * 100);
+
+        }
 
         return html`
             <div class="card">
@@ -398,7 +415,7 @@ class LgRemoteControl extends LitElement {
                       <button class="btn ripple item_up" style="background-color: transparent;" @click=${() => this._button("UP")}><ha-icon icon="mdi:chevron-up"/></button>
                       <button class="btn ripple item_input" @click=${() => this._show_inputs = true}><ha-icon icon="mdi:import"/></button>
                       <button class="btn ripple item_2_sx" style="background-color: transparent;" @click=${() => this._button("LEFT")}><ha-icon icon="mdi:chevron-left"/></button>
-                      <button class="btn bnt_ok ripple item_2_c" style="border: solid 2px ${backgroundColor}"  @click=${() => this._button("ENTER")}>OK</button>
+                      <div class="ok_button ripple item_2_c" style="border: solid 2px ${backgroundColor}"  @click=${() => this._button("ENTER")}>${this._show_vol_text === true ? this.volume_value : 'OK'}</div>
                       <button class="btn ripple item_right" style="background-color: transparent;" @click=${() => this._button("RIGHT")}><ha-icon icon="mdi:chevron-right"/></button>
                       <button class="btn ripple item_back" @click=${() => this._button("BACK")}><ha-icon icon="mdi:undo-variant"/></button>
                       <button class="btn ripple item_down" style="background-color: transparent;" @click=${() => this._button("DOWN")}><ha-icon icon="mdi:chevron-down"/></button>
@@ -441,13 +458,13 @@ class LgRemoteControl extends LitElement {
 <!-- ################################# COLORED BUTTONS END ################################# -->
 
                   <div class="grid-container-volume-channel-control" >
-                      <button class="btn ripple"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:plus"/></button>
+                      <button class="btn ripple" id="plusButton"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" }><ha-icon icon="mdi:plus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-top: 0px; height: 50%;" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"></button>
                       <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                       <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;"" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                       <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="mdi:parking"/></button>
-                      <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:minus"/></button>
+                      <button class="btn ripple" id="minusButton" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" ><ha-icon icon="mdi:minus"/></button>
                       <button class="btn-flat flat-high ripple" style="margin-bottom: 0px; height: 50%;" @click=${() => this._button("INFO")}><ha-icon icon="mdi:information-variant"/></button>
                       <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="mdi:chevron-down"/></button>
                   </div>
@@ -470,7 +487,7 @@ class LgRemoteControl extends LitElement {
     }
 
     _channelList() {
-        const popupEvent = new Event('ll-custom', {bubbles: true, cancelable: false, composed: true});
+        const popupEvent = new Event('ll-custom', { bubbles: true, cancelable: false, composed: true });
         popupEvent.detail = {
             "browser_mod": {
                 "service": "browser_mod.popup",
@@ -488,14 +505,14 @@ class LgRemoteControl extends LitElement {
         };
         this.ownerDocument.querySelector("home-assistant").dispatchEvent(popupEvent);
     }
-
+    
     _button(button) {
         this.hass.callService("webostv", "button", {
             entity_id: this.config.entity,
             button: button
         });
     }
-
+    
     _command(command) {
         this.hass.callService("webostv", "command", {
             entity_id: this.config.entity,
@@ -508,23 +525,115 @@ class LgRemoteControl extends LitElement {
                 mac: mac
             });
         } else {
-            this._media_player_service("turn_on");   
+            this._media_player_service("turn_on");
         }
     }
-
+    
     _media_player_service(service) {
         this.hass.callService("media_player", service, {
             entity_id: this.config.entity,
         });
     }
-
+    
+    firstUpdated(changedProperties) {
+        super.firstUpdated(changedProperties);
+    
+        const plusButton = this.shadowRoot.querySelector("#plusButton");
+        const minusButton = this.shadowRoot.querySelector("#minusButton");
+        // Funzione per aggiornare il valore
+        const updateValue = (delta) => {
+            const currentValue = this.volume_value;
+            const step = 1;
+            const min = 0;
+            const max = 100;
+            const newValue = Math.min(Math.max(currentValue + delta * step, min), max);
+            this.volume_value = newValue.toFixed(0);
+            this._media_player_set_volume(newValue / 100);
+            if (this.config.ampli_entity &&
+                (this.hass.states[this.config.entity].attributes.sound_output === 'external_arc' ||
+                    this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
+                this.longPressTimer = setTimeout(() => updateValue(delta), 200);
+            } else {
+                this.longPressTimer = setTimeout(() => updateValue(delta), 100);
+            }
+        };
+    
+        // Gestore per il pulsante '+' (plusButton)
+        plusButton.addEventListener("mousedown", () => {
+            if (!isNaN(this.volume_value)) {
+                this._show_vol_text = true;
+                updateValue(1);
+            }
+        });
+        plusButton.addEventListener("mouseup", () => {
+            clearTimeout(this.longPressTimer);
+            this.valueDisplayTimeout = setTimeout(() => {
+                this._show_vol_text = false;
+            }, 500);
+        });
+    
+        plusButton.addEventListener("mouseout", () => {
+            clearTimeout(this.longPressTimer);
+        });
+    
+        // Gestore per il pulsante '-' (minusButton)
+        minusButton.addEventListener("mousedown", () => {
+            if (!isNaN(this.volume_value)) {
+                this._show_vol_text = true;
+                updateValue(-1);
+            }
+        });
+    
+        minusButton.addEventListener("mouseup", () => {
+            clearTimeout(this.longPressTimer);
+            this.valueDisplayTimeout = setTimeout(() => {
+                this._show_vol_text = false;
+            }, 500);
+        });
+    
+        minusButton.addEventListener("mouseout", () => {
+            clearTimeout(this.longPressTimer);
+        });
+    }
+    
+    updated(changedProperties) {
+    
+        if (changedProperties.has("hass")) {
+            const tvEntity = this.hass.states[this.config.entity];
+            const newSoundOutput = tvEntity.attributes.sound_output;
+    
+            if (newSoundOutput !== this.soundOutput) {
+                this.soundOutput = newSoundOutput; // Aggiorna il valore della variabile di classe
+                this.requestUpdate(); // Richiedi l'aggiornamento della card
+            }
+        }
+    }
+    
+    _media_player_set_volume(value) {
+        const entity = this.config.ampli_entity ? this.config.ampli_entity : this.config.entity;
+    
+        if (this.config.ampli_entity &&
+            (this.hass.states[this.config.entity].attributes.sound_output === 'external_arc' ||
+                this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
+            this.hass.callService("media_player", "volume_set", {
+                entity_id: this.config.ampli_entity,
+                volume_level: value,
+            });
+        } else {
+            this.hass.callService("media_player", "volume_set", {
+                entity_id: this.config.entity,
+                volume_level: value,
+            });
+        }
+    }
+    
     _select_source(source) {
         this.hass.callService("media_player", "select_source", {
             entity_id: this.config.entity,
             source: source
         });
     }
-
+    
     _select_sound_output(sound_output) {
         this.hass.callService("webostv", "select_sound_output", {
             entity_id: this.config.entity,
@@ -532,14 +641,14 @@ class LgRemoteControl extends LitElement {
         });
         this._show_sound_output = false;
     }
-
+    
     setConfig(config) {
         if (!config.entity) {
             throw new Error("Invalid configuration");
         }
         this.config = config;
     }
-
+    
     getCardSize() {
         return 15;
     }
@@ -552,7 +661,403 @@ class LgRemoteControl extends LitElement {
 
     static get styles() {
         return css`
-@keyframes blinker{50%{opacity:0}}.tv_title{width:fit-content;alig:-webkit-center;display:block;margin:auto;padding:calc(var(--remotewidth)/52) calc(var(--remotewidth)/26);border-radius:calc(var(--remotewidth)/10);background-color:var(--remote-button-color)}button:focus{outline:0}.ripple{position:relative;overflow:hidden;transform:translate3d(0,0,0)}.ripple:after{content:"";display:block;position:absolute;border-radius:50%;top:0;left:0;pointer-events:none;background-image:radial-gradient(circle,#7a7f87 2%,transparent 10.01%);background-repeat:no-repeat;background-position:50%;transform:scale(10,10);opacity:0;transition:transform .5s,opacity 1s}.ripple:active:after{transform:scale(0,0);opacity:.3;transition:0s}.blink{animation:blinker 1.5s linear infinite;color:red}.card,.ripple:after{width:100%;height:100%}.card{display:flex;justify-content:center}.page{background-color:var(--remote-color);height:100%;display:inline-block;flex-direction:row;border:var(--main-border-width) solid var(--main-border-color);border-radius:calc(var(--remotewidth)/7.5);padding:calc(var(--remotewidth)/37.5) calc(var(--remotewidth)/15.2) calc(var(--remotewidth)/11)}.grid-container-power{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr;background-color:transparent;overflow:hidden;width:var(--remotewidth);height:calc(var(--remotewidth)/3)}.grid-container-cursor,.grid-container-keypad{display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;height:var(--remotewidth)}.grid-container-cursor{grid-template-rows:1fr 1fr 1fr;width:var(--remotewidth);grid-template-areas:"sound up input""left ok right""back down exit"}.grid-container-keypad{grid-template-rows:1fr 1fr 1fr 1fr;background-color:transparent;background-color:var(--remote-button-color);border-radius:35px;width:calc(var(--remotewidth) - 10%);margin:auto}.grid-container-input,.grid-container-sound{display:grid;background-color:transparent;overflow:hidden;width:var(--remotewidth)}.grid-container-input{grid-template-columns:1fr 1fr 1fr;grid-template-rows:calc(var(--remotewidth)/2) calc(var(--remotewidth)/.5115)}.grid-container-sound{grid-template-columns:1fr 1fr;grid-template-rows:28% 6% 16% 16% 16% 16% 6%;height:var(--remotewidth);grid-template-areas:"bnt title"". .""tv tv-opt""tv-phone opt""hdmi line""phone bluetooth"}.grid-container-color_btn,.grid-container-source{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;grid-template-rows:auto;background-color:transparent;width:calc(var(--remotewidth)/1.03);overflow:hidden;margin:auto}.grid-container-color_btn{height:calc(var(--remotewidth)/10)}.grid-container-media-control,.grid-container-volume-channel-control{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;background-color:transparent;width:var(--remotewidth);height:calc(var(--remotewidth)/1.4);overflow:hidden;margin-top:calc(var(--remotewidth)/12)}.grid-container-media-control{grid-template-rows:1fr 1fr;height:calc(var(--remotewidth)/2.85)}.grid-item-input{grid-column-start:1;grid-column-end:4;grid-row-start:1;grid-row-end:3;display:grid;grid-template-columns:auto;background-color:var(--remote-button-color);margin:auto;margin-top:calc(var(--remotewidth)/2.6);overflow:scroll;height:calc(var(--remotewidth)*2.01);width:calc(var(--remotewidth) - 9%);border-radius:calc(var(--remotewidth)/12)}.grid-item-input::-webkit-scrollbar{display:none;-ms-overflow-style:none}.shape,.shape-input,.shape-sound,.source_text{grid-column-start:1;grid-column-end:4;grid-row-start:1}.shape{grid-row-end:4;padding:5px}.shape-input,.shape-sound,.source_text{grid-row-end:3}.shape-sound,.source_text{grid-column-end:5;grid-row-end:6}.source_text{grid-column-end:3;grid-row-end:2;text-align:center;margin-top:calc(var(--remotewidth)/6);font-size:calc(var(--remotewidth)/10);opacity:.3}.btn_soundoutput,.sound_icon_text{width:70%;height:70%;border-width:0;margin:auto auto 0 0;cursor:pointer;background-color:transparent;grid-area:title}.sound_icon_text{color:var(--remote-text-color);font-size:calc(var(--remotewidth)/18.75);overflow:hidden}.btn_soundoutput{font-size:calc(var(--remotewidth)/12.5);display:block;opacity:.4;color:var(--remote-text-color) font-weight: bold}.tv{grid-area:tv}.tv-opt{grid-area:tv-opt}.tv-phone{grid-area:tv-phone}.opt{grid-area:opt}.hdmi{grid-area:hdmi}.phone{grid-area:phone}.line{grid-area:line}.bluetooth{grid-area:bluetooth}.item_sound{grid-area:sound}.item_up{grid-area:up}.item_input{grid-area:input}.item_2_sx{grid-area:left}.item_2_c{grid-area:ok}.item_right{grid-area:right}.item_back{grid-area:back}.item_down{grid-area:down}.item_exit{grid-area:exit}ha-icon{width:calc(var(--remotewidth)/10.8);height:calc(var(--remotewidth)/10.8)}.bnt-input-back,.bnt-sound-back,.btn{font-size:calc(var(--remotewidth)/18.75);border-radius:50%;place-items:center;display:inline-block;cursor:pointer}.btn{background-color:var(--remote-button-color);color:var(--remote-text-color);width:70%;height:70%;border-width:0;margin:auto}.bnt-input-back,.bnt-sound-back{background-color:transparent;margin-top:calc(var(--remotewidth)/21)}.bnt-input-back{grid-column-start:3;grid-column-end:4;grid-row-start:1;grid-row-end:2;color:var(--remote-text-color);width:70%;height:50%;border-width:0;margin-left:calc(var(--remotewidth)/21)}.bnt-sound-back{margin-left:0;grid-area:bnt;width:45%;height:83%;margin-left:calc(var(--remotewidth)/18)}.bnt-sound-back,.btn-color,.btn-keypad,.btn_source{color:var(--remote-text-color);border-width:0}.btn-keypad{background-color:transparent;font-size:calc(var(--remotewidth)/10);width:100%;height:100%}.btn-color,.btn_source{background-color:var(--remote-button-color);border-radius:calc(var(--remotewidth)/10);place-items:center;cursor:pointer}.btn_source{width:calc(var(--remotewidth)/5.9);height:calc(var(--remotewidth)/8.125);margin:calc(var(--remotewidth)/18.57) auto calc(var(--remotewidth)/20)}.btn-color{width:70%;height:55%;margin:auto}.icon_source{height:100%;width:100%}.btn-input,.btn-input-on{font-size:calc(var(--remotewidth)/18.5);height:calc(var(--remotewidth)/7.2226);border-width:0;border-radius:calc(var(--remotewidth)/20);margin:calc(var(--remotewidth)/47);place-items:center;display:list-item;cursor:pointer}.btn-input{background-color:var(--remote-button-color);color:var(--remote-text-color);border:solid 2px var(--remote-color)}.btn-input-on{background-color:var(--primary-color);color:#fff}.bnt_sound_icon_width{width:calc(var(--remotewidth)/3)}.bnt_sound_text_width{width:calc(var(--remotewidth)/2.6)}.btn_sound_off,.btn_sound_on{font-size:calc(var(--remotewidth)/25);height:calc(var(--remotewidth)/9.3);border-width:0;border-radius:calc(var(--remotewidth)/20);margin:auto;display:block;cursor:pointer}.btn_sound_on{background-color:var(--primary-color);color:#fff}.btn_sound_off{background-color:var(--remote-button-color);color:var(--remote-text-color);border:solid 2px var(--remote-color)}.overlay{background-color:rgba(0,0,0,.02)}.flat-high{width:70%;height:37%}.flat-low{width:70%;height:65%}.btn-flat{background-color:var(--remote-button-color);color:var(--remote-text-color);font-size:calc(var(--remotewidth)/18.75);border-width:0;border-radius:calc(var(--remotewidth)/10);margin:auto;display:grid;place-items:center;display:inline-block;cursor:pointer}.bnt_ok{width:100%;height:100%;font-size:calc(var(--remotewidth)/16.6)}
+        @keyframes blinker {
+            50% {
+            opacity: 0;
+        }
+        }
+        .tv_title {
+            width: fit-content;
+            alig: -webkit-center;
+            display: block;
+            margin: auto;
+            padding: calc(var(--remotewidth)/52) calc(var(--remotewidth)/26);
+            border-radius: calc(var(--remotewidth)/10);
+            background-color: var(--remote-button-color);
+        }
+        button:focus {
+            outline: 0;
+        }
+        .ripple {
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+        }
+        .ripple:after {
+            content: "";
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #7a7f87 2%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+        .ripple:active:after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+        .blink {
+            animation: blinker 1.5s linear infinite;
+            color: red;
+        }
+        .card, .ripple:after {
+            width: 100%;
+            height: 100%}
+        .card {
+            display: flex;
+            justify-content: center;
+        }
+        .page {
+            background-color: var(--remote-color);
+            height: 100%;
+            display: inline-block;
+            flex-direction: row;
+            border: var(--main-border-width) solid var(--main-border-color);
+            border-radius: calc(var(--remotewidth)/7.5);
+            padding: calc(var(--remotewidth)/37.5) calc(var(--remotewidth)/15.2) calc(var(--remotewidth)/11);
+        }
+        .grid-container-power {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr;
+            background-color: transparent;
+            overflow: hidden;
+            width: var(--remotewidth);
+            height: calc(var(--remotewidth)/3);
+        }
+        .grid-container-cursor, .grid-container-keypad {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            overflow: hidden;
+            height: var(--remotewidth);
+        }
+        .grid-container-cursor {
+            grid-template-rows: 1fr 1fr 1fr;
+            width: var(--remotewidth);
+            grid-template-areas: "sound up input""left ok right""back down exit"}
+        .grid-container-keypad {
+            grid-template-rows: 1fr 1fr 1fr 1fr;
+            background-color: transparent;
+            background-color: var(--remote-button-color);
+            border-radius: 35px;
+            width: calc(var(--remotewidth) - 10%);
+            margin: auto;
+        }
+        .grid-container-input, .grid-container-sound {
+            display: grid;
+            background-color: transparent;
+            overflow: hidden;
+            width: var(--remotewidth);
+        }
+        .grid-container-input {
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: calc(var(--remotewidth)/2) calc(var(--remotewidth)/.5115);
+        }
+        .grid-container-sound {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 28% 6% 16% 16% 16% 16% 6%;
+            height: var(--remotewidth);
+            grid-template-areas: "bnt title"". .""tv tv-opt""tv-phone opt""hdmi line""phone bluetooth"}
+        .grid-container-color_btn, .grid-container-source {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto;
+            background-color: transparent;
+            width: calc(var(--remotewidth)/1.03);
+            overflow: hidden;
+            margin: auto;
+        }
+        .grid-container-color_btn {
+            height: calc(var(--remotewidth)/10);
+        }
+        .grid-container-media-control, .grid-container-volume-channel-control {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            background-color: transparent;
+            width: var(--remotewidth);
+            height: calc(var(--remotewidth)/1.4);
+            overflow: hidden;
+            margin-top: calc(var(--remotewidth)/12);
+        }
+        .grid-container-media-control {
+            grid-template-rows: 1fr 1fr;
+            height: calc(var(--remotewidth)/2.85);
+        }
+        .grid-item-input {
+            grid-column-start: 1;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            display: grid;
+            grid-template-columns: auto;
+            background-color: var(--remote-button-color);
+            margin: auto;
+            margin-top: calc(var(--remotewidth)/2.6);
+            overflow: scroll;
+            height: calc(var(--remotewidth)*2.01);
+            width: calc(var(--remotewidth) - 9%);
+            border-radius: calc(var(--remotewidth)/12);
+        }
+        .grid-item-input::-webkit-scrollbar {
+            display: none;
+            -ms-overflow-style: none;
+        }
+        .shape, .shape-input, .shape-sound, .source_text {
+            grid-column-start: 1;
+            grid-column-end: 4;
+            grid-row-start: 1;
+        }
+        .shape {
+            grid-row-end: 4;
+            padding: 5px;
+        }
+        .shape-input, .shape-sound, .source_text {
+            grid-row-end: 3;
+        }
+        .shape-sound, .source_text {
+            grid-column-end: 5;
+            grid-row-end: 6;
+        }
+        .source_text {
+            grid-column-end: 3;
+            grid-row-end: 2;
+            text-align: center;
+            margin-top: calc(var(--remotewidth)/6);
+            font-size: calc(var(--remotewidth)/10);
+            opacity: .3;
+        }
+        .btn_soundoutput, .sound_icon_text {
+            width: 70%;
+            height: 70%;
+            border-width: 0;
+            margin: auto auto 0 0;
+            cursor: pointer;
+            background-color: transparent;
+            grid-area: title;
+        }
+        .sound_icon_text {
+            color: var(--remote-text-color);
+            font-size: calc(var(--remotewidth)/18.75);
+            overflow: hidden;
+        }
+        .btn_soundoutput {
+            font-size: calc(var(--remotewidth)/12.5);
+            display: block;
+            opacity: .4;
+            color: var(--remote-text-color) font-weight: bold;
+        }
+        .tv {
+            grid-area: tv;
+        }
+        .tv-opt {
+            grid-area: tv-opt;
+        }
+        .tv-phone {
+            grid-area: tv-phone;
+        }
+        .opt {
+            grid-area: opt;
+        }
+        .hdmi {
+            grid-area: hdmi;
+        }
+        .phone {
+            grid-area: phone;
+        }
+        .line {
+            grid-area: line;
+        }
+        .bluetooth {
+            grid-area: bluetooth;
+        }
+        .item_sound {
+            grid-area: sound;
+        }
+        .item_up {
+            grid-area: up;
+        }
+        .item_input {
+            grid-area: input;
+        }
+        .item_2_sx {
+            grid-area: left;
+        }
+        .item_2_c {
+            grid-area: ok;
+        }
+        .item_right {
+            grid-area: right;
+        }
+        .item_back {
+            grid-area: back;
+        }
+        .item_down {
+            grid-area: down;
+        }
+        .item_exit {
+            grid-area: exit;
+        }
+        ha-icon {
+            width: calc(var(--remotewidth)/10.8);
+            height: calc(var(--remotewidth)/10.8);
+        }
+        .bnt-input-back, .bnt-sound-back, .btn {
+            font-size: calc(var(--remotewidth)/18.75);
+            border-radius: 50%;
+            place-items: center;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn {
+            background-color: var(--remote-button-color);
+            color: var(--remote-text-color);
+            width: 70%;
+            height: 70%;
+            border-width: 0;
+            margin: auto;
+        }
+        .bnt-input-back, .bnt-sound-back {
+            background-color: transparent;
+            margin-top: calc(var(--remotewidth)/21);
+        }
+        .bnt-input-back {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 2;
+            color: var(--remote-text-color);
+            width: 70%;
+            height: 50%;
+            border-width: 0;
+            margin-left: calc(var(--remotewidth)/21);
+        }
+        .bnt-sound-back {
+            margin-left: 0;
+            grid-area: bnt;
+            width: 45%;
+            height: 83%;
+            margin-left: calc(var(--remotewidth)/18);
+        }
+        .bnt-sound-back, .btn-color, .btn-keypad, .btn_source {
+            color: var(--remote-text-color);
+            border-width: 0;
+        }
+        .btn-keypad {
+            background-color: transparent;
+            font-size: calc(var(--remotewidth)/10);
+            width: 100%;
+            height: 100%}
+        .btn-color, .btn_source {
+            background-color: var(--remote-button-color);
+            border-radius: calc(var(--remotewidth)/10);
+            place-items: center;
+            cursor: pointer;
+        }
+        .btn_source {
+            width: calc(var(--remotewidth)/5.9);
+            height: calc(var(--remotewidth)/8.125);
+            margin: calc(var(--remotewidth)/18.57) auto calc(var(--remotewidth)/20);
+        }
+        .btn-color {
+            width: 70%;
+            height: 55%;
+            margin: auto;
+        }
+        .icon_source {
+            height: 100%;
+            width: 100%}
+        .btn-input, .btn-input-on {
+            font-size: calc(var(--remotewidth)/18.5);
+            height: calc(var(--remotewidth)/7.2226);
+            border-width: 0;
+            border-radius: calc(var(--remotewidth)/20);
+            margin: calc(var(--remotewidth)/47);
+            place-items: center;
+            display: list-item;
+            cursor: pointer;
+        }
+        .btn-input {
+            background-color: var(--remote-button-color);
+            color: var(--remote-text-color);
+            border: solid 2px var(--remote-color);
+        }
+        .btn-input-on {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        .bnt_sound_icon_width {
+            width: calc(var(--remotewidth)/3);
+        }
+        .bnt_sound_text_width {
+            width: calc(var(--remotewidth)/2.6);
+        }
+        .btn_sound_off, .btn_sound_on {
+            font-size: calc(var(--remotewidth)/25);
+            height: calc(var(--remotewidth)/9.3);
+            border-width: 0;
+            border-radius: calc(var(--remotewidth)/20);
+            margin: auto;
+            display: block;
+            cursor: pointer;
+        }
+        .btn_sound_on {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        .btn_sound_off {
+            background-color: var(--remote-button-color);
+            color: var(--remote-text-color);
+            border: solid 2px var(--remote-color);
+        }
+        .overlay {
+            background-color: rgba(0, 0, 0, .02);
+        }
+        .flat-high {
+            width: 70%;
+            height: 37%}
+        .flat-low {
+            width: 70%;
+            height: 65%}
+        .btn-flat {
+            background-color: var(--remote-button-color);
+            color: var(--remote-text-color);
+            font-size: calc(var(--remotewidth)/18.75);
+            border-width: 0;
+            border-radius: calc(var(--remotewidth)/10);
+            margin: auto;
+            display: grid;
+            place-items: center;
+            display: inline-block;
+            cursor: pointer;
+        }
+      
+
+        .ok_button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid 3px var(--ha-card-background);
+            border-radius: 100%;
+            font-size: calc(var(--remotewidth)/16.6);
+            cursor: pointer;
+
+        }
+
+        .vol_text_value {
+            // width: 40px;
+            background-color: transparent;
+            border: none;
+            text-align: center;
+            color: var(--primary-text-color);
+            font-size: calc(var(--remotewidth)/14);
 
   `;
     }
