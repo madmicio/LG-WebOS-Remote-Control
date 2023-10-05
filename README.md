@@ -16,37 +16,9 @@ browser_mod is required for this channel panel (you can find it [here](https://g
 
 custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
-## fixed Disney+ and Prime Video icon:
-
-## New Features:
-
-## fixed turn on/off
-**define mac address in config for simple setups (where a specific broadcast IP is not required), otherwise you will need to create an automation using the "Device is requested to turn on" trigger against the entity**
-
-## fixed colors
-
-## Color Management
-color customization implemented through the section
-```yaml
-colors:
-```
 
 
-- buttons: set buttons  background color    - default: "#f2f0fa"
-- texts: set buttons color                  - default: "var(--primary-text-color)"
-- background: set remote background color   - default: "var(--primary-background-color)"
-```yaml
-colors:
-  buttons: var(--deactive-background-button-color)
-  texts: pink
-  background: rgba(95,155,234)
-```
 
-**NOTE: option in "your-theme.yaml**
-```yaml
-#button
-  deactive-background-button-color: "#f2f0fa"
-```
 
 ## hacs Card install
 1. Find and install `LG WebOS Remote Control` plugin
@@ -85,6 +57,7 @@ resources:
 | `entity` | string | **Required** |  | tv entity |
 | `name` | string | **Option** |  | tv name |
 | `mac` | string | **Option** |  | tv mac address (if not specified, you need to create an automation to perform the action to turn the TV on) |
+| `ampli_antity` | string | **Option** |  | your AV receiver entity (see option config) |
 | `colors` | string | **Option** |  | list of color options |
 | `channels` |  | **Option**|  | list of channel in popup |
 | `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
@@ -124,6 +97,44 @@ channels:
     number: '502'
   - image: /local/lg_remote/tv_logo/Rai 3 HD.png
     number: '503'
+```
+
+## AV receiver volume control Options
+
+option dedicated to all those with problems controlling the volume of the AV Receiver through HDMI-cec commands.
+if the ampli_entity item is configured, and when the sound output is set to external_arc (HDMI) or external_optical (optical output) then the remote control buttons will no longer act on the volume of the television, but on the volume of your receiver.
+
+| `image` | url | **Required** | /local/your_dir/tv_logo/your_image.png | url of the image to be displayed in the channel pad popup |
+| `number` | string | **Required** | number | TV channel number |
+```yaml
+type: 'custom:lg-remote-control'
+entity: media_player.lg_webos_tv_oled55c8pla
+mac: xx:xx:xx:xx:xx:xx
+ampli_entity: media_player.marantz_sr6010
+...
+```
+
+## Color Management
+color customization implemented through the section
+```yaml
+colors:
+```
+
+
+- buttons: set buttons  background color    - default: "#f2f0fa"
+- texts: set buttons color                  - default: "var(--primary-text-color)"
+- background: set remote background color   - default: "var(--primary-background-color)"
+```yaml
+colors:
+  buttons: var(--deactive-background-button-color)
+  texts: pink
+  background: rgba(95,155,234)
+```
+
+**NOTE: option in "your-theme.yaml**
+```yaml
+#button
+  deactive-background-button-color: "#f2f0fa"
 ```
 
 ### Colors Options
