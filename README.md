@@ -104,14 +104,78 @@ channels:
 option dedicated to all those with problems controlling the volume of the AV Receiver through HDMI-cec commands.
 if the ampli_entity item is configured, and when the sound output is set to external_arc (HDMI) or external_optical (optical output) then the remote control buttons will no longer act on the volume of the television, but on the volume of your receiver.
 
-| `image` | url | **Required** | /local/your_dir/tv_logo/your_image.png | url of the image to be displayed in the channel pad popup |
-| `number` | string | **Required** | number | TV channel number |
+
 ```yaml
 type: 'custom:lg-remote-control'
 entity: media_player.lg_webos_tv_oled55c8pla
 mac: xx:xx:xx:xx:xx:xx
 ampli_entity: media_player.marantz_sr6010
 ...
+```
+
+### power on/off Receiver
+it would have been possible to implement automatic power on and choice of the input source of the Receiver when the sound output is set to external_arc (HDMI) or external_optical (optical output) and turn off the Receiver when any other sound output is set, but the card of home assistants do not work in background but only when rendered. for this and other reasons it is preferable to use a home assistant automation that manages the process, so the actions will also take place when operating with the physical remote control rather than with the home assistant card. 
+
+Below is an example of code:
+
+```yaml
+alias: "tv_receiver"
+trigger:
+  - platform: template
+    value_template: "{{ state_attr('media_player.lg_webos_tv_oled55c8pla', 'sound_output') == 'external_arc' }}"
+    id: "external_arc"
+  - platform: template
+    value_template: "{{ state_attr('media_player.lg_webos_tv_oled55c8pla', 'sound_output') != 'external_arc' }}"
+    id: "tv_speaker"
+  - platform: state
+    entity_id: media_player.lg_webos_tv_oled55c8pla
+    from: 'off'
+    to: 'on' 
+    id: "tv_on"
+  - platform: state
+    entity_id: media_player.lg_webos_tv_oled55c8pla
+    from: 'on'
+    to: 'off' 
+    id: "tv_off"
+action:
+  - choose:
+    - conditions: "{{ trigger.id == 'tv_on' }}"
+      sequence:
+        - condition: template
+          value_template: "{{ state_attr('media_player.lg_webos_tv_oled55c8pla', 'sound_output') == 'external_arc' }}"
+        - service: media_player.turn_on
+          target:
+            entity_id: media_player.marantz_sr6010
+        - wait_template: "{{ is_state('media_player.marantz_sr6010', 'on') }}"
+        - service: media_player.select_source
+          data:
+            source: TV Audio
+          target:
+            entity_id: media_player.marantz_sr6010
+    - conditions: "{{ trigger.id == 'external_arc'}}"
+      sequence:
+        - if: "{{ is_state('media_player.marantz_sr6010', 'on') }}"
+          then:
+            - service: media_player.select_source
+              data:
+                source: TV Audio
+              target:
+                entity_id: media_player.marantz_sr6010
+          else:
+            - service: media_player.turn_on
+              target:
+                entity_id: media_player.marantz_sr6010
+            - wait_template: "{{ is_state('media_player.marantz_sr6010', 'on') }}"
+            - service: media_player.select_source
+              data:
+                source: TV Audio
+              target:
+                entity_id: media_player.marantz_sr6010
+    - conditions: "{{ trigger.id == 'tv_speaker' or trigger.id == 'tv_off' }}"
+      sequence:
+        - service: media_player.turn_off
+          target:
+            entity_id: media_player.marantz_sr6010
 ```
 
 ## Color Management
