@@ -560,7 +560,23 @@ class LgRemoteControl extends LitElement {
                 updateValue("volume_up");
             }
         });
+
+        plusButton.addEventListener("touchstart", (e) => {
+            e.preventDefault(); // Impedisci il comportamento predefinito del tocco
+            if (!isNaN(this.volume_value)) {
+                this._show_vol_text = true;
+                this.longPressTimer = setTimeout(() => updateValue("volume_up"), 200);
+            }
+        });
+
         plusButton.addEventListener("mouseup", () => {
+            clearTimeout(this.longPressTimer);
+            this.valueDisplayTimeout = setTimeout(() => {
+                this._show_vol_text = false;
+            }, 500);
+        });
+
+        plusButton.addEventListener("touchend", () => {
             clearTimeout(this.longPressTimer);
             this.valueDisplayTimeout = setTimeout(() => {
                 this._show_vol_text = false;
@@ -578,8 +594,23 @@ class LgRemoteControl extends LitElement {
                 updateValue("volume_down");
             }
         });
+
+        minusButton.addEventListener("touchstart", (e) => {
+            e.preventDefault(); // Impedisci il comportamento predefinito del tocco
+            if (!isNaN(this.volume_value)) {
+                this._show_vol_text = true;
+                this.longPressTimer = setTimeout(() => updateValue("volume_down"), 200);
+            }
+        });
     
         minusButton.addEventListener("mouseup", () => {
+            clearTimeout(this.longPressTimer);
+            this.valueDisplayTimeout = setTimeout(() => {
+                this._show_vol_text = false;
+            }, 500);
+        });
+
+        minusButton.addEventListener("touchend", () => {
             clearTimeout(this.longPressTimer);
             this.valueDisplayTimeout = setTimeout(() => {
                 this._show_vol_text = false;
