@@ -281,7 +281,8 @@ class LgRemoteControl extends LitElement {
             _show_text: {},
             _show_keypad: {},
             _show_vol_text: {},
-            volume_value: { type: Number, reflect: true }
+            volume_value: { type: Number, reflect: true },
+            output_entity: { type: Number, reflect: true }
         };
     }
 
@@ -294,6 +295,7 @@ class LgRemoteControl extends LitElement {
         this._show_vol_text = false;
         this.volume_value = 0;
         this.soundOutput = "";
+
     }
 
     render() {
@@ -315,11 +317,12 @@ class LgRemoteControl extends LitElement {
              this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
 
                 this.volume_value = Math.round(this.hass.states[this.config.ampli_entity].attributes.volume_level * 100);
+                this.output_entity = this.config.ampli_entity;
 
         } else {
 
                 this.volume_value = Math.round(this.hass.states[this.config.entity].attributes.volume_level * 100);
-
+                this.output_entity = this.config.entity;
         }
 
         return html`
@@ -540,29 +543,21 @@ class LgRemoteControl extends LitElement {
     
         const plusButton = this.shadowRoot.querySelector("#plusButton");
         const minusButton = this.shadowRoot.querySelector("#minusButton");
-        // Funzione per aggiornare il valore
-        const updateValue = (delta) => {
+        // Funzione per aggiornare settare il servizio
+        const updateValue = (service) => {
             const currentValue = this.volume_value;
-            const step = 1;
-            const min = 0;
-            const max = 100;
-            const newValue = Math.min(Math.max(currentValue + delta * step, min), max);
-            this.volume_value = newValue.toFixed(0);
-            this._media_player_set_volume(newValue / 100);
-            if (this.config.ampli_entity &&
-                (this.hass.states[this.config.entity].attributes.sound_output === 'external_arc' ||
-                    this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
-                this.longPressTimer = setTimeout(() => updateValue(delta), 200);
-            } else {
-                this.longPressTimer = setTimeout(() => updateValue(delta), 100);
-            }
+            this.hass.callService("media_player", service, {
+                entity_id: this.output_entity,
+            });
+            this.longPressTimer = setTimeout(() => updateValue(service), 200);
+            
         };
     
         // Gestore per il pulsante '+' (plusButton)
         plusButton.addEventListener("mousedown", () => {
             if (!isNaN(this.volume_value)) {
                 this._show_vol_text = true;
-                updateValue(1);
+                updateValue("volume_up");
             }
         });
         plusButton.addEventListener("mouseup", () => {
@@ -580,7 +575,7 @@ class LgRemoteControl extends LitElement {
         minusButton.addEventListener("mousedown", () => {
             if (!isNaN(this.volume_value)) {
                 this._show_vol_text = true;
-                updateValue(-1);
+                updateValue("volume_down");
             }
         });
     
@@ -609,23 +604,6 @@ class LgRemoteControl extends LitElement {
         }
     }
     
-    _media_player_set_volume(value) {
-        const entity = this.config.ampli_entity ? this.config.ampli_entity : this.config.entity;
-    
-        if (this.config.ampli_entity &&
-            (this.hass.states[this.config.entity].attributes.sound_output === 'external_arc' ||
-                this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
-            this.hass.callService("media_player", "volume_set", {
-                entity_id: this.config.ampli_entity,
-                volume_level: value,
-            });
-        } else {
-            this.hass.callService("media_player", "volume_set", {
-                entity_id: this.config.entity,
-                volume_level: value,
-            });
-        }
-    }
     
     _select_source(source) {
         this.hass.callService("media_player", "select_source", {
