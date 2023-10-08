@@ -316,7 +316,7 @@ class LgRemoteControl extends LitElement {
             (this.hass.states[this.config.entity].attributes.sound_output === 'external_arc' ||
              this.hass.states[this.config.entity].attributes.sound_output === 'external_optical')) {
 
-                this.volume_value = Math.round(this.hass.states[this.config.ampli_entity].attributes.volume_level * 100);
+                this.volume_value = Math.round(this.hass.states[this.config.ampli_entity].attributes.volume_level * 100 * 2) / 2;
                 this.output_entity = this.config.ampli_entity;
 
         } else {
@@ -543,82 +543,119 @@ class LgRemoteControl extends LitElement {
     
         const plusButton = this.shadowRoot.querySelector("#plusButton");
         const minusButton = this.shadowRoot.querySelector("#minusButton");
-        // Funzione per aggiornare settare il servizio
+    
+        let longPressTimer;
+        let isLongPress = false;
+    
+        // Funzione per aggiornare e chiamare il servizio
         const updateValue = (service) => {
-            const currentValue = this.volume_value;
             this.hass.callService("media_player", service, {
                 entity_id: this.output_entity,
             });
-            this.longPressTimer = setTimeout(() => updateValue(service), 200);
-            
         };
     
         // Gestore per il pulsante '+' (plusButton)
         plusButton.addEventListener("mousedown", () => {
             if (!isNaN(this.volume_value)) {
+                isLongPress = false;
                 this._show_vol_text = true;
+                longPressTimer = setTimeout(() => {
+                    isLongPress = true;
+                    updateValue("volume_up");
+                    if (this.output_entity === this.config.ampli_entity) {
+                        longPressTimer = setInterval(() => updateValue("volume_up"), 250);
+                    } else {
+                        longPressTimer = setInterval(() => updateValue("volume_up"), 100);    
+                    }
+                }, 500);
+            }
+        });
+    
+        plusButton.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            if (!isNaN(this.volume_value)) {
+                isLongPress = false;
+                this._show_vol_text = true;
+                longPressTimer = setTimeout(() => {
+                    isLongPress = true;
+                    updateValue("volume_up");
+                    if (this.output_entity === this.config.ampli_entity) {
+                        longPressTimer = setInterval(() => updateValue("volume_up"), 250);
+                    } else {
+                        longPressTimer = setInterval(() => updateValue("volume_up"), 100);    
+                    }
+                }, 500);
+            }
+        });
+    
+        plusButton.addEventListener("mouseup", () => {
+            clearTimeout(longPressTimer);
+            if (!isLongPress) {
                 updateValue("volume_up");
             }
-        });
-
-        plusButton.addEventListener("touchstart", (e) => {
-            e.preventDefault(); // Impedisci il comportamento predefinito del tocco
-            if (!isNaN(this.volume_value)) {
-                this._show_vol_text = true;
-                this.longPressTimer = setTimeout(() => updateValue("volume_up"), 200);
-            }
-        });
-
-        plusButton.addEventListener("mouseup", () => {
-            clearTimeout(this.longPressTimer);
-            this.valueDisplayTimeout = setTimeout(() => {
-                this._show_vol_text = false;
-            }, 500);
-        });
-
-        plusButton.addEventListener("touchend", () => {
-            clearTimeout(this.longPressTimer);
+            clearInterval(longPressTimer);
             this.valueDisplayTimeout = setTimeout(() => {
                 this._show_vol_text = false;
             }, 500);
         });
     
-        plusButton.addEventListener("mouseout", () => {
-            clearTimeout(this.longPressTimer);
+        plusButton.addEventListener("touchend", () => {
+            clearTimeout(longPressTimer);
+            if (!isLongPress) {
+                updateValue("volume_up");
+            }
+            clearInterval(longPressTimer);
+            this.valueDisplayTimeout = setTimeout(() => {
+                this._show_vol_text = false;
+            }, 500);
         });
     
         // Gestore per il pulsante '-' (minusButton)
         minusButton.addEventListener("mousedown", () => {
             if (!isNaN(this.volume_value)) {
+                isLongPress = false;
                 this._show_vol_text = true;
-                updateValue("volume_down");
+                longPressTimer = setTimeout(() => {
+                    isLongPress = true;
+                    updateValue("volume_down");
+                    longPressTimer = setInterval(() => updateValue("volume_down"), 100);
+                }, 400);
             }
         });
-
+    
         minusButton.addEventListener("touchstart", (e) => {
-            e.preventDefault(); // Impedisci il comportamento predefinito del tocco
+            e.preventDefault();
             if (!isNaN(this.volume_value)) {
+                isLongPress = false;
                 this._show_vol_text = true;
-                this.longPressTimer = setTimeout(() => updateValue("volume_down"), 200);
+                longPressTimer = setTimeout(() => {
+                    isLongPress = true;
+                    updateValue("volume_down");
+                    longPressTimer = setInterval(() => updateValue("volume_down"), 100);
+                }, 400);
             }
         });
     
         minusButton.addEventListener("mouseup", () => {
-            clearTimeout(this.longPressTimer);
-            this.valueDisplayTimeout = setTimeout(() => {
-                this._show_vol_text = false;
-            }, 500);
-        });
-
-        minusButton.addEventListener("touchend", () => {
-            clearTimeout(this.longPressTimer);
+            clearTimeout(longPressTimer);
+            if (!isLongPress) {
+                updateValue("volume_down");
+            }
+            clearInterval(longPressTimer);
             this.valueDisplayTimeout = setTimeout(() => {
                 this._show_vol_text = false;
             }, 500);
         });
     
-        minusButton.addEventListener("mouseout", () => {
-            clearTimeout(this.longPressTimer);
+        minusButton.addEventListener("touchend", () => {
+            clearTimeout(longPressTimer);
+            if (!isLongPress) {
+                updateValue("volume_down");
+            }
+            clearInterval(longPressTimer);
+            this.valueDisplayTimeout = setTimeout(() => {
+                this._show_vol_text = false;
+            }, 500);
         });
     }
     
