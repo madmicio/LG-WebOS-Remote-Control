@@ -1,8 +1,19 @@
-var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
-var html = LitElement.prototype.html;
-var css = LitElement.prototype.css;
+import { css, html, LitElement } from "lit";
+import { HomeAssistant } from "custom-card-helpers";
 
 class LgRemoteControl extends LitElement {
+    public hass!: HomeAssistant;
+    public config!: any;
+    private _show_inputs: boolean;
+    private _show_sound_output: boolean;
+    private _show_text: boolean;
+    private _show_keypad: boolean;
+    private _show_vol_text: boolean;
+    private volume_value: number;
+    private soundOutput: string;
+    private output_entity: string;
+    private valueDisplayTimeout: NodeJS.Timeout;
+
 
     static get disneyIcon() {
         return html`<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -451,10 +462,10 @@ class LgRemoteControl extends LitElement {
 <!-- ################################# COLORED BUTTONS ################################# -->
                 ${colorButtons ? html`
                   <div class="grid-container-color_btn">
-                      <button class="btn-color ripple" style="background-color: red; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("RED")}></button>
-                      <button class="btn-color ripple" style="background-color: green; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("GREEN")}></button>
-                      <button class="btn-color ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("YELLOW")}></button>
-                      <button class="btn-color ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12);" @click=${e => this._button("BLUE")}></button>
+                      <button class="btn-color ripple" style="background-color: red; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("RED")}></button>
+                      <button class="btn-color ripple" style="background-color: green; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("GREEN")}></button>
+                      <button class="btn-color ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("YELLOW")}></button>
+                      <button class="btn-color ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("BLUE")}></button>
                   </div>
                   ` : html`
                   `}
@@ -491,7 +502,7 @@ class LgRemoteControl extends LitElement {
 
     _channelList() {
         const popupEvent = new Event('ll-custom', { bubbles: true, cancelable: false, composed: true });
-        popupEvent.detail = {
+        (popupEvent as any).detail = {
             "browser_mod": {
                 "service": "browser_mod.popup",
                 "data": {
