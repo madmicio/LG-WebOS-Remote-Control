@@ -40,7 +40,8 @@
     },
     "scripts": {
         "start": "rollup -c rollup.config.dev.js --watch",
-        "build": "npm run rollup",
+        "build": "npm run rollup && npm run add-version",
+        "add-version": "cross-var replace-in-file \"@LG_REMOTE_CONTROL_CARD_VERSION_PLACEHOLDER@\" \"$npm_package_version\" \"dist/lg-remote-control.js\"",
         "rollup": "rollup -c"
     }
 }

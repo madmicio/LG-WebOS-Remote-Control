@@ -34,7 +34,7 @@ resources:
 
 ### Manual install
 
-1. Download and copy `lg-remote-control.js` from (https://github.com/madmicio/LG-WebOS-Remote-Control) into your custom components  directory.
+1. Download and copy `lg-remote-control.js` from (https://github.com/madmicio/LG-WebOS-Remote-Control/releases/latest) into your custom components  directory.
 
 2. Add a reference `lg-remote-control.js` inside your resources config:
 
