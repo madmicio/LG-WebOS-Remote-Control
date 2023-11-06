@@ -4,6 +4,7 @@ import { html, LitElement } from "lit";
 
 import { HomeAssistantFixed } from "./types";
 import { EDITOR_CARD_TAG_NAME } from "./const";
+import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
 const avreceivers = {
@@ -98,9 +99,8 @@ class LgRemoteControlEditor extends LitElement {
   }
 
   getLgTvEntityDropdown(optionValue){
-    let mediaPlayerEntities = this.getMediaPlayerEntitiesByPlatform('webostv');
+    let mediaPlayerEntities = getMediaPlayerEntitiesByPlatform(this.hass, 'webostv');
     let heading = 'LG Media Player Entity';
-    this.getMediaPlayerEntitiesByPlatform('webostv');
     let blankEntity: any = '';
     if(this._config.tventity == '' || !(mediaPlayerEntities).includes(optionValue)) {
       blankEntity = html `<option value="" selected> - - - - </option> `;
@@ -122,14 +122,6 @@ class LgRemoteControlEditor extends LitElement {
             </select>
             <br>
             <br>`
-  }
-
-  getMediaPlayerEntitiesByPlatform(platformName) {
-    let entities = Object.keys(this.hass.entities).filter(
-      (eid) => this.hass.entities[eid].platform === platformName
-    );
-    const re = /media_player/;
-    return entities.filter(a => re.exec(a));
   }
 
   selectMac(macValue) {
@@ -158,16 +150,20 @@ class LgRemoteControlEditor extends LitElement {
             ${heading}:<br>
             <div>
                 <label for="buttons">Buttons Color:</label>
-                <input type="text" name="buttons" id="buttons" style="padding: .6em; font-size: 1em;" .value="${config.colors && config.colors.buttons || ''}"
-                       @focusout=${this.colorsConfigChanged}>
+                <input type="color" name="buttons" id="buttons" .value="${config.colors && config.colors.buttons || ''}"
+                       @input=${this.colorsConfigChanged}>
                 <br>
                 <label for="text">Text Color:</label>
-                <input type="text" name="text" id="text" style="padding: .6em; font-size: 1em;" .value="${config.colors && config.colors.text || ''}"
-                       @focusout=${this.colorsConfigChanged}>
+                <input type="color" name="text" id="text" .value="${config.colors && config.colors.text || ''}"
+                       @input=${this.colorsConfigChanged}>
                 <br>
                 <label for="background">Background Color:</label>
-                <input type="text" name="background" id="background" style="padding: .6em; font-size: 1em;" .value="${config.colors && config.colors.background || ''}"
-                       @focusout=${this.colorsConfigChanged}>
+                <input type="color" name="background" id="background" .value="${config.colors && config.colors.background || ''}"
+                       @input=${this.colorsConfigChanged}>
+                <br>
+                <label for="border">Border Color:</label>
+                <input type="color" name="border" id="border" .value="${config.colors && config.colors.border || ''}"
+                       @input=${this.colorsConfigChanged}>
             </div>
         `;
   }
@@ -216,12 +212,12 @@ class LgRemoteControlEditor extends LitElement {
 
   getMediaPlayerEntityDropdown(optionValue) {
     if (this._config.av_receiver_family) {
-      const mediaPlayerEntities = this.getMediaPlayerEntitiesByPlatform(optionValue);
+      const mediaPlayerEntities = getMediaPlayerEntitiesByPlatform(this.hass, optionValue);
       const blankEntity = (this._config.projectorentity === '' || !mediaPlayerEntities.includes(optionValue))
         ? html`<option value="" selected> - - - - </option>`
         : '';
       return html`
-                A-Receiver config (option):}<br>
+                A-Receiver config (option):<br>
                 <select name="projectorentity" id="projectorentity" style="padding: .6em; font-size: 1em;" .value="${optionValue}"
                         @focusout=${this.configChanged}
                         @change=${this.configChanged}>
@@ -257,8 +253,11 @@ class LgRemoteControlEditor extends LitElement {
             ${this.selectMac(this._config.mac)}
             <br>
             ${this.selectColors(this._config)}
+            <br>
             ${this.AVreceicerConfig(this._config.is_smart_tv)}
+            <br>
             ${this.getDeviceAVReceiverDropdown(this._config.av_receiver_family)}
+            <br>
             ${this.getMediaPlayerEntityDropdown(this._config.av_receiver_family)}
 
         `;

@@ -4,8 +4,9 @@ import { HomeAssistant } from "custom-card-helpers";
 
 import "./editor";
 import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon } from "./icons";
-import { WindowWithCards } from "./types";
+import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
+import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
 const line1 = '  LG WebOS Remote Control Card  ';
@@ -23,9 +24,9 @@ const windowWithCards = window as unknown as WindowWithCards;
 windowWithCards.customCards = windowWithCards.customCards || [];
 windowWithCards.customCards.push({
     type: CARD_TAG_NAME,
-    name: "LG Remote Control Card",
+    name: "LG WebOS Remote Control Card",
     preview: true,
-    description: "Remote control card for Lg TV devices"
+    description: "Remote control card for LG WebOS TV devices"
 });
 
 
@@ -48,6 +49,18 @@ class LgRemoteControl extends LitElement {
     static getConfigElement() {
         // Create and return an editor element
         return document.createElement(EDITOR_CARD_TAG_NAME);
+    }
+
+    public static getStubConfig(hass: HomeAssistantFixed) {
+        let entities = getMediaPlayerEntitiesByPlatform(hass, "webostv");
+        if(entities.length == 0){
+            entities = Object.keys(hass.entities).filter(e => e.startsWith("media_player."));
+        }
+        const entity = entities.length > 0 ? entities[0] : "media_player.lg_webos_smart_tv";
+        return {
+            "type": `custom:${CARD_TAG_NAME}`,
+            "entity": entity
+        }
     }
 
     static get iconMapping() {
@@ -96,7 +109,7 @@ class LgRemoteControl extends LitElement {
         const backgroundColor = this.config.colors && this.config.colors.background ? this.config.colors.background : "var( --ha-card-background, var(--card-background-color, white) )";
         const borderColor = this.config.colors && this.config.colors.border ? this.config.colors.border: "var(--primary-text-color)";
         const buttonColor = this.config.colors && this.config.colors.buttons ? this.config.colors.buttons : "var(--secondary-background-color)";
-        const textColor = this.config.colors && this.config.colors.texts ? this.config.colors.texts : "var(--primary-text-color)";
+        const textColor = this.config.colors && this.config.colors.text ? this.config.colors.text : "var(--primary-text-color)";
         const mac = this.config.mac;
 
         if (this.config.ampli_entity &&
