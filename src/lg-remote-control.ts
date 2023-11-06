@@ -100,7 +100,7 @@ class LgRemoteControl extends LitElement {
 
     render() {
         const stateObj = this.hass.states[this.config.entity];
-        const colorButtons = this.config.color_buttons === "enable";
+        const colorButtons = this.config.color_buttons;
 
         const borderWidth = this.config.dimensions && this.config.dimensions.border_width ? this.config.dimensions.border_width : "1px";
         const scale = this.config.dimensions && this.config.dimensions.scale ? this.config.dimensions.scale : 1;
