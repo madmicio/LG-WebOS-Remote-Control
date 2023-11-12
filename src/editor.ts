@@ -186,11 +186,19 @@ class LgRemoteControlEditor extends LitElement {
             <br>`
   }
 
+  setRemoteName(remoteNameValue) {
+    remoteNameValue = remoteNameValue ?? this._config.name;
+    let heading = 'Remote Control Name (option):';
+    return html`
+            ${heading}<br>
+            <input type="text" name="name" id="name" style="background-color:var(--label-badge-text-color);width: 37.8ch;padding: .6em; font-size: 1em;" .value="${remoteNameValue}"
+                   @input=${this.configChanged}
+            <br><br>
+        `;
+  }
+  
   selectMac(macValue) {
-    // Imposta un valore di esempio predefinito
-
     macValue = macValue ?? '00:11:22:33:44:55';
-
     let heading = 'MAC Address:';
     return html`
             ${heading}<br>
@@ -337,16 +345,26 @@ class LgRemoteControlEditor extends LitElement {
     }
 
     return html`
-            ${this.getLgTvEntityDropdown(this._config.entity)}
-            ${this.selectMac(this._config.mac)}
-            ${this.selectColors(this._config)}
-            ${this.colorButtonsConfig(this._config)}
-            ${this.getDeviceAVReceiverDropdown(this._config.av_receiver_family)}
-            ${this.getMediaPlayerEntityDropdown(this._config.av_receiver_family)}
-            ${this.setDimensions(this._config.dimensions??{})}
-            <br>
-            Other functionalities must be configured manually in YAML editor
-        `;
+      ${this.getLgTvEntityDropdown(this._config.entity)}
+      ${this.selectMac(this._config.mac)}
+      ${this.setRemoteName(this._config.mac)}
+      ${this.selectColors(this._config)}
+      ${this.colorButtonsConfig(this._config)}
+      ${this.getDeviceAVReceiverDropdown(this._config.av_receiver_family)}
+      ${this.getMediaPlayerEntityDropdown(this._config.av_receiver_family)}
+      ${this.setDimensions(this._config.dimensions??{})}
+      <br>
+      <p>Other functionalities must be configured manually in YAML editor</p>
+      <p>references to <a href="https://github.com/madmicio/LG-WebOS-Remote-Control">https://github.com/madmicio/LG-WebOS-Remote-Control</a></p>
+      <div class="donations" style="display: flex">
+          <a href="https://www.buymeacoffee.com/madmicio" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+          <form action="https://www.paypal.com/donate" method="post" target="_top">
+          <input type="hidden" name="hosted_button_id" value="U5VQ9LHM82B7Q" />
+          <input type="image" src="https://pics.paypal.com/00/s/ODdjZjVlZjAtOWVmYS00NjQyLTkyZTUtNWQ3MmMzMmIxYTcx/file.PNG" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" style="height:60px;" />
+          <img alt="" border="0" src="https://www.paypal.com/en_IT/i/scr/pixel.gif" width="1" height="1" />
+          </form>
+      </div>
+   `;
   }
 
   static get styles() {
