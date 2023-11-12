@@ -20,9 +20,6 @@ const avreceivers = {
   "heos": {
     "friendlyName": "Denon heos A/V Receivers",
   },
-  "cast": {
-    "friendlyName": "Google Cast ",
-  },
   "harman_kardon_avr": {
     "friendlyName": "Harman Kardon AVR",
   },
@@ -138,6 +135,10 @@ class LgRemoteControlEditor extends LitElement {
       this.dispatchEvent(event);
     }
   }
+  _erase_av_receiver() {
+    this._config.av_receiver_family = '';
+    this.requestUpdate(); // Aggiunta per forzare il render
+  }
 
   dimensionsConfigChanged(ev) {
     // Se l'evento non proviene da un'icona, gestisci la modifica dell'input come al solito
@@ -187,7 +188,6 @@ class LgRemoteControlEditor extends LitElement {
   }
 
   setRemoteName(remoteNameValue) {
-    remoteNameValue = remoteNameValue ?? this._config.name;
     let heading = 'Remote Control Name (option):';
     return html`
             ${heading}<br>
@@ -285,27 +285,40 @@ class LgRemoteControlEditor extends LitElement {
 
   getDeviceAVReceiverDropdown(optionvalue) {
     const familykeys = [...AvReceiverdevicemap.keys()];
-
+    const blankEntity = (!this._config.av_receiver_family || this._config.av_receiver_family === '')
+    ? html`<option value="" selected> - - - - </option>`
+    : '';
     return html`
-            <div>AV-Receiver config option:</div>
-            <select 
-                name="av_receiver_family"
-                id="av_receiver_family"
-                class="select-item"
-                .value=${optionvalue}
-                @focusout=${this.configChanged}
-                @change=${this.configChanged}
-            >
-                ${familykeys.map((family) => {
-                  const receiverData = AvReceiverdevicemap.get(family);
-                  return html`
-                    <option value="${family}" ?selected=${optionvalue === family}>
-                      ${receiverData.friendlyName}
-                    </option>
-                  `;})}
-            </select>
-            <br />
-        `;
+        <div>AV-Receiver config option:</div>
+        <div style="display: flex;width: 40ch;align-items: center;">
+         <select 
+            name="av_receiver_family"
+            id="av_receiver_family"
+            class="select-item"
+            style="width:100%;"
+            .value=${optionvalue}
+            @focusout=${this.configChanged}
+            @change=${this.configChanged}>
+            ${blankEntity}
+            ${familykeys.map((family) => {
+              const receiverData = AvReceiverdevicemap.get(family);
+              return html`
+                <option value="${family}" ?selected=${optionvalue === family}>
+                  ${receiverData.friendlyName}
+                </option>
+              `;})}
+          </select>
+          ${this._config.av_receiver_family && this._config.av_receiver_family != '' ? html`
+          <ha-icon 
+            style="padding-left: 0.8em;"
+            icon="mdi:trash-can-outline" 
+            @click=${this._erase_av_receiver}
+            @mouseover=${() => this.focus()}
+          ></ha-icon>`
+          : ''}
+        </div>
+        <br />
+    `;
   }
 
   getMediaPlayerEntityDropdown(optionValue) {
@@ -340,21 +353,17 @@ class LgRemoteControlEditor extends LitElement {
       return html``;
     }
 
-    if(!this._config.av_receiver_family) {
-      this._config.av_receiver_family = AvReceiverdevicemap.keys().next().value;
-    }
-
     return html`
       ${this.getLgTvEntityDropdown(this._config.entity)}
       ${this.selectMac(this._config.mac)}
-      ${this.setRemoteName(this._config.mac)}
+      ${this.setRemoteName(this._config.name)}
       ${this.selectColors(this._config)}
       ${this.colorButtonsConfig(this._config)}
       ${this.getDeviceAVReceiverDropdown(this._config.av_receiver_family)}
       ${this.getMediaPlayerEntityDropdown(this._config.av_receiver_family)}
       ${this.setDimensions(this._config.dimensions??{})}
       <br>
-      <p>Other functionalities must be configured manually in YAML editor</p>
+      <p>Other functionalities must be configured manually in code editor</p>
       <p>references to <a href="https://github.com/madmicio/LG-WebOS-Remote-Control">https://github.com/madmicio/LG-WebOS-Remote-Control</a></p>
       <div class="donations" style="display: flex">
           <a href="https://www.buymeacoffee.com/madmicio" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
@@ -363,6 +372,7 @@ class LgRemoteControlEditor extends LitElement {
           <input type="image" src="https://pics.paypal.com/00/s/ODdjZjVlZjAtOWVmYS00NjQyLTkyZTUtNWQ3MmMzMmIxYTcx/file.PNG" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" style="height:60px;" />
           <img alt="" border="0" src="https://www.paypal.com/en_IT/i/scr/pixel.gif" width="1" height="1" />
           </form>
+
       </div>
    `;
   }
