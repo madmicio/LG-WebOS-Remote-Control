@@ -16,6 +16,10 @@ browser_mod is required for this channel panel (you can find it [here](https://g
 
 custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
+# New features
+### - editor cart
+### - ovverride buttons services
+
 
 
 
@@ -34,7 +38,7 @@ resources:
 
 ### Manual install
 
-1. Download and copy `lg-remote-control.js` from (https://github.com/madmicio/LG-WebOS-Remote-Control) into your custom components  directory.
+1. Download and copy `lg-remote-control.js` from (https://github.com/madmicio/LG-WebOS-Remote-Control/releases/latest) into your custom components  directory.
 
 2. Add a reference `lg-remote-control.js` inside your resources config:
 
@@ -99,7 +103,13 @@ channels:
     number: '503'
 ```
 
-## AV receiver volume control Options
+## Ovverride buttons services
+
+with version 2.0 the possibility of overriding the functionality of the button is introduced. you therefore have the possibility of calling a Home assistant service at your convenience
+
+here are the [override keys](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal/Override_buttons.md) and the yaml configuration. 
+
+## AV receiver volume control Options  
 
 option dedicated to all those with problems controlling the volume of the AV Receiver through HDMI-cec commands.
 if the ampli_entity item is configured, and when the sound output is set to external_arc (HDMI) or external_optical (optical output) then the remote control buttons will no longer act on the volume of the television, but on the volume of your receiver.
