@@ -107,7 +107,7 @@ channels:
 
 with version 2.0 the possibility of overriding the functionality of the button is introduced. you therefore have the possibility of calling a Home assistant service at your convenience
 
-here are the [overridable keys]([https://github.com/madmicio/channel-pad](https://github.com/PiotrMachowski](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal/Override_buttons.md) and the yaml configuration 
+here are the [overridable keys]([https://github.com/madmicio/channel-pad](https://github.com/PiotrMachowski](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal/Override_buttons.md) and the yaml configuration. [Piotr Machowski](https://github.com/PiotrMachowski](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal)
 
 ## AV receiver volume control Options  
 
