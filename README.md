@@ -16,6 +16,10 @@ browser_mod is required for this channel panel (you can find it [here](https://g
 
 custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
+# New features
+### - editor cart
+### - ovverride buttons services
+
 
 
 
@@ -99,7 +103,13 @@ channels:
     number: '503'
 ```
 
-## AV receiver volume control Options
+## Ovverride buttons services
+
+with version 2.0 the possibility of overriding the functionality of the button is introduced. you therefore have the possibility of calling a Home assistant service at your convenience
+
+here are the overridable keys and the yaml configuration [overridable keys]([https://github.com/PiotrMachowski](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal/Override_buttons.md))
+
+## AV receiver volume control Options  [here](https://github.com/madmicio/channel-pad))
 
 option dedicated to all those with problems controlling the volume of the AV Receiver through HDMI-cec commands.
 if the ampli_entity item is configured, and when the sound output is set to external_arc (HDMI) or external_optical (optical output) then the remote control buttons will no longer act on the volume of the television, but on the volume of your receiver.
