@@ -17,7 +17,7 @@ browser_mod is required for this channel panel (you can find it [here](https://g
 custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
 # New features
-### - editor cart
+### - editor card
 ### - ovverride buttons services
 
 
