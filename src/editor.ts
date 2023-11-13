@@ -191,7 +191,7 @@ class LgRemoteControlEditor extends LitElement {
     let heading = 'Remote Control Name (option):';
     return html`
             ${heading}<br>
-            <input type="text" name="name" id="name" style="background-color:var(--label-badge-text-color);width: 37.8ch;padding: .6em; font-size: 1em;" .value="${remoteNameValue}"
+            <input type="text" name="name" id="name" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${remoteNameValue}"
                    @input=${this.configChanged}
             <br><br>
         `;
@@ -202,7 +202,7 @@ class LgRemoteControlEditor extends LitElement {
     let heading = 'MAC Address:';
     return html`
             ${heading}<br>
-            <input type="text" name="mac" id="mac" style="background-color:var(--label-badge-text-color);width: 37.8ch;padding: .6em; font-size: 1em;" .value="${macValue}"
+            <input type="text" name="mac" id="mac" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${macValue}"
                    @focusout=${this.configChanged}
                    @change=${this.configChanged}>
             <br><br>
