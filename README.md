@@ -107,9 +107,9 @@ channels:
 
 with version 2.0 the possibility of overriding the functionality of the button is introduced. you therefore have the possibility of calling a Home assistant service at your convenience
 
-here are the overridable keys and the yaml configuration [overridable keys]([https://github.com/PiotrMachowski](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal/Override_buttons.md))
+here are the [overridable keys]([https://github.com/madmicio/channel-pad](https://github.com/PiotrMachowski](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/typescript-minimal/Override_buttons.md) and the yaml configuration 
 
-## AV receiver volume control Options  [here](https://github.com/madmicio/channel-pad))
+## AV receiver volume control Options  
 
 option dedicated to all those with problems controlling the volume of the AV Receiver through HDMI-cec commands.
 if the ampli_entity item is configured, and when the sound output is set to external_arc (HDMI) or external_optical (optical output) then the remote control buttons will no longer act on the volume of the television, but on the volume of your receiver.
