@@ -396,7 +396,6 @@ class LgRemoteControlEditor extends LitElement {
         }
  
         .select-item {
-            background-color: var(--label-badge-text-color);
             width: 40ch;
             padding: .6em; 
             font-size: 1em;
