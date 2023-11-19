@@ -897,6 +897,7 @@ class LgRemoteControl extends LitElement {
 
           .ok_button {
             display: flex;
+            color: var(--remote-text-color);
             justify-content: center;
             align-items: center;
             border: solid 3px var(--ha-card-background);
