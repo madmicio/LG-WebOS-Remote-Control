@@ -1,8 +1,10 @@
-name: 'Build'
+name: Build
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -13,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 20
 
       - name: Build
         run: |
