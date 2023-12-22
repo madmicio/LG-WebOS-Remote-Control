@@ -1,6 +1,6 @@
-import { css, html, LitElement } from "lit";
-import { customElement } from 'lit/decorators';
-import { HomeAssistant } from "custom-card-helpers";
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { HomeAssistant } from 'custom-card-helpers';
 
 import "./editor";
 import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon } from "./icons";

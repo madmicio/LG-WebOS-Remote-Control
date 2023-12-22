@@ -1,5 +1,5 @@
 // Create and register the card editor
-import { customElement } from "lit/decorators";
+import { customElement } from "lit/decorators.js";
 import { html, css, LitElement } from "lit";
 
 import { HomeAssistantFixed } from "./types";
