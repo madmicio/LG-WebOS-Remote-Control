@@ -45,6 +45,9 @@ class LgRemoteControl extends LitElement {
     private soundOutput: string;
     private output_entity: string;
     private valueDisplayTimeout: NodeJS.Timeout;
+    private homeisLongPress: boolean = false;
+    private homelongPressTimer: any; // Tipo generico, ma puoi specificare il tipo corretto se lo conosci
+
 
     static getConfigElement() {
         // Create and return an editor element
@@ -82,7 +85,8 @@ class LgRemoteControl extends LitElement {
             _show_keypad: {},
             _show_vol_text: {},
             volume_value: { type: Number, reflect: true },
-            output_entity: { type: Number, reflect: true }
+            output_entity: { type: Number, reflect: true },
+            
         };
     }
 
@@ -262,7 +266,17 @@ class LgRemoteControl extends LitElement {
 
                         <div class="grid-container-volume-channel-control" >
                             <button class="btn ripple" id="plusButton"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" }><ha-icon icon="mdi:plus"/></button>
-                            <button class="btn-flat flat-high ripple" style="margin-top: 0px; height: 50%;" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"></button>
+                            <button class="btn-flat flat-high ripple" id="homeButton" style="margin-top: 0px; height: 50%;" @mousedown=${(e) => this._homeButtonDown(e)} @touchstart=${(e) => this._homeButtonDown(e)} @mouseup=${(e) => this._homeButtonUp(e)} @touchend=${(e) => this._homeButtonUp(e)}>
+    <ha-icon icon="mdi:home"></ha-icon>
+</button>
+                                                    
+
+
+                            
+
+
+
+
                             <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
                             <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
                             <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
@@ -463,6 +477,21 @@ class LgRemoteControl extends LitElement {
             }
         }
     }
+
+    _homeButtonDown(event: MouseEvent | TouchEvent) {
+      this.homeisLongPress = false;
+      this.homelongPressTimer = setTimeout(() => {
+          this.homeisLongPress = true;
+          this._button("MENU")
+      }, 1000); // Tempo in millisecondi per determinare una pressione prolungata
+  }
+  
+  _homeButtonUp(event: MouseEvent | TouchEvent) {
+      clearTimeout(this.homelongPressTimer);
+      if (!this.homeisLongPress) {
+          this._button("HOME")
+      }
+  }
 
 
     _select_source(source) {
