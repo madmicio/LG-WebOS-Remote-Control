@@ -188,6 +188,9 @@ action:
             entity_id: media_player.marantz_sr6010
 ```
 
+## MENU button
+to display the "quick menu" (MENU function of WEBOS integration), long press, longer than 1 second, on the "HOME" button
+
 ## Color Management
 color customization implemented through the section
 ```yaml
