@@ -131,7 +131,7 @@ class LgRemoteControl extends LitElement {
 
         return html`
             <div class="card">
-                <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth};  --main-border-color: ${borderColor}; --main-border-width: ${borderWidth}">
+                <div class="page" style="box-sizing: border-box; --remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth};  --main-border-color: ${borderColor}; --main-border-width: ${borderWidth}">
                     ${this.config.name
                         ? html` <div class="tv_title" style="color:${tv_name_color}" >${this.config.name}</div> `
                         : ""}
