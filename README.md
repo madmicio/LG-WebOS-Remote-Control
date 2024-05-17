@@ -1,4 +1,4 @@
-# LG-WebOS-Remote-Control
+# OpenWebIf-Remote-Control
 Remote Control for LG TV WebOS
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/hacs/integration)
