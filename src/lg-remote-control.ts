@@ -8,7 +8,7 @@ import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
-
+// Derek
 const line1 = '  LG WebOS Remote Control Card  ';
 const line2 = `  version: ${CARD_VERSION}  `;
 /* eslint no-console: 0 */
