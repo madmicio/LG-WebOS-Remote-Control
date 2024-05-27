@@ -46,7 +46,7 @@ class LgRemoteControl extends LitElement {
     private output_entity: string;
     private valueDisplayTimeout: NodeJS.Timeout;
     private homeisLongPress: boolean = false;
-    private homelongPressTimer: any; // Tipo generico, ma puoi specificare il tipo corretto se lo conosci
+    private homelongPressTimer: any; // Tipo generico, ma pudddoi specificare il tipo corretto se lo conosci
 
 
     static getConfigElement() {
