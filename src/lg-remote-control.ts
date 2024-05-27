@@ -8,7 +8,7 @@ import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
-
+// Derek
 const line1 = '  LG WebOS Remote Control Card  ';
 const line2 = `  version: ${CARD_VERSION}  `;
 /* eslint no-console: 0 */
@@ -46,7 +46,7 @@ class LgRemoteControl extends LitElement {
     private output_entity: string;
     private valueDisplayTimeout: NodeJS.Timeout;
     private homeisLongPress: boolean = false;
-    private homelongPressTimer: any; // Tipo generico, ma puoi specificare il tipo corretto se lo conosci
+    private homelongPressTimer: any; // Tipo generico, ma pudddoi specificare il tipo corretto se lo conosci
 
 
     static getConfigElement() {
