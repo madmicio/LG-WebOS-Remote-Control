@@ -2,16 +2,16 @@ import { HomeAssistant } from 'custom-card-helpers';
 import { css, html, LitElement, unsafeCSS } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import styles from '../style.css';
+import styles from 'style.css';
 
-import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
+import { CARD_DESCRIPTION, CARD_NAME, CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import "./editor";
 import { amazonIcon, arcIcon, daznIcon, disneyIcon, lineOutIcon, nowTvIcon, opticIcon, tvHeadphonesIcon, tvOpticIcon } from "./icons";
 import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
-const line1 = '  LG WebOS Remote Control Card  ';
+const line1 = `  ${CARD_NAME} Card  `;
 const line2 = `  version: ${CARD_VERSION}  `;
 /* eslint no-console: 0 */
 console.info(
@@ -26,9 +26,9 @@ const windowWithCards = window as unknown as WindowWithCards;
 windowWithCards.customCards = windowWithCards.customCards || [];
 windowWithCards.customCards.push({
     type: CARD_TAG_NAME,
-    name: "LG WebOS Remote Control Card",
+    name: `${CARD_NAME} Card`,
     preview: true,
-    description: "Remote control card for LG WebOS TV devices"
+    description: CARD_DESCRIPTION
 });
 
 
