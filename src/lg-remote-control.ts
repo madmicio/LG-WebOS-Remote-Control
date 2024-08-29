@@ -1,15 +1,17 @@
-import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
+import { css, html, LitElement, unsafeCSS } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
+import styles from 'style.css';
+
+import { CARD_DESCRIPTION, CARD_NAME, CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import "./editor";
-import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon } from "./icons";
+import { amazonIcon, arcIcon, daznIcon, disneyIcon, lineOutIcon, nowTvIcon, opticIcon, tvHeadphonesIcon, tvOpticIcon } from "./icons";
 import { HomeAssistantFixed, WindowWithCards } from "./types";
-import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
-const line1 = '  LG WebOS Remote Control Card  ';
+const line1 = `  ${CARD_NAME} Card  `;
 const line2 = `  version: ${CARD_VERSION}  `;
 /* eslint no-console: 0 */
 console.info(
@@ -24,15 +26,16 @@ const windowWithCards = window as unknown as WindowWithCards;
 windowWithCards.customCards = windowWithCards.customCards || [];
 windowWithCards.customCards.push({
     type: CARD_TAG_NAME,
-    name: "LG WebOS Remote Control Card",
+    name: `${CARD_NAME} Card`,
     preview: true,
-    description: "Remote control card for LG WebOS TV devices"
+    description: CARD_DESCRIPTION
 });
 
 
 
 @customElement(CARD_TAG_NAME)
 class LgRemoteControl extends LitElement {
+    static styles = css`${unsafeCSS(styles)}`;
 
     public hass!: HomeAssistant;
     public config!: any;
@@ -86,7 +89,7 @@ class LgRemoteControl extends LitElement {
             _show_vol_text: {},
             volume_value: { type: Number, reflect: true },
             output_entity: { type: Number, reflect: true },
-            
+
         };
     }
 
@@ -269,10 +272,10 @@ class LgRemoteControl extends LitElement {
                             <button class="btn-flat flat-high ripple" id="homeButton" style="margin-top: 0px; height: 50%;" @mousedown=${(e) => this._homeButtonDown(e)} @touchstart=${(e) => this._homeButtonDown(e)} @mouseup=${(e) => this._homeButtonUp(e)} @touchend=${(e) => this._homeButtonUp(e)}>
     <ha-icon icon="mdi:home"></ha-icon>
 </button>
-                                                    
 
 
-                            
+
+
 
 
 
@@ -485,7 +488,7 @@ class LgRemoteControl extends LitElement {
           this._button("MENU")
       }, 1000); // Tempo in millisecondi per determinare una pressione prolungata
   }
-  
+
   _homeButtonUp(event: MouseEvent | TouchEvent) {
       clearTimeout(this.homelongPressTimer);
       if (!this.homeisLongPress) {
@@ -540,411 +543,6 @@ class LgRemoteControl extends LitElement {
         return Object.keys(LgRemoteControl.iconMapping).includes(iconName)
             ? LgRemoteControl.iconMapping[iconName]
             : html`<ha-icon style="height: 70%; width: 70%;" icon="${iconName}"/>`;
-    }
-
-    static get styles() {
-        return css`
-          @keyframes blinker {
-            50% {
-              opacity: 0;
-            }
-          }
-          .tv_title {
-            width: fit-content;
-            alig: -webkit-center;
-            display: block;
-            margin: auto;
-            padding: calc(var(--remotewidth)/52) calc(var(--remotewidth)/26);
-            border-radius: calc(var(--remotewidth)/10);
-            background-color: var(--remote-button-color);
-          }
-          button:focus {
-            outline: 0;
-          }
-          .ripple {
-            position: relative;
-            overflow: hidden;
-            transform: translate3d(0, 0, 0);
-          }
-          .ripple:after {
-            content: "";
-            display: block;
-            position: absolute;
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            background-image: radial-gradient(circle, #7a7f87 2%, transparent 10.01%);
-            background-repeat: no-repeat;
-            background-position: 50%;
-            transform: scale(10, 10);
-            opacity: 0;
-            transition: transform .5s, opacity 1s;
-          }
-          .ripple:active:after {
-            transform: scale(0, 0);
-            opacity: .3;
-            transition: 0s;
-          }
-          .blink {
-            animation: blinker 1.5s linear infinite;
-            color: red;
-          }
-          .card, .ripple:after {
-            width: 100%;
-            height: 100%}
-          .card {
-            display: flex;
-            justify-content: center;
-          }
-          .page {
-            background-color: var(--remote-color);
-            height: 100%;
-            display: inline-block;
-            flex-direction: row;
-            border: var(--main-border-width) solid var(--main-border-color);
-            border-radius: calc(var(--remotewidth)/7.5);
-            padding: calc(var(--remotewidth)/37.5) calc(var(--remotewidth)/15.2) calc(var(--remotewidth)/11);
-          }
-          .grid-container-power {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 1fr;
-            background-color: transparent;
-            overflow: hidden;
-            width: var(--remotewidth);
-            height: calc(var(--remotewidth)/3);
-          }
-          .grid-container-cursor, .grid-container-keypad {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            overflow: hidden;
-            height: var(--remotewidth);
-          }
-          .grid-container-cursor {
-            grid-template-rows: 1fr 1fr 1fr;
-            width: var(--remotewidth);
-            grid-template-areas: "sound up input""left ok right""back down exit"}
-          .grid-container-keypad {
-            grid-template-rows: 1fr 1fr 1fr 1fr;
-            background-color: transparent;
-            background-color: var(--remote-button-color);
-            border-radius: 35px;
-            width: calc(var(--remotewidth) - 10%);
-            margin: auto;
-          }
-          .grid-container-input, .grid-container-sound {
-            display: grid;
-            background-color: transparent;
-            overflow: hidden;
-            width: var(--remotewidth);
-          }
-          .grid-container-input {
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: calc(var(--remotewidth)/2) calc(var(--remotewidth)/.5115);
-          }
-          .grid-container-sound {
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 28% 6% 16% 16% 16% 16% 6%;
-            height: var(--remotewidth);
-            grid-template-areas: "bnt title"". .""tv tv-opt""tv-phone opt""hdmi line""phone bluetooth"}
-          .grid-container-color_btn, .grid-container-source {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: auto;
-            background-color: transparent;
-            width: calc(var(--remotewidth)/1.03);
-            overflow: hidden;
-            margin: auto;
-          }
-          .grid-container-color_btn {
-            height: calc(var(--remotewidth)/10);
-          }
-          .grid-container-media-control, .grid-container-volume-channel-control {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
-            background-color: transparent;
-            width: var(--remotewidth);
-            height: calc(var(--remotewidth)/1.4);
-            overflow: hidden;
-            margin-top: calc(var(--remotewidth)/12);
-          }
-          .grid-container-media-control {
-            grid-template-rows: 1fr 1fr;
-            height: calc(var(--remotewidth)/2.85);
-          }
-          .grid-item-input {
-            grid-column-start: 1;
-            grid-column-end: 4;
-            grid-row-start: 1;
-            grid-row-end: 3;
-            display: grid;
-            grid-template-columns: auto;
-            background-color: var(--remote-button-color);
-            margin: auto;
-            margin-top: calc(var(--remotewidth)/2.6);
-            overflow: scroll;
-            height: calc(var(--remotewidth)*2.01);
-            width: calc(var(--remotewidth) - 9%);
-            border-radius: calc(var(--remotewidth)/12);
-          }
-          .grid-item-input::-webkit-scrollbar {
-            display: none;
-            -ms-overflow-style: none;
-          }
-          .shape, .shape-input, .shape-sound, .source_text {
-            grid-column-start: 1;
-            grid-column-end: 4;
-            grid-row-start: 1;
-          }
-          .shape {
-            grid-row-end: 4;
-            padding: 5px;
-          }
-          .shape-input, .shape-sound, .source_text {
-            grid-row-end: 3;
-          }
-          .shape-sound, .source_text {
-            grid-column-end: 5;
-            grid-row-end: 6;
-          }
-          .source_text {
-            grid-column-end: 3;
-            grid-row-end: 2;
-            text-align: center;
-            margin-top: calc(var(--remotewidth)/6);
-            font-size: calc(var(--remotewidth)/10);
-            opacity: .3;
-          }
-          .btn_soundoutput, .sound_icon_text {
-            width: 70%;
-            height: 70%;
-            border-width: 0;
-            margin: auto auto 0 0;
-            cursor: pointer;
-            background-color: transparent;
-            grid-area: title;
-          }
-          .sound_icon_text {
-            color: var(--remote-text-color);
-            font-size: calc(var(--remotewidth)/18.75);
-            overflow: hidden;
-          }
-          .btn_soundoutput {
-            font-size: calc(var(--remotewidth)/12.5);
-            display: block;
-            opacity: .4;
-            color: var(--remote-text-color);
-            font-weight: bold;
-          }
-          .tv {
-            grid-area: tv;
-          }
-          .tv-opt {
-            grid-area: tv-opt;
-          }
-          .tv-phone {
-            grid-area: tv-phone;
-          }
-          .opt {
-            grid-area: opt;
-          }
-          .hdmi {
-            grid-area: hdmi;
-          }
-          .phone {
-            grid-area: phone;
-          }
-          .line {
-            grid-area: line;
-          }
-          .bluetooth {
-            grid-area: bluetooth;
-          }
-          .item_sound {
-            grid-area: sound;
-          }
-          .item_up {
-            grid-area: up;
-          }
-          .item_input {
-            grid-area: input;
-          }
-          .item_2_sx {
-            grid-area: left;
-          }
-          .item_2_c {
-            grid-area: ok;
-          }
-          .item_right {
-            grid-area: right;
-          }
-          .item_back {
-            grid-area: back;
-          }
-          .item_down {
-            grid-area: down;
-          }
-          .item_exit {
-            grid-area: exit;
-          }
-          ha-icon {
-            width: calc(var(--remotewidth)/10.8);
-            height: calc(var(--remotewidth)/10.8);
-          }
-          .bnt-input-back, .bnt-sound-back, .btn {
-            font-size: calc(var(--remotewidth)/18.75);
-            border-radius: 50%;
-            place-items: center;
-            display: inline-block;
-            cursor: pointer;
-          }
-          .btn {
-            background-color: var(--remote-button-color);
-            color: var(--remote-text-color);
-            width: 70%;
-            height: 70%;
-            border-width: 0;
-            margin: auto;
-          }
-          .bnt-input-back, .bnt-sound-back {
-            background-color: transparent;
-            margin-top: calc(var(--remotewidth)/21);
-          }
-          .bnt-input-back {
-            grid-column-start: 3;
-            grid-column-end: 4;
-            grid-row-start: 1;
-            grid-row-end: 2;
-            color: var(--remote-text-color);
-            width: 70%;
-            height: 50%;
-            border-width: 0;
-            margin-left: calc(var(--remotewidth)/21);
-          }
-          .bnt-sound-back {
-            margin-left: 0;
-            grid-area: bnt;
-            width: 45%;
-            height: 83%;
-            margin-left: calc(var(--remotewidth)/18);
-          }
-          .bnt-sound-back, .btn-color, .btn-keypad, .btn_source {
-            color: var(--remote-text-color);
-            border-width: 0;
-          }
-          .btn-keypad {
-            background-color: transparent;
-            font-size: calc(var(--remotewidth)/10);
-            width: 100%;
-            height: 100%}
-          .btn-color, .btn_source {
-            background-color: var(--remote-button-color);
-            border-radius: calc(var(--remotewidth)/10);
-            place-items: center;
-            cursor: pointer;
-          }
-          .btn_source {
-            width: calc(var(--remotewidth)/5.9);
-            height: calc(var(--remotewidth)/8.125);
-            margin: calc(var(--remotewidth)/18.57) auto calc(var(--remotewidth)/20);
-          }
-          .btn-color {
-            width: 70%;
-            height: 55%;
-            margin: auto;
-          }
-          .icon_source {
-            height: 100%;
-            width: 100%}
-          .btn-input, .btn-input-on {
-            font-size: calc(var(--remotewidth)/18.5);
-            height: calc(var(--remotewidth)/7.2226);
-            border-width: 0;
-            border-radius: calc(var(--remotewidth)/20);
-            margin: calc(var(--remotewidth)/47);
-            place-items: center;
-            display: list-item;
-            cursor: pointer;
-          }
-          .btn-input {
-            background-color: var(--remote-button-color);
-            color: var(--remote-text-color);
-            border: solid 2px var(--remote-color);
-          }
-          .btn-input-on {
-            background-color: var(--primary-color);
-            color: #fff;
-          }
-          .bnt_sound_icon_width {
-            width: calc(var(--remotewidth)/3);
-          }
-          .bnt_sound_text_width {
-            width: calc(var(--remotewidth)/2.6);
-          }
-          .btn_sound_off, .btn_sound_on {
-            font-size: calc(var(--remotewidth)/25);
-            height: calc(var(--remotewidth)/9.3);
-            border-width: 0;
-            border-radius: calc(var(--remotewidth)/20);
-            margin: auto;
-            display: block;
-            cursor: pointer;
-          }
-          .btn_sound_on {
-            background-color: var(--primary-color);
-            color: #fff;
-          }
-          .btn_sound_off {
-            background-color: var(--remote-button-color);
-            color: var(--remote-text-color);
-            border: solid 2px var(--remote-color);
-          }
-          .overlay {
-            background-color: rgba(0, 0, 0, .02);
-          }
-          .flat-high {
-            width: 70%;
-            height: 37%}
-          .flat-low {
-            width: 70%;
-            height: 65%}
-          .btn-flat {
-            background-color: var(--remote-button-color);
-            color: var(--remote-text-color);
-            font-size: calc(var(--remotewidth)/18.75);
-            border-width: 0;
-            border-radius: calc(var(--remotewidth)/10);
-            margin: auto;
-            display: grid;
-            place-items: center;
-            display: inline-block;
-            cursor: pointer;
-          }
-
-
-          .ok_button {
-            display: flex;
-            color: var(--remote-text-color);
-            justify-content: center;
-            align-items: center;
-            border: solid 3px var(--ha-card-background);
-            border-radius: 100%;
-            font-size: calc(var(--remotewidth)/16.6);
-            cursor: pointer;
-
-          }
-
-          .vol_text_value {
-            // width: 40px;
-            background-color: transparent;
-            border: none;
-            text-align: center;
-            color: var(--primary-text-color);
-            font-size: calc(var(--remotewidth)/14);
-
-        `;
     }
 
 }
