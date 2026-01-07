@@ -137,7 +137,7 @@ class LgRemoteControl extends LitElement {
                         : ""}
                     <div class="grid-container-power"  style="--remotewidth: ${remoteWidth}">
                         <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
-                        ${stateObj.state === 'off' ? html`
+                        ${['off', 'unavailable'].includes(stateObj.state) ? html`
                             <button class="btn ripple" @click=${() => this._media_player_turn_on(mac)}><ha-icon icon="mdi:power" style="color: ${textColor};"/></button>
                         ` : html`
                             <button class="btn ripple" @click=${() => this._media_player_service("POWER", "turn_off")}><ha-icon icon="mdi:power" style="color: red;"/></button>
