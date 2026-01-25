@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
 
 import "./editor";
-import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon } from "./icons";
+import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon, streamioIcon } from "./icons";
 import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
@@ -72,6 +72,7 @@ class LgRemoteControl extends LitElement {
             "dazn": daznIcon(),
             "nowtv": nowTvIcon(),
             "amazon": amazonIcon(),
+            "streamio": streamioIcon(),
         };
     }
 
