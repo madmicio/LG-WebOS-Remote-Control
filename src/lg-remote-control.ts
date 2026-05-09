@@ -138,9 +138,9 @@ class LgRemoteControl extends LitElement {
                     <div class="grid-container-power"  style="--remotewidth: ${remoteWidth}">
                         <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
                         ${['off', 'unavailable'].includes(stateObj.state) ? html`
-                            <button class="btn ripple" @click=${() => this._media_player_turn_on(mac)}><ha-icon icon="mdi:power" style="color: ${textColor};"/></button>
+                            <button class="btn ripple" @click=${() => this._media_player_turn_on(mac)}><ha-icon icon="${this._getIcon("POWER", "mdi:power")}" style="color: ${textColor};"/></button>
                         ` : html`
-                            <button class="btn ripple" @click=${() => this._media_player_service("POWER", "turn_off")}><ha-icon icon="mdi:power" style="color: red;"/></button>
+                            <button class="btn ripple" @click=${() => this._media_player_service("POWER", "turn_off")}><ha-icon icon="${this._getIcon("POWER", "mdi:power")}" style="color: red;"/></button>
                         `}
                         <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
                     </div>
@@ -198,17 +198,17 @@ class LgRemoteControl extends LitElement {
                             ${this._show_keypad ? html`
                                 <!-- ################################ keypad ################################## -->
                                 <div class="grid-container-keypad">
-                                    <button class="btn-keypad ripple" @click=${() => this._button("1")}>1</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("2")}>2</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("3")}>3</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("4")}>4</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("5")}>5</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("6")}>6</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("7")}>7</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("8")}>8</button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("9")}>9</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("1", "")}" @click=${() => this._button("1")}>${this._getIcon("1", "") ? html`<ha-icon icon="${this._getIcon("1", "")}"/>` : "1"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("2", "")}" @click=${() => this._button("2")}>${this._getIcon("2", "") ? html`<ha-icon icon="${this._getIcon("2", "")}"/>` : "2"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("3", "")}" @click=${() => this._button("3")}>${this._getIcon("3", "") ? html`<ha-icon icon="${this._getIcon("3", "")}"/>` : "3"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("4", "")}" @click=${() => this._button("4")}>${this._getIcon("4", "") ? html`<ha-icon icon="${this._getIcon("4", "")}"/>` : "4"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("5", "")}" @click=${() => this._button("5")}>${this._getIcon("5", "") ? html`<ha-icon icon="${this._getIcon("5", "")}"/>` : "5"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("6", "")}" @click=${() => this._button("6")}>${this._getIcon("6", "") ? html`<ha-icon icon="${this._getIcon("6", "")}"/>` : "6"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("7", "")}" @click=${() => this._button("7")}>${this._getIcon("7", "") ? html`<ha-icon icon="${this._getIcon("7", "")}"/>` : "7"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("8", "")}" @click=${() => this._button("8")}>${this._getIcon("8", "") ? html`<ha-icon icon="${this._getIcon("8", "")}"/>` : "8"}</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("9", "")}" @click=${() => this._button("9")}>${this._getIcon("9", "") ? html`<ha-icon icon="${this._getIcon("9", "")}"/>` : "9"}</button>
                                     <button class="btn-keypad"></button>
-                                    <button class="btn-keypad ripple" @click=${() => this._button("0")}>0</button>
+                                    <button class="btn-keypad ripple" style="${this._getButtonStyle("0", "")}" @click=${() => this._button("0")}>${this._getIcon("0", "") ? html`<ha-icon icon="${this._getIcon("0", "")}"/>` : "0"}</button>
                                     <button class="btn-keypad"></button>
                                 </div>
                                 <!-- ################################# keypad end ############################## -->
@@ -219,14 +219,14 @@ class LgRemoteControl extends LitElement {
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 79"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--remote-button-color)" stroke="#000000" stroke-width="0" /></svg>
                                     </div>
                                     <button class="btn ripple item_sound" @click=${() => this._show_sound_output = true}><ha-icon icon="mdi:speaker"/></button>
-                                    <button class="btn ripple item_up" style="background-color: transparent;" @click=${() => this._button("UP")}><ha-icon icon="mdi:chevron-up"/></button>
+                                    <button class="btn ripple item_up" style="background-color: transparent; ${this._getButtonStyle("UP", "")}" @click=${() => this._button("UP")}><ha-icon icon="${this._getIcon("UP", "mdi:chevron-up")}"/></button>
                                     <button class="btn ripple item_input" @click=${() => this._show_inputs = true}><ha-icon icon="mdi:import"/></button>
-                                    <button class="btn ripple item_2_sx" style="background-color: transparent;" @click=${() => this._button("LEFT")}><ha-icon icon="mdi:chevron-left"/></button>
-                                    <div class="ok_button ripple item_2_c" style="border: solid 2px ${backgroundColor}"  @click=${() => this._button("ENTER")}>${this._show_vol_text === true ? this.volume_value : 'OK'}</div>
-                                    <button class="btn ripple item_right" style="background-color: transparent;" @click=${() => this._button("RIGHT")}><ha-icon icon="mdi:chevron-right"/></button>
-                                    <button class="btn ripple item_back" @click=${() => this._button("BACK")}><ha-icon icon="mdi:undo-variant"/></button>
-                                    <button class="btn ripple item_down" style="background-color: transparent;" @click=${() => this._button("DOWN")}><ha-icon icon="mdi:chevron-down"/></button>
-                                    <button class="btn ripple item_exit" @click=${() => this._button("EXIT")}>EXIT</button>
+                                    <button class="btn ripple item_2_sx" style="background-color: transparent; ${this._getButtonStyle("LEFT", "")}" @click=${() => this._button("LEFT")}><ha-icon icon="${this._getIcon("LEFT", "mdi:chevron-left")}"/></button>
+                                    <div class="ok_button ripple item_2_c" style="border: solid 2px ${backgroundColor}; ${this._getButtonStyle("ENTER", "")}" @click=${() => this._button("ENTER")}>${this._getIcon("ENTER", "") ? html`<ha-icon icon="${this._getIcon("ENTER", "")}"/>` : (this._show_vol_text === true ? this.volume_value : 'OK')}</div>
+                                    <button class="btn ripple item_right" style="background-color: transparent; ${this._getButtonStyle("RIGHT", "")}" @click=${() => this._button("RIGHT")}><ha-icon icon="${this._getIcon("RIGHT", "mdi:chevron-right")}"/></button>
+                                    <button class="btn ripple item_back" style="${this._getButtonStyle("BACK", "")}" @click=${() => this._button("BACK")}><ha-icon icon="${this._getIcon("BACK", "mdi:undo-variant")}"/></button>
+                                    <button class="btn ripple item_down" style="background-color: transparent; ${this._getButtonStyle("DOWN", "")}" @click=${() => this._button("DOWN")}><ha-icon icon="${this._getIcon("DOWN", "mdi:chevron-down")}"/></button>
+                                    <button class="btn ripple item_exit" style="${this._getButtonStyle("EXIT", "")}" @click=${() => this._button("EXIT")}>${this._getIcon("EXIT", "") ? html`<ha-icon icon="${this._getIcon("EXIT", "")}"/>` : "EXIT"}</button>
                                 </div>
                                 <!-- ################################# DIRECTION PAD END ################################# -->
                             `}
@@ -255,10 +255,10 @@ class LgRemoteControl extends LitElement {
                         <!-- ################################# COLORED BUTTONS ################################# -->
                         ${colorButtons ? html`
                             <div class="grid-container-color_btn">
-                                <button class="btn-color ripple" style="background-color: red; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("RED")}></button>
-                                <button class="btn-color ripple" style="background-color: green; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("GREEN")}></button>
-                                <button class="btn-color ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("YELLOW")}></button>
-                                <button class="btn-color ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12);" @click=${() => this._button("BLUE")}></button>
+                                <button class="btn-color ripple" style="background-color: red; height: calc(var(--remotewidth) / 12); ${this._getButtonStyle("RED", "")}" @click=${() => this._button("RED")}>${this._getIcon("RED", "") ? html`<ha-icon icon="${this._getIcon("RED", "")}"/>` : ""}</button>
+                                <button class="btn-color ripple" style="background-color: green; height: calc(var(--remotewidth) / 12); ${this._getButtonStyle("GREEN", "")}" @click=${() => this._button("GREEN")}>${this._getIcon("GREEN", "") ? html`<ha-icon icon="${this._getIcon("GREEN", "")}"/>` : ""}</button>
+                                <button class="btn-color ripple" style="background-color: yellow; height: calc(var(--remotewidth) / 12); ${this._getButtonStyle("YELLOW", "")}" @click=${() => this._button("YELLOW")}>${this._getIcon("YELLOW", "") ? html`<ha-icon icon="${this._getIcon("YELLOW", "")}"/>` : ""}</button>
+                                <button class="btn-color ripple" style="background-color: blue; height: calc(var(--remotewidth) / 12); ${this._getButtonStyle("BLUE", "")}" @click=${() => this._button("BLUE")}>${this._getIcon("BLUE", "") ? html`<ha-icon icon="${this._getIcon("BLUE", "")}"/>` : ""}</button>
                             </div>
                         ` : html`
                         `}
@@ -266,8 +266,8 @@ class LgRemoteControl extends LitElement {
 
                         <div class="grid-container-volume-channel-control" >
                             <button class="btn ripple" id="plusButton"  style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" }><ha-icon icon="mdi:plus"/></button>
-                            <button class="btn-flat flat-high ripple" id="homeButton" style="margin-top: 0px; height: 50%;" @mousedown=${(e) => this._homeButtonDown(e)} @touchstart=${(e) => this._homeButtonDown(e)} @mouseup=${(e) => this._homeButtonUp(e)} @touchend=${(e) => this._homeButtonUp(e)}>
-    <ha-icon icon="mdi:home"></ha-icon>
+                            <button class="btn-flat flat-high ripple" id="homeButton" style="margin-top: 0px; height: 50%; ${this._getButtonStyle("HOME", "")}" @mousedown=${(e) => this._homeButtonDown(e)} @touchstart=${(e) => this._homeButtonDown(e)} @mouseup=${(e) => this._homeButtonUp(e)} @touchend=${(e) => this._homeButtonUp(e)}>
+    <ha-icon icon="${this._getIcon("HOME", "mdi:home")}"></ha-icon>
 </button>
                                                     
 
@@ -277,23 +277,23 @@ class LgRemoteControl extends LitElement {
 
 
 
-                            <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%;" @click=${() => this._button("CHANNELUP")}><ha-icon icon="mdi:chevron-up"/></button>
-                            <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="${stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high'}"/></button>
-                            <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%;" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
-                            <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%;"><ha-icon icon="mdi:parking"/></button>
+                            <button class="btn ripple" style="border-radius: 50% 50% 0px 0px; margin: 0px auto 0px auto; height: 100%; ${this._getButtonStyle("CHANNELUP", "")}" @click=${() => this._button("CHANNELUP")}><ha-icon icon="${this._getIcon("CHANNELUP", "mdi:chevron-up")}"/></button>
+                            <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%; ${this._getButtonStyle("VOLUME_UP", "")}"><ha-icon icon="${this._getIcon("VOLUME_UP", stateObj.attributes.is_volume_muted === true ? 'mdi:volume-off' : 'mdi:volume-high')}"/></button>
+                            <button class="btn ripple" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''}; height: 100%; ${this._getButtonStyle("MUTE", "")}" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="${this._getIcon("MUTE", "mdi:volume-mute")}"></span></button>
+                            <button class="btn" style="border-radius: 0px; cursor: default; margin: 0px auto 0px auto; height: 100%; ${this._getButtonStyle("VOLUME_DOWN", "")}"><ha-icon icon="${this._getIcon("VOLUME_DOWN", "mdi:parking")}"/></button>
                             <button class="btn ripple" id="minusButton" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;" ><ha-icon icon="mdi:minus"/></button>
-                            <button class="btn-flat flat-high ripple" style="margin-bottom: 0px; height: 50%;" @click=${() => this._button("INFO")}><ha-icon icon="mdi:information-variant"/></button>
-                            <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%;"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="mdi:chevron-down"/></button>
+                            <button class="btn-flat flat-high ripple" style="margin-bottom: 0px; height: 50%; ${this._getButtonStyle("INFO", "")}" @click=${() => this._button("INFO")}><ha-icon icon="${this._getIcon("INFO", "mdi:information-variant")}"/></button>
+                            <button class="btn ripple" style="border-radius: 0px 0px 50% 50%;  margin: 0px auto 0px auto; height: 100%; ${this._getButtonStyle("CHANNELDOWN", "")}"  @click=${() => this._button("CHANNELDOWN")}><ha-icon icon="${this._getIcon("CHANNELDOWN", "mdi:chevron-down")}"/></button>
                         </div>
 
                         <!-- ################################# MEDIA CONTROL ################################# -->
                         <div class="grid-container-media-control" >
-                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("PLAY", "media.controls/play")}><ha-icon icon="mdi:play"/></button>
-                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("PAUSE", "media.controls/pause")}><ha-icon icon="mdi:pause"/></button>
-                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("STOP", "media.controls/stop")}><ha-icon icon="mdi:stop"/></button>
-                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("REWIND", "media.controls/rewind")}><ha-icon icon="mdi:skip-backward"/></button>
-                            <button class="btn-flat flat-low ripple" style="color: red;" @click=${() => this._command("RECORD", "media.controls/Record")}><ha-icon icon="mdi:record"/></button>
-                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("FAST_FOWARD", "media.controls/fastForward")}><ha-icon icon="mdi:skip-forward"/></button>
+                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("PLAY", "media.controls/play")}><ha-icon icon="${this._getIcon("PLAY", "mdi:play")}"/></button>
+                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("PAUSE", "media.controls/pause")}><ha-icon icon="${this._getIcon("PAUSE", "mdi:pause")}"/></button>
+                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("STOP", "media.controls/stop")}><ha-icon icon="${this._getIcon("STOP", "mdi:stop")}"/></button>
+                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("REWIND", "media.controls/rewind")}><ha-icon icon="${this._getIcon("REWIND", "mdi:skip-backward")}"/></button>
+                            <button class="btn-flat flat-low ripple" style="${this._getButtonStyle("RECORD", "color: red;")}" @click=${() => this._command("RECORD", "media.controls/Record")}><ha-icon icon="${this._getIcon("RECORD", "mdi:record")}"/></button>
+                            <button class="btn-flat flat-low ripple"  @click=${() => this._command("FAST_FOWARD", "media.controls/fastForward")}><ha-icon icon="${this._getIcon("FAST_FOWARD", "mdi:skip-forward")}"/></button>
                         </div>
                         <!-- ################################# MEDIA CONTROL END ################################# -->
                         </div>
@@ -534,6 +534,21 @@ class LgRemoteControl extends LitElement {
           serviceDataToUse
         );
 
+    }
+
+
+    _getIcon(key: string, defaultIcon: string): string {
+        if (this.config.keys && key in this.config.keys && this.config.keys[key]["icon"]) {
+            return this.config.keys[key]["icon"];
+        }
+        return defaultIcon;
+    }
+
+    _getButtonStyle(key: string, defaultStyle: string): string {
+        if (this.config.keys && key in this.config.keys && this.config.keys[key]["style"]) {
+            return this.config.keys[key]["style"];
+        }
+        return defaultStyle;
     }
 
     static getIcon(iconName) {
