@@ -79,7 +79,7 @@ sources:
   - icon: 'mdi:youtube'
     name: "YouTube"
 ```
-**Note:**  `disney` `amazon` and `dazn` are special, icon you must enter them like this:
+**Note:**  `disney` `amazon` `dazn` and `jellyfin` are special, icon you must enter them like this:
 ```yaml
   - icon: disney
     name: Disney+
@@ -87,6 +87,8 @@ sources:
     name: Prime Video
   - icon: dazn
     name: Dazn
+  - icon: jellyfin
+    name: Jellyfin
 ```
 ### Channels Options
 | Name | Type | Default | Supported options | Description |
@@ -263,6 +265,8 @@ in this new version we have implemented some new features:
       icon: disney
     - name: Dazn
       icon: dazn
+    - name: Jellyfin
+      icon: jellyfin
     - name: YouTube
       icon: 'mdi:youtube-tv'
     - name: HDMI 1
@@ -277,7 +281,7 @@ in this new version we have implemented some new features:
 
    
 ```
-**note: disney and danz are special icon. so you you must enter it as in the example**
+**note: disney, danz and jellyfin are special icon. so you you must enter it as in the example**
 
   ## dimnensions option:
   
