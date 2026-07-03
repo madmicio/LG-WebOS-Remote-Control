@@ -40,6 +40,7 @@ class LgRemoteControl extends LitElement {
     private _show_sound_output: boolean;
     private _show_text: boolean;
     private _show_keypad: boolean;
+    private _show_keyboard: boolean;
     private _show_vol_text: boolean;
     private volume_value: number;
     private soundOutput: string;
@@ -84,6 +85,7 @@ class LgRemoteControl extends LitElement {
             _show_sound_output: {},
             _show_text: {},
             _show_keypad: {},
+            _show_keyboard: {},
             _show_vol_text: {},
             volume_value: { type: Number, reflect: true },
             output_entity: { type: Number, reflect: true },
@@ -97,6 +99,7 @@ class LgRemoteControl extends LitElement {
         this._show_sound_output = false;
         this._show_text = false;
         this._show_keypad = false;
+        this._show_keyboard = false;
         this._show_vol_text = false;
         this.volume_value = 0;
         this.soundOutput = "";
@@ -142,7 +145,7 @@ class LgRemoteControl extends LitElement {
                         ` : html`
                             <button class="btn ripple" @click=${() => this._media_player_service("POWER", "turn_off")}><ha-icon icon="mdi:power" style="color: red;"/></button>
                         `}
-                        <div></div>
+                        <button class="btn-flat flat-high ripple" @click=${() => this._show_keyboard = !this._show_keyboard}><ha-icon icon="mdi:keyboard"></ha-icon></button>
                         <button class="btn ripple" @click=${() => this._show_inputs = true}><ha-icon icon="mdi:import"/></button>
                     </div>
                     ${this._show_inputs ? html`
@@ -196,6 +199,18 @@ class LgRemoteControl extends LitElement {
                                 <!-- ################################# SOUND END ################################# -->
                         ` : html`
 
+                            ${this._show_keyboard ? html`
+                                <!-- ################################ keyboard ################################## -->
+                                <div class="grid-container-keyboard">
+                                    <div class="keyboard-title">KEYBOARD</div>
+                                    <input class="keyboard-input" type="text" inputmode="search" placeholder="Type to search…" @keyup=${(e) => { if (e.key === 'Enter') { this._sendText(e.target.value); e.target.value = ''; } }}>
+                                    <div class="keyboard-actions">
+                                        <button class="ripple" @click=${() => { const i = this.shadowRoot.querySelector('.keyboard-input') as HTMLInputElement; this._sendText(i.value); i.value = ''; }}><ha-icon icon="mdi:magnify"></ha-icon>Search</button>
+                                        <button class="ripple" @click=${() => this._show_keyboard = false}><ha-icon icon="mdi:undo-variant"></ha-icon>Close</button>
+                                    </div>
+                                </div>
+                                <!-- ################################# keyboard end ############################## -->
+                            ` : html`
                             ${this._show_keypad ? html`
                                 <!-- ################################ keypad ################################## -->
                                 <div class="grid-container-keypad">
@@ -228,6 +243,7 @@ class LgRemoteControl extends LitElement {
                                     <button class="btn ripple item_exit" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"/></button>
                                 </div>
                                 <!-- ################################# DIRECTION PAD END ################################# -->
+                            `}
                             `}
 
                         `}
@@ -333,6 +349,22 @@ class LgRemoteControl extends LitElement {
         this.callServiceFromConfig(button, "webostv.command", {
             entity_id: this.config.entity,
             command: command
+        });
+    }
+
+    _sendText(text) {
+        if (!text) {
+            return;
+        }
+        this.callServiceFromConfig("INSERT_TEXT", "webostv.command", {
+            entity_id: this.config.entity,
+            command: "com.webos.service.ime/insertText",
+            payload: { text: text, replace: true }
+        });
+        this.callServiceFromConfig("ENTER_KEY", "webostv.command", {
+            entity_id: this.config.entity,
+            command: "com.webos.service.ime/sendEnterKey",
+            payload: {}
         });
     }
 
@@ -787,6 +819,57 @@ class LgRemoteControl extends LitElement {
           }
           .item_exit {
             grid-area: exit;
+          }
+          .grid-container-keyboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: calc(var(--remotewidth)/22);
+            width: var(--remotewidth);
+            height: var(--remotewidth);
+            box-sizing: border-box;
+            padding: calc(var(--remotewidth)/10);
+          }
+          .keyboard-title {
+            color: var(--remote-text-color);
+            font-size: calc(var(--remotewidth)/16);
+            font-weight: bold;
+            letter-spacing: 2px;
+          }
+          .keyboard-input {
+            width: 100%;
+            box-sizing: border-box;
+            font-size: calc(var(--remotewidth)/16);
+            padding: calc(var(--remotewidth)/22);
+            border-radius: calc(var(--remotewidth)/18);
+            border: 2px solid var(--remote-button-color);
+            background-color: var(--remote-color);
+            color: var(--remote-text-color);
+            text-align: center;
+          }
+          .keyboard-input:focus {
+            outline: none;
+            border-color: var(--remote-text-color);
+          }
+          .keyboard-actions {
+            display: flex;
+            gap: calc(var(--remotewidth)/24);
+            width: 100%;
+          }
+          .keyboard-actions button {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: calc(var(--remotewidth)/40);
+            padding: calc(var(--remotewidth)/26) 0;
+            border-radius: calc(var(--remotewidth)/18);
+            border: 0;
+            background-color: var(--remote-button-color);
+            color: var(--remote-text-color);
+            cursor: pointer;
+            font-size: calc(var(--remotewidth)/20);
           }
           ha-icon {
             width: calc(var(--remotewidth)/10.8);
