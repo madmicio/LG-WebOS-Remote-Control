@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
 
 import "./editor";
-import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon } from "./icons";
+import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon, hboIcon } from "./icons";
 import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
@@ -72,6 +72,7 @@ class LgRemoteControl extends LitElement {
             "dazn": daznIcon(),
             "nowtv": nowTvIcon(),
             "amazon": amazonIcon(),
+            "hbo": hboIcon(),
         };
     }
 
@@ -136,13 +137,13 @@ class LgRemoteControl extends LitElement {
                         ? html` <div class="tv_title" style="color:${tv_name_color}" >${this.config.name}</div> `
                         : ""}
                     <div class="grid-container-power"  style="--remotewidth: ${remoteWidth}">
-                        <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>
                         ${['off', 'unavailable'].includes(stateObj.state) ? html`
                             <button class="btn ripple" @click=${() => this._media_player_turn_on(mac)}><ha-icon icon="mdi:power" style="color: ${textColor};"/></button>
                         ` : html`
                             <button class="btn ripple" @click=${() => this._media_player_service("POWER", "turn_off")}><ha-icon icon="mdi:power" style="color: red;"/></button>
                         `}
-                        <button class="btn-flat flat-high ripple" @click=${() => this._show_keypad = !this._show_keypad}>123</button>
+                        <div></div>
+                        <button class="btn ripple" @click=${() => this._show_inputs = true}><ha-icon icon="mdi:import"/></button>
                     </div>
                     ${this._show_inputs ? html`
                         <!-- ################################# SOURCES ################################# -->
@@ -218,15 +219,13 @@ class LgRemoteControl extends LitElement {
                                     <div class="shape">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 79"><path d="m 30 15 a 10 10 0 0 1 20 0 a 15 15 0 0 0 15 15 a 10 10 0 0 1 0 20 a 15 15 0 0 0 -15 15 a 10 10 0 0 1 -20 0 a 15 15 0 0 0 -15 -15 a 10 10 0 0 1 0 -20 a 15 15 0 0 0 15 -15" fill="var(--remote-button-color)" stroke="#000000" stroke-width="0" /></svg>
                                     </div>
-                                    <button class="btn ripple item_sound" @click=${() => this._show_sound_output = true}><ha-icon icon="mdi:speaker"/></button>
                                     <button class="btn ripple item_up" style="background-color: transparent;" @click=${() => this._button("UP")}><ha-icon icon="mdi:chevron-up"/></button>
-                                    <button class="btn ripple item_input" @click=${() => this._show_inputs = true}><ha-icon icon="mdi:import"/></button>
                                     <button class="btn ripple item_2_sx" style="background-color: transparent;" @click=${() => this._button("LEFT")}><ha-icon icon="mdi:chevron-left"/></button>
                                     <div class="ok_button ripple item_2_c" style="border: solid 2px ${backgroundColor}"  @click=${() => this._button("ENTER")}>${this._show_vol_text === true ? this.volume_value : 'OK'}</div>
                                     <button class="btn ripple item_right" style="background-color: transparent;" @click=${() => this._button("RIGHT")}><ha-icon icon="mdi:chevron-right"/></button>
                                     <button class="btn ripple item_back" @click=${() => this._button("BACK")}><ha-icon icon="mdi:undo-variant"/></button>
                                     <button class="btn ripple item_down" style="background-color: transparent;" @click=${() => this._button("DOWN")}><ha-icon icon="mdi:chevron-down"/></button>
-                                    <button class="btn ripple item_exit" @click=${() => this._button("EXIT")}>EXIT</button>
+                                    <button class="btn ripple item_exit" @click=${() => this._button("HOME")}><ha-icon icon="mdi:home"/></button>
                                 </div>
                                 <!-- ################################# DIRECTION PAD END ################################# -->
                             `}
