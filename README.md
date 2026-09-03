@@ -61,11 +61,39 @@ resources:
 | `entity` | string | **Required** |  | tv entity |
 | `name` | string | **Option** |  | tv name |
 | `mac` | string | **Option** |  | tv mac address (if not specified, you need to create an automation to perform the action to turn the TV on) |
+| `broadcast_address` | string | **Option** |  | where to send the Wake-on-LAN packet. Only needed when the TV is on a different subnet/VLAN than Home Assistant (see below) |
+| `broadcast_port` | number | **Option** | `9` | UDP port for the Wake-on-LAN packet |
 | `ampli_antity` | string | **Option** |  | your AV receiver entity (see option config) |
 | `colors` | string | **Option** |  | list of color options |
 | `channels` |  | **Option**|  | list of channel in popup |
 | `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
 | `color_buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
+
+#### Turning the TV on from another VLAN
+
+A Wake-on-LAN magic packet is a **broadcast**, so it never leaves the subnet it
+was sent from. If Home Assistant and the TV sit on different VLANs, the router
+drops it and the TV never wakes up — while turning the TV *off* keeps working,
+because that goes over the webOS socket as ordinary unicast. The result looks
+like a half-broken power button.
+
+Set `broadcast_address` to aim the packet at the TV instead:
+
+```yaml
+type: custom:lg-remote-control
+entity: media_player.lg_webos_smart_tv
+mac: 'xx:xx:xx:xx:xx:xx'
+broadcast_address: 192.168.20.30   # the TV's own address
+```
+
+Sending it **unicast to the TV's address** is usually the most reliable choice:
+unicast is routed between VLANs, and the TV keeps its ARP entry while asleep, so
+the packet is delivered. The broadcast address of the TV's subnet
+(`192.168.20.255`) also works, but only if the router is configured to forward
+directed broadcasts, which is uncommon.
+
+Leave both options unset for the usual single-subnet setup: the behaviour is
+unchanged.
 
 ### Source Options
 | Name | Type | Default | Supported options | Description |

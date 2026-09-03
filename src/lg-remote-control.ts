@@ -339,9 +339,24 @@ class LgRemoteControl extends LitElement {
 
     _media_player_turn_on(mac) {
         if (this.config.mac) {
-            this.hass.callService("wake_on_lan", "send_magic_packet", {
-                mac: mac
-            });
+            // A magic packet is a broadcast, so it never leaves the subnet it
+            // was sent from. When Home Assistant and the TV sit on different
+            // VLANs the router drops it and the TV never wakes, while turning
+            // the TV off keeps working because that travels over the webOS
+            // socket as ordinary unicast.
+            //
+            // Letting the user aim the packet fixes those setups: at the TV's
+            // own address (unicast routes between VLANs, and the TV keeps its
+            // ARP entry while asleep) or at the broadcast address of its
+            // subnet, depending on what the network allows.
+            const data: Record<string, unknown> = { mac: mac };
+            if (this.config.broadcast_address) {
+                data.broadcast_address = this.config.broadcast_address;
+            }
+            if (this.config.broadcast_port) {
+                data.broadcast_port = this.config.broadcast_port;
+            }
+            this.hass.callService("wake_on_lan", "send_magic_packet", data);
         } else {
             this._media_player_service("POWER", "turn_on");
         }
