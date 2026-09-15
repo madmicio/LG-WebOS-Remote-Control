@@ -2,8 +2,9 @@
 import { customElement } from "lit/decorators.js";
 import { html, css, LitElement } from "lit";
 
-import { HomeAssistantFixed } from "./types";
+import { EntityName, HomeAssistantFixed } from "./types";
 import { EDITOR_CARD_TAG_NAME } from "./const";
+import { computeEntityName, supportsEntityNames } from "./entity-name";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
@@ -176,10 +177,10 @@ class LgRemoteControlEditor extends LitElement {
                 ${blankEntity}
                 ${mediaPlayerEntities.map((eid) => {
       if (eid != this._config.tventity) {
-        return html`<option value="${eid}">${this.hass.states[eid].attributes.friendly_name || eid}</option> `;
+        return html`<option value="${eid}">${computeEntityName(this.hass, eid) || eid}</option> `;
       }
       else {
-        return html`<option value="${eid}" selected>${this.hass.states[eid].attributes.friendly_name || eid}</option> `;
+        return html`<option value="${eid}" selected>${computeEntityName(this.hass, eid) || eid}</option> `;
       }
     })}
             </select>
@@ -189,12 +190,40 @@ class LgRemoteControlEditor extends LitElement {
 
   setRemoteName(remoteNameValue) {
     let heading = 'Remote Control Name (option):';
+    // The picker composes the name from the entity, device and area names, so it
+    // is only offered on versions that can resolve such a name at render time.
+    if (supportsEntityNames(this.hass) && customElements.get('ha-selector')) {
+      return html`
+            ${heading}<br>
+            <ha-selector
+                .hass=${this.hass}
+                .selector=${{ entity_name: {} }}
+                .context=${{ entity: this._config.entity }}
+                .value=${remoteNameValue || undefined}
+                @value-changed=${this.remoteNameChanged}
+            ></ha-selector>
+            <br><br>
+        `;
+    }
     return html`
             ${heading}<br>
-            <input type="text" name="name" id="name" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${remoteNameValue}"
+            <input type="text" name="name" id="name" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${typeof remoteNameValue === 'string' ? remoteNameValue : ''}"
                    @input=${this.configChanged}
             <br><br>
         `;
+  }
+
+  remoteNameChanged(ev) {
+    ev.stopPropagation();
+    const _config = Object.assign({}, this._config);
+    const name = ev.detail.value as EntityName | undefined;
+    if (name) {
+      _config.name = name;
+    } else {
+      delete _config.name;
+    }
+    this._config = _config;
+    this.dispatchEvent(new CustomEvent("config-changed", { detail: { config: _config }, bubbles: true, composed: true }));
   }
   
   selectMac(macValue) {
@@ -335,7 +364,7 @@ class LgRemoteControlEditor extends LitElement {
                     ${blankEntity}
                     ${mediaPlayerEntities.map((eid) => html`
                         <option value="${eid}" ?selected=${eid === this._config.ampli_entity}>
-                            ${this.hass.states[eid].attributes.friendly_name || eid}
+                            ${computeEntityName(this.hass, eid) || eid}
                         </option>
                     `)}
                 </select>
