@@ -19,6 +19,11 @@ export function supportsEntityNames(hass?: HomeAssistant): hass is HomeAssistant
 // floor). Falls back to the friendly name on versions that cannot resolve a
 // structured name.
 export function computeEntityName(hass: HomeAssistant | undefined, entityId: string, name?: EntityName): string {
+  // A configured empty name has always meant "use Home Assistant's name", but
+  // formatEntityName returns any string verbatim - including the empty one, which
+  // would blank the label. Normalise it to undefined so the formatter composes.
+  if (name === "") name = undefined;
+
   if (typeof name === "string" && name) {
     return name;
   }
