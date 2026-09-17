@@ -6,6 +6,7 @@ import "./editor";
 import { lineOutIcon, amazonIcon, tvOpticIcon, daznIcon, disneyIcon, tvHeadphonesIcon, arcIcon, opticIcon, nowTvIcon } from "./icons";
 import { HomeAssistantFixed, WindowWithCards } from "./types";
 import { CARD_TAG_NAME, CARD_VERSION, EDITOR_CARD_TAG_NAME } from "./const";
+import { computeEntityName } from "./entity-name";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
@@ -133,7 +134,7 @@ class LgRemoteControl extends LitElement {
             <div class="card">
                 <div class="page" style="box-sizing: border-box; --remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor}; --remotewidth: ${remoteWidth};  --main-border-color: ${borderColor}; --main-border-width: ${borderWidth}">
                     ${this.config.name
-                        ? html` <div class="tv_title" style="color:${tv_name_color}" >${this.config.name}</div> `
+                        ? html` <div class="tv_title" style="color:${tv_name_color}" >${computeEntityName(this.hass, this.config.entity, this.config.name)}</div> `
                         : ""}
                     <div class="grid-container-power"  style="--remotewidth: ${remoteWidth}">
                         <button class="btn-flat flat-high ripple" @click=${() => this._channelList()}><ha-icon icon="mdi:format-list-numbered"/></button>

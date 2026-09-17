@@ -59,7 +59,7 @@ resources:
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:lg-remote-control` | Type of the card |
 | `entity` | string | **Required** |  | tv entity |
-| `name` | string | **Option** |  | tv name |
+| `name` | string / list | **Option** |  | tv name. On Home Assistant 2026.4 and later it can also be a list of parts (`entity`, `device`, `area`, `floor`, or `text` with a literal `text`), which are resolved against the entity so the title follows a renamed device or area. The editor offers a picker for it. |
 | `mac` | string | **Option** |  | tv mac address (if not specified, you need to create an automation to perform the action to turn the TV on) |
 | `ampli_antity` | string | **Option** |  | your AV receiver entity (see option config) |
 | `colors` | string | **Option** |  | list of color options |
