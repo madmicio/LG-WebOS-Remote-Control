@@ -136,8 +136,15 @@ class LgRemoteControlEditor extends LitElement {
     }
   }
   _erase_av_receiver() {
-    this._config.av_receiver_family = '';
+    const _config = Object.assign({}, this._config, { av_receiver_family: '' });
+    this._config = _config;
     this.requestUpdate(); // Aggiunta per forzare il render
+
+    this.dispatchEvent(new CustomEvent("config-changed", {
+      detail: { config: _config },
+      bubbles: true,
+      composed: true,
+    }));
   }
 
   dimensionsConfigChanged(ev) {
