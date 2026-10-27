@@ -2,8 +2,9 @@
 import { customElement } from "lit/decorators.js";
 import { html, css, LitElement } from "lit";
 
-import { HomeAssistantFixed } from "./types";
+import { EntityName, HomeAssistantFixed } from "./types";
 import { EDITOR_CARD_TAG_NAME } from "./const";
+import { computeEntityName, supportsEntityNames } from "./entity-name";
 import { getMediaPlayerEntitiesByPlatform } from "./utils";
 
 
@@ -42,11 +43,51 @@ const avreceivers = {
 
 const AvReceiverdevicemap = new Map(Object.entries(avreceivers));
 
+const OVERRIDEABLE_BUTTONS = [
+  { key: "1", name: "1" },
+  { key: "2", name: "2" },
+  { key: "3", name: "3" },
+  { key: "4", name: "4" },
+  { key: "5", name: "5" },
+  { key: "6", name: "6" },
+  { key: "7", name: "7" },
+  { key: "8", name: "8" },
+  { key: "9", name: "9" },
+  { key: "0", name: "0" },
+  { key: "UP", name: "Up" },
+  { key: "LEFT", name: "Left" },
+  { key: "ENTER", name: "Enter/OK" },
+  { key: "RIGHT", name: "Right" },
+  { key: "BACK", name: "Back" },
+  { key: "DOWN", name: "Down" },
+  { key: "EXIT", name: "Exit" },
+  { key: "RED", name: "Red" },
+  { key: "GREEN", name: "Green" },
+  { key: "YELLOW", name: "Yellow" },
+  { key: "BLUE", name: "Blue" },
+  { key: "HOME", name: "Home" },
+  { key: "CHANNELUP", name: "Channel Up" },
+  { key: "MUTE", name: "Mute" },
+  { key: "INFO", name: "Info" },
+  { key: "CHANNELDOWN", name: "Channel Down" },
+  { key: "PLAY", name: "Play" },
+  { key: "PAUSE", name: "Pause" },
+  { key: "STOP", name: "Stop" },
+  { key: "REWIND", name: "Rewind" },
+  { key: "RECORD", name: "Record" },
+  { key: "FAST_FOWARD", name: "Fast Forward" },
+  { key: "POWER", name: "Power" },
+  { key: "VOLUME_UP", name: "Volume Up" },
+  { key: "VOLUME_DOWN", name: "Volume Down" },
+];
+
 
 @customElement(EDITOR_CARD_TAG_NAME)
 class LgRemoteControlEditor extends LitElement {
   private _config: any;
   private hass: HomeAssistantFixed;
+  private _overridesExpanded: boolean = false;
+  private _expandedOverride: string | null = null;
 
   static get properties() {
     return {
@@ -136,8 +177,13 @@ class LgRemoteControlEditor extends LitElement {
     }
   }
   _erase_av_receiver() {
-    this._config.av_receiver_family = '';
-    this.requestUpdate(); // Aggiunta per forzare il render
+    const _config = { ...this._config, av_receiver_family: '', ampli_entity: '' };
+    this._config = _config;
+    this.dispatchEvent(new CustomEvent("config-changed", {
+      detail: { config: _config },
+      bubbles: true,
+      composed: true,
+    }));
   }
 
   dimensionsConfigChanged(ev) {
@@ -176,10 +222,10 @@ class LgRemoteControlEditor extends LitElement {
                 ${blankEntity}
                 ${mediaPlayerEntities.map((eid) => {
       if (eid != this._config.tventity) {
-        return html`<option value="${eid}">${this.hass.states[eid].attributes.friendly_name || eid}</option> `;
+        return html`<option value="${eid}">${computeEntityName(this.hass, eid) || eid}</option> `;
       }
       else {
-        return html`<option value="${eid}" selected>${this.hass.states[eid].attributes.friendly_name || eid}</option> `;
+        return html`<option value="${eid}" selected>${computeEntityName(this.hass, eid) || eid}</option> `;
       }
     })}
             </select>
@@ -189,12 +235,40 @@ class LgRemoteControlEditor extends LitElement {
 
   setRemoteName(remoteNameValue) {
     let heading = 'Remote Control Name (option):';
-    return html`
+    // The picker composes the name from the entity, device and area names, so it
+    // is only offered on versions that can resolve such a name at render time.
+    if (supportsEntityNames(this.hass) && customElements.get('ha-selector')) {
+      return html`
             ${heading}<br>
-            <input type="text" name="name" id="name" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${remoteNameValue}"
-                   @input=${this.configChanged}
+            <ha-selector
+                .hass=${this.hass}
+                .selector=${{ entity_name: {} }}
+                .context=${{ entity: this._config.entity }}
+                .value=${remoteNameValue || undefined}
+                @value-changed=${this.remoteNameChanged}
+            ></ha-selector>
             <br><br>
         `;
+    }
+    return html`
+            ${heading}<br>
+            <input type="text" name="name" id="name" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${typeof remoteNameValue === 'string' ? remoteNameValue : ''}"
+                   @input=${this.configChanged}>
+            <br><br>
+        `;
+  }
+
+  remoteNameChanged(ev) {
+    ev.stopPropagation();
+    const _config = Object.assign({}, this._config);
+    const name = ev.detail.value as EntityName | undefined;
+    if (name) {
+      _config.name = name;
+    } else {
+      delete _config.name;
+    }
+    this._config = _config;
+    this.dispatchEvent(new CustomEvent("config-changed", { detail: { config: _config }, bubbles: true, composed: true }));
   }
   
   selectMac(macValue) {
@@ -335,7 +409,7 @@ class LgRemoteControlEditor extends LitElement {
                     ${blankEntity}
                     ${mediaPlayerEntities.map((eid) => html`
                         <option value="${eid}" ?selected=${eid === this._config.ampli_entity}>
-                            ${this.hass.states[eid].attributes.friendly_name || eid}
+                            ${computeEntityName(this.hass, eid) || eid}
                         </option>
                     `)}
                 </select>
@@ -346,6 +420,192 @@ class LgRemoteControlEditor extends LitElement {
     }
   }
 
+  _toggleOverridesSection() {
+    this._overridesExpanded = !this._overridesExpanded;
+    this.requestUpdate();
+  }
+
+  _toggleOverrideConfig(key: string) {
+    this._expandedOverride = this._expandedOverride === key ? null : key;
+    this.requestUpdate();
+  }
+
+  _onButtonSelect(ev) {
+    const key = ev.target.value;
+    if (key) {
+      const _config = Object.assign({}, this._config);
+      _config["keys"] = { ...(_config["keys"] ?? {}) };
+      if (!_config["keys"][key]) {
+        _config["keys"][key] = {};
+      }
+      this._config = _config;
+      this._expandedOverride = key;
+      const event = new CustomEvent("config-changed", {
+        detail: { config: _config },
+        bubbles: true,
+        composed: true,
+      });
+      this.dispatchEvent(event);
+    }
+    this.requestUpdate();
+  }
+
+  _updateOverrideField(key: string, field: string, value: string) {
+    const _config = Object.assign({}, this._config);
+    _config["keys"] = { ...(_config["keys"] ?? {}) };
+    _config["keys"][key] = { ...(_config["keys"][key] ?? {}) };
+    if (value) {
+      if (field === "service") {
+        _config["keys"][key]["service"] = value;
+      } else if (field === "entity_id") {
+        _config["keys"][key]["data"] = {
+          ...(_config["keys"][key]["data"] ?? {}),
+          entity_id: value,
+        };
+      } else {
+        _config["keys"][key][field] = value;
+      }
+    } else {
+      if (field === "service") {
+        delete _config["keys"][key]["service"];
+      } else if (field === "entity_id") {
+        if (_config["keys"][key]["data"]) {
+          _config["keys"][key]["data"] = { ..._config["keys"][key]["data"] };
+          delete _config["keys"][key]["data"]["entity_id"];
+          if (Object.keys(_config["keys"][key]["data"]).length === 0) {
+            delete _config["keys"][key]["data"];
+          }
+        }
+      } else {
+        delete _config["keys"][key][field];
+      }
+    }
+    this._config = _config;
+    const event = new CustomEvent("config-changed", {
+      detail: { config: _config },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
+  }
+
+  _deleteOverride(key: string) {
+    const _config = Object.assign({}, this._config);
+    if (_config["keys"] && _config["keys"][key]) {
+      _config["keys"] = { ..._config["keys"] };
+      delete _config["keys"][key];
+      if (Object.keys(_config["keys"]).length === 0) {
+        delete _config["keys"];
+      }
+    }
+    this._config = _config;
+    if (this._expandedOverride === key) {
+      this._expandedOverride = null;
+    }
+    const event = new CustomEvent("config-changed", {
+      detail: { config: _config },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
+  }
+
+  _getConfiguredKeys(): string[] {
+    if (!this._config?.keys) return [];
+    return Object.keys(this._config.keys).filter((k) =>
+      OVERRIDEABLE_BUTTONS.some((b) => b.key === k),
+    );
+  }
+
+  _getButtonName(key: string): string {
+    const btn = OVERRIDEABLE_BUTTONS.find((b) => b.key === key);
+    return btn ? btn.name : key;
+  }
+
+  _getServiceOptions(): string[] {
+    if (!this.hass?.services) return [];
+    const services: string[] = [];
+    for (const domain of Object.keys(this.hass.services)) {
+      for (const service of Object.keys(this.hass.services[domain])) {
+        services.push(`${domain}.${service}`);
+      }
+    }
+    return services.sort();
+  }
+
+  _getEntityOptions(): string[] {
+    if (!this.hass?.states) return [];
+    return Object.keys(this.hass.states).sort();
+  }
+
+  _renderOverridesSection() {
+    const configuredKeys = this._getConfiguredKeys();
+    return html`
+      <div class="overrides-header" @click=${() => this._toggleOverridesSection()}>
+        <span class="heading">Overrides</span>
+        <ha-icon icon="${this._overridesExpanded ? 'mdi:chevron-up' : 'mdi:chevron-down'}"></ha-icon>
+      </div>
+      ${this._overridesExpanded ? html`
+        <div class="overrides-content">
+          <div class="add-override-row">
+            <select class="select-item" @change=${(e) => this._onButtonSelect(e)}>
+              <option value="">Select button to override...</option>
+              ${OVERRIDEABLE_BUTTONS.map((btn) => html`
+                <option value="${btn.key}">${btn.name}</option>
+              `)}
+            </select>
+          </div>
+          ${configuredKeys.length > 0 ? html`
+            <div class="configured-overrides">
+              ${configuredKeys.map((key) => this._renderOverrideItem(key))}
+            </div>
+          ` : ''}
+        </div>
+      ` : ''}
+    `;
+  }
+
+  _renderOverrideItem(key: string) {
+    const isExpanded = this._expandedOverride === key;
+    const keyConfig = this._config?.keys?.[key] || {};
+    const icon = keyConfig.icon || '';
+    const style = keyConfig.style || '';
+    const service = keyConfig.service || '';
+    const entityId = keyConfig.data?.entity_id || '';
+    return html`
+      <div class="override-item">
+        <div class="override-item-header" @click=${() => this._toggleOverrideConfig(key)}>
+          <span>${this._getButtonName(key)}</span>
+          <div class="override-item-actions">
+            <ha-icon icon="mdi:delete" @click=${(e) => { e.stopPropagation(); this._deleteOverride(key); }}></ha-icon>
+            <ha-icon icon="${isExpanded ? 'mdi:chevron-up' : 'mdi:chevron-down'}"></ha-icon>
+          </div>
+        </div>
+        ${isExpanded ? html`
+          <div class="override-item-config">
+            <label>Icon (optional):</label>
+            <input type="text" placeholder="mdi:volume-high" .value=${icon}
+                   @input=${(e) => this._updateOverrideField(key, 'icon', e.target.value)} />
+            <label>Style (optional):</label>
+            <input type="text" placeholder="color: green;" .value=${style}
+                   @input=${(e) => this._updateOverrideField(key, 'style', e.target.value)} />
+            <label>Service:</label>
+            <input type="text" list="service-list" placeholder="media_player.volume_up" .value=${service}
+                   @input=${(e) => this._updateOverrideField(key, 'service', e.target.value)} />
+            <datalist id="service-list">
+              ${this._getServiceOptions().map((s) => html`<option value="${s}"></option>`)}
+            </datalist>
+            <label>Entity ID:</label>
+            <input type="text" list="entity-list" placeholder="media_player.receiver" .value=${entityId}
+                   @input=${(e) => this._updateOverrideField(key, 'entity_id', e.target.value)} />
+            <datalist id="entity-list">
+              ${this._getEntityOptions().map((e) => html`<option value="${e}"></option>`)}
+            </datalist>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
 
 
   render() {
@@ -362,6 +622,7 @@ class LgRemoteControlEditor extends LitElement {
       ${this.getDeviceAVReceiverDropdown(this._config.av_receiver_family)}
       ${this.getMediaPlayerEntityDropdown(this._config.av_receiver_family)}
       ${this.setDimensions(this._config.dimensions??{})}
+      ${this._renderOverridesSection()}
       <br>
       <p>Other functionalities must be configured manually in code editor</p>
       <p>references to <a href="https://github.com/madmicio/LG-WebOS-Remote-Control">https://github.com/madmicio/LG-WebOS-Remote-Control</a></p>
@@ -400,6 +661,60 @@ class LgRemoteControlEditor extends LitElement {
             width: 40ch;
             padding: .6em; 
             font-size: 1em;
+        }
+
+        .overrides-header, .override-item-header, .override-item-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5em;
+        }
+
+        .overrides-header, .override-item-header {
+            padding: 0.5em;
+            background: var(--secondary-background-color);
+            cursor: pointer;
+        }
+
+        .overrides-header {
+            margin-top: 1em;
+        }
+
+        .overrides-content, .override-item-config {
+            padding: 0.5em;
+        }
+
+        .override-item {
+            margin-top: 0.5em;
+            border: 1px solid var(--divider-color);
+            border-radius: 4px;
+        }
+
+        .override-item-actions ha-icon {
+            cursor: pointer;
+        }
+
+        .override-item-actions ha-icon[icon="mdi:delete"] {
+            color: var(--error-color);
+        }
+
+        .override-item-config label {
+            display: block;
+            margin: 0.5em 0 0.2em;
+        }
+
+        .overrides-content .select-item, .override-item-config input {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .override-item-config input {
+            padding: 0.4em;
+            font: inherit;
+            color: var(--primary-text-color);
+            background: var(--card-background-color);
+            border: 1px solid var(--divider-color);
+            border-radius: 4px;
         }
  
         `;

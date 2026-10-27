@@ -17,8 +17,11 @@ browser_mod is required for this channel panel (you can find it [here](https://g
 custom card: "card-channel-pad" is required (you can find it [here](https://github.com/madmicio/channel-pad))
 
 # New features
-### - editor card
-### - ovverride buttons services
+
+- [Customize button actions, icons and styles in the visual editor](#button-overrides).
+- [Compose the TV title from entity, device and area names](#dynamic-tv-names).
+- [Configure the Wake-on-LAN destination and port](#wake-on-lan-options).
+- [Remove and save the complete A/V receiver association](#av-receiver-volume-control-options).
 
 
 
@@ -59,13 +62,48 @@ resources:
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:lg-remote-control` | Type of the card |
 | `entity` | string | **Required** |  | tv entity |
-| `name` | string | **Option** |  | tv name |
+| `name` | string / object / list | **Option** | | TV title; supports entity, device, area and floor name parts on Home Assistant 2026.4 and later (see below). |
 | `mac` | string | **Option** |  | tv mac address (if not specified, you need to create an automation to perform the action to turn the TV on) |
-| `ampli_antity` | string | **Option** |  | your AV receiver entity (see option config) |
+| `broadcast_address` | string | **Option** | | Optional Wake-on-LAN destination IP or broadcast address, used with `mac`. |
+| `broadcast_port` | number | **Option** | `9` | Optional Wake-on-LAN UDP port, used with `mac`. |
+| `ampli_entity` | string | **Option** |  | your AV receiver entity (see option config) |
 | `colors` | string | **Option** |  | list of color options |
 | `channels` |  | **Option**|  | list of channel in popup |
 | `sources` |  | **Option**|  | list of custom app. if not set, default apps will be displayed |
 | `color_buttons` |  | **Option**| enable | display color buttons: RED GREEN YELLOW BLUE |
+| `keys` | object | **Option** | | Per-button action, icon and style overrides (see Button overrides). |
+
+### Wake-on-LAN options
+
+When `mac` is configured, the card sends a Wake-on-LAN packet directly. Set the optional destination and UDP port in the card's YAML editor:
+
+```yaml
+type: custom:lg-remote-control
+entity: media_player.lg_webos_smart_tv
+mac: "00:11:22:33:44:55"
+broadcast_address: 192.168.20.255
+broadcast_port: 9
+```
+
+Leave these options unset to keep the usual Wake-on-LAN defaults. Without `mac`, the card continues to use the TV's `media_player.turn_on` action and any associated Home Assistant automation.
+
+For a TV on another subnet or VLAN, the destination can be its IP address or its subnet's broadcast address. Delivery depends on the TV, routing, firewall and address resolution; directed broadcasts may require router configuration or a Wake-on-LAN relay. Setting an address alone does not guarantee that a sleeping TV can be reached.
+
+### Dynamic TV names
+
+On Home Assistant 2026.4 and later, `name` can be a string, one name item, or a list of name items. The visual editor offers Home Assistant's name picker when available:
+
+```yaml
+type: custom:lg-remote-control
+entity: media_player.lg_webos_smart_tv
+name:
+  - type: area
+  - type: text
+    text: "-"
+  - type: entity
+```
+
+Supported name parts are `entity`, `device`, `parent_device`, `area`, `floor`, and literal `text`. A plain string keeps its existing behavior. On older versions, composed names fall back to the entity's friendly name and the editor keeps its text field. Leave `name` unset to hide the title.
 
 ### Source Options
 | Name | Type | Default | Supported options | Description |
@@ -103,16 +141,90 @@ channels:
     number: '503'
 ```
 
-## Ovverride buttons services
+## Button overrides
 
-with version 2.0 the possibility of overriding the functionality of the button is introduced. you therefore have the possibility of calling a Home assistant service at your convenience
+Use the visual editor's **Overrides** section or add `keys` to the card's YAML configuration. You can change a button's action, its appearance, or both.
 
-here are the [override keys](https://github.com/madmicio/LG-WebOS-Remote-Control/blob/master/Override_buttons.md) and the yaml configuration. 
+### Configure buttons in the visual editor
+
+1. Open the dashboard editor and edit the LG remote card.
+2. Expand **Overrides**, then select a button from **Select button to override...**.
+3. Fill in the fields you want to change. For example, select **Volume Up**, enter `media_player.volume_up` as the service and your soundbar's entity as **Entity ID**.
+4. Save the card and dashboard.
+
+Use the delete icon beside an override to restore that button's original action, icon and style.
+
+| Field / YAML option | How to use it |
+| --- | --- |
+| **Icon** / `icon` | Optional Material Design icon, such as `mdi:volume-plus`. Leave it empty to keep the original icon. |
+| **Style** / `style` | Optional CSS, such as `"color: green;"`. It is appended to the button's existing inline styles. |
+| **Service** / `service` | Optional Home Assistant service or script, such as `media_player.volume_up` or `script.movie_mode`. Leave it empty to keep the original action and its data. |
+| **Entity ID** / `data.entity_id` | Target of a custom service. Configure any additional service data in YAML. |
+
+When you set a custom service, it receives only the `data` you configure: TV-specific parameters from the original action are not added. A script that needs no data can omit `data`.
+
+### Change only an icon or style
+
+This changes PLAY's appearance while keeping its normal playback action:
+
+```yaml
+type: custom:lg-remote-control
+entity: media_player.lg_webos_smart_tv
+keys:
+  PLAY:
+    icon: mdi:play-circle
+    style: "color: green;"
+```
+
+An empty override also keeps the original action. Icons and styles are supported on all listed keys, including all six media buttons.
+
+### Make + and − control a soundbar
+
+`VOLUME_UP` and `VOLUME_DOWN` refer to the actual **+** and **−** buttons. This example sends their commands to a soundbar and customizes their icons:
+
+```yaml
+type: custom:lg-remote-control
+entity: media_player.lg_webos_smart_tv
+keys:
+  VOLUME_UP:
+    service: media_player.volume_up
+    data:
+      entity_id: media_player.soundbar
+    icon: mdi:volume-plus
+    style: "color: green;"
+  VOLUME_DOWN:
+    service: media_player.volume_down
+    data:
+      entity_id: media_player.soundbar
+    icon: mdi:volume-minus
+```
+
+Replace the example entity IDs with your own. A short press calls the configured service once; holding **+** or **−** repeats that same service until release.
+
+### Run a script from a button
+
+This makes RECORD run a script instead of its original recording action:
+
+```yaml
+type: custom:lg-remote-control
+entity: media_player.lg_webos_smart_tv
+keys:
+  RECORD:
+    service: script.movie_mode
+    icon: mdi:movie-open
+    style: "color: orange;"
+```
+
+The existing key spelling `FAST_FOWARD` is kept for compatibility. When `mac` is configured, power-on uses Wake-on-LAN directly; a `POWER` service override applies to power-on only when `mac` is absent.
+
+See the [complete list of override keys and additional examples](Override_buttons.md).
 
 ## AV receiver volume control Options  
 
 option dedicated to all those with problems controlling the volume of the AV Receiver through HDMI-cec commands.
 if the ampli_entity item is configured, and when the sound output is set to external_arc (HDMI) or external_optical (optical output) then the remote control buttons will no longer act on the volume of the television, but on the volume of your receiver.
+
+In the visual editor, click the trash icon beside **AV-Receiver config option**, then save the card and dashboard. This clears both the receiver family and its associated entity and restores the automatic volume target to the TV. Explicit button service overrides in `keys` keep their configured targets.
 
 
 ```yaml

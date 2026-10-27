@@ -1,7 +1,21 @@
 import { HomeAssistant } from "custom-card-helpers";
+import { HassEntity } from "home-assistant-js-websocket";
 
 export interface HomeAssistantFixed extends HomeAssistant {
   entities: { [id: string]: EntityRegistryDisplayEntry };
+}
+
+// One part of a structured name, mirroring EntityNameItem in the Home Assistant
+// frontend. A name is resolved against the entity's registry context, so it can
+// be composed from the device, area or floor name.
+export type EntityNameItem =
+  | { type: "entity" | "device" | "parent_device" | "area" | "floor" }
+  | { type: "text"; text: string };
+
+export type EntityName = string | EntityNameItem | EntityNameItem[];
+
+export interface HomeAssistantWithEntityNames extends HomeAssistant {
+  formatEntityName: (stateObj: HassEntity, name?: EntityName) => string | undefined;
 }
 
 type entityCategory = "config" | "diagnostic";

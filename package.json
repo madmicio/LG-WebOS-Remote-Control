@@ -42,6 +42,7 @@
         "typescript": "^5.3.3"
     },
     "scripts": {
+        "test": "node --test test/regressions.test.cjs",
         "start": "rollup -c rollup.config.mjs --watch",
         "build": "npm run rollup && npm run add-version",
         "add-version": "cross-var replace-in-file \"@LG_REMOTE_CONTROL_CARD_VERSION_PLACEHOLDER@\" \"$npm_package_version\" \"dist/lg-remote-control.js\"",
